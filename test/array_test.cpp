@@ -1,7 +1,7 @@
 #pragma once
 
 #include <iostream>
-#include "../array.h"
+#include "../include/array.h"
 
 #define CHECK(x) if(!(x)){std::cerr<<__FUNCTION__<<"() Line "<<__LINE__<<" failed.";abort();}
 
