@@ -1,0 +1,6 @@
+# ninja log v5
+4	384	1677142239291458844	CMakeFiles/TinySTLbyCiel.dir/test/vector_test.cpp.o	ff59c543f528fcd6
+4	388	1677142239297199771	CMakeFiles/TinySTLbyCiel.dir/test/array_test.cpp.o	6db741f154ab2d7e
+394	448	1677142290543404830	TinySTLbyCiel	c32d208372d2453d
+7	394	1677142290488104188	CMakeFiles/TinySTLbyCiel.dir/test.cpp.o	e31983215e7e6907
+0	52	1681629466679066272	build.ninja	47a270f0051586e6
