@@ -38,7 +38,7 @@
 					"fragment" : "-g -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk -fcolor-diagnostics"
 				},
 				{
-					"fragment" : "-std=gnu++17"
+					"fragment" : "-std=gnu++2b"
 				}
 			],
 			"language" : "CXX",
@@ -48,13 +48,13 @@
 				[
 					1
 				],
-				"standard" : "17"
+				"standard" : "23"
 			},
 			"sourceIndexes" : 
 			[
-				4,
-				5,
-				7
+				2,
+				3,
+				5
 			]
 		}
 	],
@@ -89,34 +89,27 @@
 			[
 				0,
 				1,
-				2,
-				3,
+				4,
 				6,
-				8
+				7,
+				8,
+				9,
+				10,
+				11
 			]
 		},
 		{
 			"name" : "Source Files",
 			"sourceIndexes" : 
 			[
-				4,
-				5,
-				7
+				2,
+				3,
+				5
 			]
 		}
 	],
 	"sources" : 
 	[
-		{
-			"backtrace" : 1,
-			"path" : "include/allocator.h",
-			"sourceGroupIndex" : 0
-		},
-		{
-			"backtrace" : 1,
-			"path" : "include/vector.h",
-			"sourceGroupIndex" : 0
-		},
 		{
 			"backtrace" : 1,
 			"path" : "include/array.h",
@@ -153,6 +146,31 @@
 		{
 			"backtrace" : 1,
 			"path" : "include/memory.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "include/utility.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "include/type_traits.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "include/allocator.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "include/vector.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "include/functional.h",
 			"sourceGroupIndex" : 0
 		}
 	],

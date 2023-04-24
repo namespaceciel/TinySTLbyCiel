@@ -1,16 +1,10 @@
 #include <iostream>
-#include "include/algorithm.h"
-#include "include/array.h"
-#include "include/vector.h"
-#include <vector>
-#include "include/iterator.h"
 
-extern void array_test();
+#include "include/type_traits.h"
+#include "include/functional.h"
 
-int main(){
-	std::cout<<__VERSION__<<std::endl;
+using namespace ciel;
 
-
-
-//	array_test();
+int main() {
+	std::is_constructible
 }

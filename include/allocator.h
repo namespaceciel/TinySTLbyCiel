@@ -1,6 +1,5 @@
-//这里仅是一个对new和delete进行了简易包装的分配器
-
-#pragma once
+#ifndef TINYSTLBYCIEL_INCLUDE_ALLOCATOR_H_
+#define TINYSTLBYCIEL_INCLUDE_ALLOCATOR_H_
 
 #include <iostream>
 #include <cstddef>
@@ -29,10 +28,10 @@ namespace ciel{
 
 		~allocator() = default;
 
-        template<class U>
-        struct rebind{
-            using other=allocator<U>;
-        };
+		template<class U>
+		struct rebind{
+			using other=allocator<U>;
+		};
 //      Example:using AllocatorForDouble=ciel::allocator<int>::rebind<double>::other;
 
 		static pointer allocate(size_type objectNum){
@@ -80,3 +79,5 @@ namespace ciel{
 	}
 
 }   //namespace ciel
+
+#endif //TINYSTLBYCIEL_INCLUDE_ALLOCATOR_H_

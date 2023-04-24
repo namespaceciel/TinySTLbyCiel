@@ -1,4 +1,5 @@
-#pragma once
+#ifndef TINYSTLBYCIEL_INCLUDE_ARRAY_H_
+#define TINYSTLBYCIEL_INCLUDE_ARRAY_H_
 
 #include <cstddef>
 #include "iterator.h"
@@ -26,10 +27,6 @@ namespace ciel{
 		T m_data[N];
 
 	public:
-		array() = default;
-
-		~array() = default;
-
 		array& operator=(array<T, N> moved_data){
 			for (size_type i = 0; i < N; ++i){
 				m_data[i] = moved_data[i];
@@ -151,3 +148,5 @@ namespace ciel{
 	}
 
 }   //namespace ciel
+
+#endif //TINYSTLBYCIEL_INCLUDE_ARRAY_H_

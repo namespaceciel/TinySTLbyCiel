@@ -1,3 +1,6 @@
+#ifndef TINYSTLBYCIEL_INCLUDE_MEMORY_H_
+#define TINYSTLBYCIEL_INCLUDE_MEMORY_H_
+
 namespace ciel{
 
 	template <class ForwardIterator,class T>
@@ -6,3 +9,5 @@ namespace ciel{
 	}
 
 }	//namespace ciel
+
+#endif //TINYSTLBYCIEL_INCLUDE_MEMORY_H_

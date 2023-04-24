@@ -1,7 +1,5 @@
-//通俗的说下面定义了五个迭代器类型空类，然后通过iterator_traits的模板偏特化提取出迭代器类型
-//reverse_iterator接受任意类型的迭代器并且重写运算符的运算方向
-
-#pragma once
+#ifndef TINYSTLBYCIEL_INCLUDE_ITERATOR_H_
+#define TINYSTLBYCIEL_INCLUDE_ITERATOR_H_
 
 #include <cstddef>
 
@@ -228,3 +226,5 @@ namespace ciel{
 	}
 
 }   //namespace ciel
+
+#endif //TINYSTLBYCIEL_INCLUDE_ITERATOR_H_

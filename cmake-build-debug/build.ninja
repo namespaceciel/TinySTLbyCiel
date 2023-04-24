@@ -51,19 +51,19 @@ build cmake_object_order_depends_target_TinySTLbyCiel: phony || CMakeFiles/TinyS
 
 build CMakeFiles/TinySTLbyCiel.dir/test/array_test.cpp.o: CXX_COMPILER__TinySTLbyCiel_Debug /Users/ciel/Downloads/Github/TinySTLbyCiel/test/array_test.cpp || cmake_object_order_depends_target_TinySTLbyCiel
   DEP_FILE = CMakeFiles/TinySTLbyCiel.dir/test/array_test.cpp.o.d
-  FLAGS = -g -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk -fcolor-diagnostics -std=gnu++17
+  FLAGS = -g -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk -fcolor-diagnostics -std=gnu++2b
   OBJECT_DIR = CMakeFiles/TinySTLbyCiel.dir
   OBJECT_FILE_DIR = CMakeFiles/TinySTLbyCiel.dir/test
 
 build CMakeFiles/TinySTLbyCiel.dir/main.cpp.o: CXX_COMPILER__TinySTLbyCiel_Debug /Users/ciel/Downloads/Github/TinySTLbyCiel/main.cpp || cmake_object_order_depends_target_TinySTLbyCiel
   DEP_FILE = CMakeFiles/TinySTLbyCiel.dir/main.cpp.o.d
-  FLAGS = -g -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk -fcolor-diagnostics -std=gnu++17
+  FLAGS = -g -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk -fcolor-diagnostics -std=gnu++2b
   OBJECT_DIR = CMakeFiles/TinySTLbyCiel.dir
   OBJECT_FILE_DIR = CMakeFiles/TinySTLbyCiel.dir
 
 build CMakeFiles/TinySTLbyCiel.dir/test/vector_test.cpp.o: CXX_COMPILER__TinySTLbyCiel_Debug /Users/ciel/Downloads/Github/TinySTLbyCiel/test/vector_test.cpp || cmake_object_order_depends_target_TinySTLbyCiel
   DEP_FILE = CMakeFiles/TinySTLbyCiel.dir/test/vector_test.cpp.o.d
-  FLAGS = -g -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk -fcolor-diagnostics -std=gnu++17
+  FLAGS = -g -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk -fcolor-diagnostics -std=gnu++2b
   OBJECT_DIR = CMakeFiles/TinySTLbyCiel.dir
   OBJECT_FILE_DIR = CMakeFiles/TinySTLbyCiel.dir/test
 

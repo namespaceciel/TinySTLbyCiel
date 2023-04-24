@@ -1,4 +1,5 @@
-#pragma once
+#ifndef TINYSTLBYCIEL_INCLUDE_ALGORITHM_H_
+#define TINYSTLBYCIEL_INCLUDE_ALGORITHM_H_
 
 namespace ciel{
 
@@ -23,3 +24,5 @@ namespace ciel{
 	}
 
 } //namespace ciel
+
+#endif //TINYSTLBYCIEL_INCLUDE_ALGORITHM_H_

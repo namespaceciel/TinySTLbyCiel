@@ -1,4 +1,5 @@
-#pragma once
+#ifndef TINYSTLBYCIEL_INCLUDE_VECTOR_H_
+#define TINYSTLBYCIEL_INCLUDE_VECTOR_H_
 
 #include <cstddef>
 #include "allocator.h"
@@ -207,3 +208,5 @@ namespace ciel{
 	};  //class vector
 
 }   //namespace ciel
+
+#endif //TINYSTLBYCIEL_INCLUDE_VECTOR_H_
