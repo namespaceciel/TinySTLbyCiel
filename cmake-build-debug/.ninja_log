@@ -1,6 +1,6 @@
 # ninja log v5
-0	50	1682435872106243142	build.ninja	395b6dc7ae7027a1
-508	550	1682417163520208538	TinySTLbyCiel	53b5cb7eca3215b5
-5	508	1682417163476381723	CMakeFiles/TinySTLbyCiel.dir/main.cpp.o	fbfc5bd14d5fe969
-6	511	1682406747099784797	CMakeFiles/TinySTLbyCiel.dir/test/array_test.cpp.o	d9d05cb8cb8b051d
-8	501	1682406747089005763	CMakeFiles/TinySTLbyCiel.dir/test/vector_test.cpp.o	15d61a5e56074aba
+0	50	1682519763190166839	build.ninja	395b6dc7ae7027a1
+473	514	1682518878330651254	TinySTLbyCiel	58e3255687b59640
+6	473	1682518878286395559	CMakeFiles/TinySTLbyCiel.dir/main.cpp.o	14b60ecb0fe2d33a
+6	618	1682488568332248532	CMakeFiles/TinySTLbyCiel.dir/test/array_test.cpp.o	6c9c852698db2397
+6	606	1682488568317260017	CMakeFiles/TinySTLbyCiel.dir/test/vector_test.cpp.o	84674a0d1ea09e0a

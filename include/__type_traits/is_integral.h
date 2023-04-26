@@ -6,13 +6,55 @@
 namespace ciel {
 
 	template<class T>
-	struct is_integral : bool_constant<requires(T t, T* p, void (* f)(T))
-	{
-		reinterpret_cast<T>(t); // 排除class类型
-		f(0); // 排除枚举类型
-		p + t; // 排除除整型以外所有尚未排除的类型
-	}> {
-	};
+	struct is_integral : false_type {};
+
+	template<>
+	struct is_integral<bool> : true_type {};
+
+	template<>
+	struct is_integral<char> : true_type {};
+
+	template<>
+	struct is_integral<signed char> : true_type {};
+
+	template<>
+	struct is_integral<unsigned char> : true_type {};
+
+	template<>
+	struct is_integral<wchar_t> : true_type {};
+
+	template<>
+	struct is_integral<char8_t> : true_type {};
+
+	template<>
+	struct is_integral<char16_t> : true_type {};
+
+	template<>
+	struct is_integral<char32_t> : true_type {};
+
+	template<>
+	struct is_integral<short> : true_type {};
+
+	template<>
+	struct is_integral<unsigned short> : true_type {};
+
+	template<>
+	struct is_integral<int> : true_type {};
+
+	template<>
+	struct is_integral<unsigned int> : true_type {};
+
+	template<>
+	struct is_integral<long> : true_type {};
+
+	template<>
+	struct is_integral<unsigned long> : true_type {};
+
+	template<>
+	struct is_integral<long long> : true_type {};
+
+	template<>
+	struct is_integral<unsigned long long> : true_type {};
 
 	template<class T>
 	inline constexpr bool is_integral_v = is_integral<T>::value;
