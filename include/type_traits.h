@@ -36,12 +36,17 @@
 #include "__type_traits/is_trivial.h"
 #include "__type_traits/is_trivially_copyable.h"/*由编译器实现*/
 #include "__type_traits/is_standard_layout.h"/*由编译器实现*/
-
-
+#include "__type_traits/has_unique_object_representations.h"/*由编译器实现*/
+#include "__type_traits/is_empty.h"/*由编译器实现*/
+#include "__type_traits/is_polymorphic.h"
+#include "__type_traits/is_abstract.h"/*由编译器实现*/
+#include "__type_traits/is_final.h"/*由编译器实现*/
+#include "__type_traits/is_aggregate.h"/*由编译器实现*/
 #include "__type_traits/is_signed.h"
 #include "__type_traits/is_unsigned.h"
 #include "__type_traits/is_bounded_array.h"
 #include "__type_traits/is_unbounded_array.h"
+//#include "__type_traits/is_scoped_enum.h"
 
 //受支持操作
 #include "__type_traits/is_constructible.h"/*由编译器实现*/
@@ -53,7 +58,7 @@
 #include "__type_traits/is_move_assignable.h"
 //#include "__type_traits/is_destructible.h"
 #include "__type_traits/has_virtual_destructor.h"/*由编译器实现*/
-//#include "__type_traits/is_swappable.h"	/////
+//#include "__type_traits/is_swappable.h"
 
 //性质查询
 #include "__type_traits/alignment_of.h"
@@ -63,6 +68,7 @@
 //类型关系
 #include "__type_traits/is_same.h"
 #include "__type_traits/is_base_of.h"
+#include "__type_traits/is_convertible.h"
 
 //常-易变性说明符
 #include "__type_traits/remove_cv.h"

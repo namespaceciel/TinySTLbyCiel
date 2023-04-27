@@ -7,27 +7,29 @@
 
 namespace ciel {
 
-	namespace detail {
-
-		template<class T>
-		auto test_returnable(int) -> decltype(void(static_cast<T(*)()>(nullptr)), true_type{});
+		template<class To>
+		auto test_returnable(int) -> decltype(void(static_cast<To(*)()>(nullptr)), true_type{});
 
 		template<class>
-		auto test_returnable(...) -> false_type;
+		false_type test_returnable(...)  ;
 
 		template<class From, class To>
 		auto test_implicitly_convertible(int) -> decltype(void(declval<void (&)(To)>()(declval<From>())), true_type{});
 
 		template<class, class>
-		auto test_implicitly_convertible(...) -> false_type;
+		false_type test_implicitly_convertible(...) ;
 
-	}    //namespace detail
 
 	template<class From, class To>
-	struct is_convertible : bool_constant<(decltype(detail::test_returnable<To>(0))::value &&
-		decltype(detail::test_implicitly_convertible<From, To>(0))::value) ||
+	struct is_convertible : bool_constant<(decltype(test_returnable<To>(0))::value &&
+		decltype(test_implicitly_convertible<From, To>(0))::value) ||
 		(is_void<From>::value && is_void<To>::value)> {
 	};
+
+
+
+
+
 
 	template<class From, class To>
 	struct is_nothrow_convertible : conjunction<is_void<From>, is_void<To>> {};

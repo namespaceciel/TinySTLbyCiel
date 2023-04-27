@@ -167,7 +167,13 @@
 				80,
 				81,
 				82,
-				83
+				83,
+				84,
+				85,
+				86,
+				87,
+				88,
+				89
 			]
 		},
 		{
@@ -603,6 +609,36 @@
 		{
 			"backtrace" : 1,
 			"path" : "include/__type_traits/is_standard_layout.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "include/__type_traits/has_unique_object_representations.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "include/__type_traits/is_empty.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "include/__type_traits/is_polymorphic.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "include/__type_traits/is_abstract.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "include/__type_traits/is_final.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "include/__type_traits/is_aggregate.h",
 			"sourceGroupIndex" : 0
 		}
 	],
