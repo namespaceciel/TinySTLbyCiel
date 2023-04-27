@@ -160,7 +160,14 @@
 				73,
 				74,
 				75,
-				76
+				76,
+				77,
+				78,
+				79,
+				80,
+				81,
+				82,
+				83
 			]
 		},
 		{
@@ -561,6 +568,41 @@
 		{
 			"backtrace" : 1,
 			"path" : "include/__utility/pair.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "include/__type_traits/is_base_of.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "include/__type_traits/is_signed.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "include/__type_traits/is_unsigned.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "include/__type_traits/is_bounded_array.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "include/__type_traits/is_unbounded_array.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "include/__type_traits/is_trivial.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "include/__type_traits/is_standard_layout.h",
 			"sourceGroupIndex" : 0
 		}
 	],

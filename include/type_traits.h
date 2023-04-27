@@ -33,13 +33,15 @@
 //类型的性质
 #include "__type_traits/is_const.h"
 #include "__type_traits/is_volatile.h"
-//#include "__type_traits/"
+#include "__type_traits/is_trivial.h"
 #include "__type_traits/is_trivially_copyable.h"/*由编译器实现*/
-//#include "__type_traits/"
-//#include "__type_traits/"
-//#include "__type_traits/"
-//#include "__type_traits/"
-//#include "__type_traits/"
+#include "__type_traits/is_standard_layout.h"/*由编译器实现*/
+
+
+#include "__type_traits/is_signed.h"
+#include "__type_traits/is_unsigned.h"
+#include "__type_traits/is_bounded_array.h"
+#include "__type_traits/is_unbounded_array.h"
 
 //受支持操作
 #include "__type_traits/is_constructible.h"/*由编译器实现*/
@@ -60,6 +62,7 @@
 
 //类型关系
 #include "__type_traits/is_same.h"
+#include "__type_traits/is_base_of.h"
 
 //常-易变性说明符
 #include "__type_traits/remove_cv.h"
