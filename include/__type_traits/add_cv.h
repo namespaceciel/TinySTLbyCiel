@@ -26,6 +26,7 @@ namespace ciel {
 
 	template<class T>
 	using add_volatile_t = typename add_volatile<T>::type;
-}
+
+}   //namespace ciel
 
 #endif //TINYSTLBYCIEL_INCLUDE___TYPE_TRAITS_ADD_CV_H_

@@ -25,6 +25,7 @@ namespace ciel {
 
 	template<class T>
 	using add_reference_t = typename add_reference<T>::type;
-}
+
+}   //namespace ciel
 
 #endif //TINYSTLBYCIEL_INCLUDE___TYPE_TRAITS_ADD_REFERENCE_H_

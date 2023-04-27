@@ -17,6 +17,7 @@ namespace ciel {
 
 	template<class T>
 	inline constexpr size_t rank_v = rank<T>::value;
-}
+
+}   //namespace ciel
 
 #endif //TINYSTLBYCIEL_INCLUDE___TYPE_TRAITS_RANK_H_

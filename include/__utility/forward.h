@@ -14,6 +14,7 @@ namespace ciel {
 	constexpr T&& forward(remove_reference_t<T>&& t) noexcept {
 		return static_cast<T&&>(t);
 	}
-}
+
+}   //namespace ciel
 
 #endif //TINYSTLBYCIEL_INCLUDE___UTILITY_FORWARD_H_

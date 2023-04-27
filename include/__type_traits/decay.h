@@ -24,6 +24,7 @@ namespace ciel {
 
 	template<class T>
 	using decay_t = typename decay<T>::type;
-}
+
+}   //namespace ciel
 
 #endif //TINYSTLBYCIEL_INCLUDE___TYPE_TRAITS_DECAY_H_

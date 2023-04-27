@@ -17,6 +17,7 @@ namespace ciel {
 
 	template< class T >
 	inline constexpr bool is_polymorphic_v = is_polymorphic<T>::value;
-}
+
+}   //namespace ciel
 
 #endif //TINYSTLBYCIEL_INCLUDE___TYPE_TRAITS_IS_POLYMORPHIC_H_

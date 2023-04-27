@@ -69,6 +69,7 @@ namespace ciel {
 		}
 	};
 
-}
+
+}   //namespace ciel
 
 #endif //TINYSTLBYCIEL_INCLUDE_FUNCTIONAL_H_

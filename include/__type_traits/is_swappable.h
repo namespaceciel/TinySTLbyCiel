@@ -3,6 +3,7 @@
 
 namespace ciel {
 
-}
+
+}   //namespace ciel
 
 #endif //TINYSTLBYCIEL_INCLUDE___TYPE_TRAITS_IS_SWAPPABLE_H_

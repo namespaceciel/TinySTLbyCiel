@@ -10,6 +10,7 @@ namespace ciel {
 
 	template<class T>
 	inline constexpr bool is_class_v = is_class<T>::value;
-}
+
+}   //namespace ciel
 
 #endif //TINYSTLBYCIEL_INCLUDE___TYPE_TRAITS_IS_CLASS_H_

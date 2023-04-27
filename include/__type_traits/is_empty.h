@@ -10,6 +10,7 @@ namespace ciel {
 
 	template<class T>
 	inline constexpr bool is_empty_v = is_empty<T>::value;
-}
+
+}   //namespace ciel
 
 #endif //TINYSTLBYCIEL_INCLUDE___TYPE_TRAITS_IS_EMPTY_H_

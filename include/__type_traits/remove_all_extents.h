@@ -22,6 +22,7 @@ namespace ciel {
 
 	template<class T>
 	using remove_all_extents_t = typename remove_all_extents<T>::type;
-}
+
+}   //namespace ciel
 
 #endif //TINYSTLBYCIEL_INCLUDE___TYPE_TRAITS_REMOVE_ALL_EXTENTS_H_

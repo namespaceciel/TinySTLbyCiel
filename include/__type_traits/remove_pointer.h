@@ -30,6 +30,7 @@ namespace ciel {
 
 	template<class T>
 	using remove_pointer_t = typename remove_pointer<T>::type;
-}
+
+}   //namespace ciel
 
 #endif //TINYSTLBYCIEL_INCLUDE___TYPE_TRAITS_REMOVE_POINTER_H_

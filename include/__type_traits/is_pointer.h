@@ -17,6 +17,7 @@ namespace ciel {
 
 	template<class T>
 	inline constexpr bool is_pointer_v = is_pointer<T>::value;
-}
+
+}   //namespace ciel
 
 #endif //TINYSTLBYCIEL_INCLUDE___TYPE_TRAITS_IS_POINTER_H_

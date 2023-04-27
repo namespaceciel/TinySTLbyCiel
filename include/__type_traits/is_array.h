@@ -17,6 +17,7 @@ namespace ciel{
 
 	template<class T>
 	inline constexpr bool is_array_v = is_array<T>::value;
-}
+
+}   //namespace ciel
 
 #endif //TINYSTLBYCIEL_INCLUDE___TYPE_TRAITS_IS_ARRAY_H_

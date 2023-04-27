@@ -22,6 +22,7 @@ namespace ciel {
 
 	template<class T, class ...Args>
 	inline constexpr bool is_nothrow_constructible_v = is_nothrow_constructible<T, Args...>::value;
-}
+
+}   //namespace ciel
 
 #endif //TINYSTLBYCIEL_INCLUDE___TYPE_TRAITS_IS_CONSTRUCTIBLE_H_

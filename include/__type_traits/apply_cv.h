@@ -51,6 +51,7 @@ namespace ciel {
 
 	template<class T, class U>
 	using apply_cv_t = typename apply_cv<T, U>::type;
-}
+
+}   //namespace ciel
 
 #endif //TINYSTLBYCIEL_INCLUDE___TYPE_TRAITS_APPLY_CV_H_

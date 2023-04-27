@@ -13,6 +13,7 @@ namespace ciel{
 
 	template<class T>
 	inline constexpr bool is_const_v = is_const<T>::value;
-}
+
+}   //namespace ciel
 
 #endif //TINYSTLBYCIEL_INCLUDE___TYPE_TRAITS_IS_CONST_H_

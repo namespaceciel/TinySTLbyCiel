@@ -15,6 +15,7 @@ namespace ciel {
 
 	template<class T>
 	inline constexpr bool is_scalar_v = is_scalar<T>::value;
-}
+
+}   //namespace ciel
 
 #endif //TINYSTLBYCIEL_INCLUDE___TYPE_TRAITS_IS_SCALAR_H_

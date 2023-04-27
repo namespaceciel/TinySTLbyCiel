@@ -12,6 +12,7 @@ namespace ciel {
 
 	template<class T>
 	inline constexpr bool is_function_v = is_function<T>::value;
-}
+
+}   //namespace ciel
 
 #endif //TINYSTLBYCIEL_INCLUDE___TYPE_TRAITS_IS_FUNCTION_H_

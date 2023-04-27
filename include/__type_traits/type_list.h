@@ -25,6 +25,7 @@ namespace ciel {
 	struct find_first<type_list<H, T>, size, false> {
 		using type = typename find_first<T, size>::type;
 	};
-}
+
+}   //namespace ciel
 
 #endif //TINYSTLBYCIEL_INCLUDE___TYPE_TRAITS_TYPE_LIST_H_

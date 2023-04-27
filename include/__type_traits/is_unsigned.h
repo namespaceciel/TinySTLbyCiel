@@ -16,6 +16,7 @@ namespace ciel {
 
 	template<class T>
 	inline constexpr bool is_unsigned_v = is_unsigned<T>::value;
-}
+
+}   //namespace ciel
 
 #endif //TINYSTLBYCIEL_INCLUDE___TYPE_TRAITS_IS_UNSIGNED_H_

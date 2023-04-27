@@ -13,6 +13,7 @@ namespace ciel {
 
 	template<class T>
 	inline constexpr bool is_compound_v = is_compound<T>::value;
-}
+
+}   //namespace ciel
 
 #endif //TINYSTLBYCIEL_INCLUDE___TYPE_TRAITS_IS_COMPOUND_H_

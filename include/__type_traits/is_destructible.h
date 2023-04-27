@@ -22,6 +22,7 @@ namespace ciel {
 
 	template<class T>
 	inline constexpr bool is_nothrow_destructible_v = is_nothrow_destructible<T>::value;
-}
+
+}   //namespace ciel
 
 #endif //TINYSTLBYCIEL_INCLUDE___TYPE_TRAITS_IS_DESTRUCTIBLE_H_

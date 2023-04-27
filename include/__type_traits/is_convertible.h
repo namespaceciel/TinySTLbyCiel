@@ -50,6 +50,7 @@ namespace ciel {
 
 	template<class From, class To>
 	inline constexpr bool is_nothrow_convertible_v = is_nothrow_convertible<From, To>::value;
-}
+
+}   //namespace ciel
 
 #endif //TINYSTLBYCIEL_INCLUDE___TYPE_TRAITS_IS_CONVERTIBLE_H_

@@ -13,6 +13,7 @@ namespace ciel {
 
 	template<class T>
 	inline constexpr bool is_rvalue_reference_v = is_rvalue_reference<T>::value;
-}
+
+}   //namespace ciel
 
 #endif //TINYSTLBYCIEL_INCLUDE___TYPE_TRAITS_IS_RVALUE_REFERENCE_H_

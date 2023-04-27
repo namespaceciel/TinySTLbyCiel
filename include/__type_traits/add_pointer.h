@@ -24,6 +24,7 @@ namespace ciel {
 
 	template<class T>
 	using add_pointer_t = typename add_pointer<T>::type;
-}
+
+}   //namespace ciel
 
 #endif //TINYSTLBYCIEL_INCLUDE___TYPE_TRAITS_ADD_POINTER_H_

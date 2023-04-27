@@ -14,6 +14,7 @@ namespace ciel {
 
 	template<class T>
 	inline constexpr bool is_floating_point_v = is_floating_point<T>::value;
-}
+
+}   //namespace ciel
 
 #endif //TINYSTLBYCIEL_INCLUDE___TYPE_TRAITS_IS_FLOATING_POINT_H_

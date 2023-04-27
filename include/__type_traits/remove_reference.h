@@ -20,6 +20,7 @@ namespace ciel {
 
 	template<class T>
 	using remove_reference_t = typename remove_reference<T>::type;
-}
+
+}   //namespace ciel
 
 #endif //TINYSTLBYCIEL_INCLUDE___TYPE_TRAITS_REMOVE_REFERENCE_H_

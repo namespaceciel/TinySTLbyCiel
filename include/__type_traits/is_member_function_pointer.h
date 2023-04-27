@@ -18,6 +18,7 @@ namespace ciel {
 
 	template<class T>
 	inline constexpr bool is_member_function_pointer_v = is_member_function_pointer<T>::value;
-}
+
+}   //namespace ciel
 
 #endif //TINYSTLBYCIEL_INCLUDE___TYPE_TRAITS_IS_MEMBER_FUNCTION_POINTER_H_

@@ -17,6 +17,7 @@ namespace ciel {
 
 	template<class T>
 	using add_rvalue_reference_t = typename add_rvalue_reference<T>::type;
-}
+
+}   //namespace ciel
 
 #endif //TINYSTLBYCIEL_INCLUDE___TYPE_TRAITS_ADD_RVALUE_REFERENCE_H_

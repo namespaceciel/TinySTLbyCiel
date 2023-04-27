@@ -10,6 +10,7 @@ namespace ciel {
 
 	template<class T>
 	inline constexpr bool is_enum_v = is_enum<T>::value;
-}
+
+}   //namespace ciel
 
 #endif //TINYSTLBYCIEL_INCLUDE___TYPE_TRAITS_IS_ENUM_H_

@@ -15,6 +15,7 @@ namespace ciel {
 
 	template<bool B, class T, class F>
 	using conditional_t = typename conditional<B, T, F>::type;
-}
+
+}   //namespace ciel
 
 #endif //TINYSTLBYCIEL_INCLUDE___TYPE_TRAITS_CONDITIONAL_H_

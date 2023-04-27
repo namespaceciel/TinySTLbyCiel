@@ -11,6 +11,7 @@ namespace ciel {
 
 	template<class T>
 	inline constexpr size_t alignment_of_v = alignment_of<T>::value;
-}
+
+}   //namespace ciel
 
 #endif //TINYSTLBYCIEL_INCLUDE___TYPE_TRAITS_ALIGNMENT_OF_H_

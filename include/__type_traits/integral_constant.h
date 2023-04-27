@@ -22,6 +22,7 @@ namespace ciel {
 
 	using true_type = bool_constant<true>;
 	using false_type = bool_constant<false>;
-}
+
+}   //namespace ciel
 
 #endif //TINYSTLBYCIEL_INCLUDE___TYPE_TRAITS_INTEGRAL_CONSTANT_H_

@@ -23,6 +23,7 @@ namespace ciel {
 
 	template<class Base, class Derived>
 	inline constexpr bool is_base_of_v = is_base_of<Base, Derived>::value;
-}
+
+}   //namespace ciel
 
 #endif //TINYSTLBYCIEL_INCLUDE___TYPE_TRAITS_IS_BASE_OF_H_
