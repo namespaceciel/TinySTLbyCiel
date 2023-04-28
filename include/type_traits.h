@@ -3,107 +3,107 @@
 
 //////////////////////////////类///////////////////////////////
 //辅助类
-#include "__type_traits/integral_constant.h"
+#include "type_traits_impl/integral_constant.h"
 
 //基础类型分类
-#include "__type_traits/is_void.h"
-#include "__type_traits/is_null_pointer.h"
-#include "__type_traits/is_integral.h"
-#include "__type_traits/is_floating_point.h"
-#include "__type_traits/is_array.h"
-#include "__type_traits/is_enum.h"/*由编译器实现*/
-#include "__type_traits/is_union.h"/*由编译器实现*/
-#include "__type_traits/is_class.h"/*由编译器实现*/
-#include "__type_traits/is_function.h"
-#include "__type_traits/is_pointer.h"
-#include "__type_traits/is_lvalue_reference.h"
-#include "__type_traits/is_rvalue_reference.h"
-#include "__type_traits/is_member_object_pointer.h"
-#include "__type_traits/is_member_function_pointer.h"
+#include "type_traits_impl/is_void.h"
+#include "type_traits_impl/is_null_pointer.h"
+#include "type_traits_impl/is_integral.h"
+#include "type_traits_impl/is_floating_point.h"
+#include "type_traits_impl/is_array.h"
+#include "type_traits_impl/is_enum.h"/*由编译器实现*/
+#include "type_traits_impl/is_union.h"/*由编译器实现*/
+#include "type_traits_impl/is_class.h"/*由编译器实现*/
+#include "type_traits_impl/is_function.h"
+#include "type_traits_impl/is_pointer.h"
+#include "type_traits_impl/is_lvalue_reference.h"
+#include "type_traits_impl/is_rvalue_reference.h"
+#include "type_traits_impl/is_member_object_pointer.h"
+#include "type_traits_impl/is_member_function_pointer.h"
 
 //复合类型分类
-#include "__type_traits/is_fundamental.h"
-#include "__type_traits/is_arithmetic.h"
-#include "__type_traits/is_scalar.h"
-#include "__type_traits/is_object.h"
-#include "__type_traits/is_compound.h"
-#include "__type_traits/is_reference.h"
-#include "__type_traits/is_member_pointer.h"
+#include "type_traits_impl/is_fundamental.h"
+#include "type_traits_impl/is_arithmetic.h"
+#include "type_traits_impl/is_scalar.h"
+#include "type_traits_impl/is_object.h"
+#include "type_traits_impl/is_compound.h"
+#include "type_traits_impl/is_reference.h"
+#include "type_traits_impl/is_member_pointer.h"
 
 //类型的性质
-#include "__type_traits/is_const.h"
-#include "__type_traits/is_volatile.h"
-#include "__type_traits/is_trivial.h"
-#include "__type_traits/is_trivially_copyable.h"/*由编译器实现*/
-#include "__type_traits/is_standard_layout.h"/*由编译器实现*/
-#include "__type_traits/has_unique_object_representations.h"/*由编译器实现*/
-#include "__type_traits/is_empty.h"/*由编译器实现*/
-#include "__type_traits/is_polymorphic.h"
-#include "__type_traits/is_abstract.h"/*由编译器实现*/
-#include "__type_traits/is_final.h"/*由编译器实现*/
-#include "__type_traits/is_aggregate.h"/*由编译器实现*/
-#include "__type_traits/is_signed.h"
-#include "__type_traits/is_unsigned.h"
-#include "__type_traits/is_bounded_array.h"
-#include "__type_traits/is_unbounded_array.h"
-//#include "__type_traits/is_scoped_enum.h"
+#include "type_traits_impl/is_const.h"
+#include "type_traits_impl/is_volatile.h"
+#include "type_traits_impl/is_trivial.h"
+#include "type_traits_impl/is_trivially_copyable.h"/*由编译器实现*/
+#include "type_traits_impl/is_standard_layout.h"/*由编译器实现*/
+#include "type_traits_impl/has_unique_object_representations.h"/*由编译器实现*/
+#include "type_traits_impl/is_empty.h"/*由编译器实现*/
+#include "type_traits_impl/is_polymorphic.h"
+#include "type_traits_impl/is_abstract.h"/*由编译器实现*/
+#include "type_traits_impl/is_final.h"/*由编译器实现*/
+#include "type_traits_impl/is_aggregate.h"/*由编译器实现*/
+#include "type_traits_impl/is_signed.h"
+#include "type_traits_impl/is_unsigned.h"
+#include "type_traits_impl/is_bounded_array.h"
+#include "type_traits_impl/is_unbounded_array.h"
+//#include "_type_traits/is_scoped_enum.h"
 
 //受支持操作
-#include "__type_traits/is_constructible.h"/*由编译器实现*/
-#include "__type_traits/is_default_constructible.h"
-#include "__type_traits/is_copy_constructible.h"
-#include "__type_traits/is_move_constructible.h"
-#include "__type_traits/is_assignable.h"/*由编译器实现*/
-#include "__type_traits/is_copy_assignable.h"
-#include "__type_traits/is_move_assignable.h"
-//#include "__type_traits/is_destructible.h"
-#include "__type_traits/has_virtual_destructor.h"/*由编译器实现*/
-//#include "__type_traits/is_swappable.h"
+#include "type_traits_impl/is_constructible.h"/*由编译器实现*/
+#include "type_traits_impl/is_default_constructible.h"
+#include "type_traits_impl/is_copy_constructible.h"
+#include "type_traits_impl/is_move_constructible.h"
+#include "type_traits_impl/is_assignable.h"/*由编译器实现*/
+#include "type_traits_impl/is_copy_assignable.h"
+#include "type_traits_impl/is_move_assignable.h"
+//#include "_type_traits/is_destructible.h"
+#include "type_traits_impl/has_virtual_destructor.h"/*由编译器实现*/
+//#include "_type_traits/is_swappable.h"
 
 //性质查询
-#include "__type_traits/alignment_of.h"
-#include "__type_traits/rank.h"
-#include "__type_traits/extent.h"
+#include "type_traits_impl/alignment_of.h"
+#include "type_traits_impl/rank.h"
+#include "type_traits_impl/extent.h"
 
 //类型关系
-#include "__type_traits/is_same.h"
-#include "__type_traits/is_base_of.h"
-#include "__type_traits/is_convertible.h"
+#include "type_traits_impl/is_same.h"
+#include "type_traits_impl/is_base_of.h"
+#include "type_traits_impl/is_convertible.h"
 
 //常-易变性说明符
-#include "__type_traits/remove_cv.h"
-#include "__type_traits/add_cv.h"
+#include "type_traits_impl/remove_cv.h"
+#include "type_traits_impl/add_cv.h"
 
 //引用
-#include "__type_traits/remove_reference.h"
-#include "__type_traits/add_lvalue_reference.h"
-#include "__type_traits/add_rvalue_reference.h"
+#include "type_traits_impl/remove_reference.h"
+#include "type_traits_impl/add_lvalue_reference.h"
+#include "type_traits_impl/add_rvalue_reference.h"
 
 //指针
-#include "__type_traits/remove_pointer.h"
-#include "__type_traits/add_pointer.h"
+#include "type_traits_impl/remove_pointer.h"
+#include "type_traits_impl/add_pointer.h"
 
 //符号修饰符
-#include "__type_traits/make_signed.h"
-#include "__type_traits/make_unsigned.h"
+#include "type_traits_impl/make_signed.h"
+#include "type_traits_impl/make_unsigned.h"
 
 //数组
-#include "__type_traits/remove_extent.h"
-#include "__type_traits/remove_all_extents.h"
+#include "type_traits_impl/remove_extent.h"
+#include "type_traits_impl/remove_all_extents.h"
 
 //杂项变换
-//#include "__type_traits/"
-//#include "__type_traits/"
-#include "__type_traits/decay.h"
-#include "__type_traits/remove_cvref.h"
-#include "__type_traits/enable_if.h"
-#include "__type_traits/conditional.h"
-#include "__type_traits/common_type.h"
-//#include "__type_traits/"
-//#include "__type_traits/"
-//#include "__type_traits/"
-#include "__type_traits/void_t.h"
-#include "__type_traits/type_identity.h"
+//#include "_type_traits/"
+//#include "_type_traits/"
+#include "type_traits_impl/decay.h"
+#include "type_traits_impl/remove_cvref.h"
+//#include "type_traits_impl/enable_if.h"
+#include "type_traits_impl/conditional.h"
+//#include "type_traits_impl/common_type.h"
+//#include "_type_traits/"
+//#include "_type_traits/"
+//#include "_type_traits/"
+#include "type_traits_impl/void_t.h"
+#include "type_traits_impl/type_identity.h"
 
 //类型特征的运算
 
@@ -113,8 +113,8 @@
 //常量求值语境
 
 /////////////////////////////非标准////////////////////////////
-#include "__type_traits/add_reference.h"
-#include "__type_traits/apply_cv.h"
-#include "__type_traits/type_list.h"
+#include "type_traits_impl/add_reference.h"
+#include "type_traits_impl/apply_cv.h"
+#include "type_traits_impl/type_list.h"
 
 #endif //TINYSTLBYCIEL_INCLUDE_TYPE_TRAITS_H_

@@ -1,0 +1,16 @@
+#ifndef TINYSTLBYCIEL_INCLUDE_TYPE_TRAITS_IMPL_IS_FINAL_H_
+#define TINYSTLBYCIEL_INCLUDE_TYPE_TRAITS_IMPL_IS_FINAL_H_
+
+#include "integral_constant.h"
+
+namespace ciel {
+
+	template<class T>
+	struct is_final : bool_constant<__is_final(T)> {};
+
+	template<class T>
+	inline constexpr bool is_final_v = is_final<T>::value;
+
+}   //namespace ciel
+
+#endif //TINYSTLBYCIEL_INCLUDE_TYPE_TRAITS_IMPL_IS_FINAL_H_
