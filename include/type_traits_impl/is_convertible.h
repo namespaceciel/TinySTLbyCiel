@@ -29,7 +29,7 @@ namespace ciel {
 	template<class From, class To>
 	struct is_convertible : bool_constant<
 		((decltype(test_returnable<To>(0))::value && decltype(test_implicitly_convertible<From, To>(0))::value))
-		|| (is_void<From>::value                  && is_void<To>::value)> {};
+		|| (is_void_v<From> && is_void_v<To>)> {};
 
 	template<class From, class To>
 	inline constexpr bool is_convertible_v = is_convertible<From, To>::value;
