@@ -5,11 +5,13 @@
 
 namespace ciel {
 
-	template<class T, bool = is_arithmetic<T>::value>
-	struct is_signed_helper : bool_constant<T(-1) < T(0)> {};
+	namespace {
+		template<class T, bool = is_arithmetic<T>::value>
+		struct is_signed_helper : bool_constant<T(-1) < T(0)> {};
 
-	template<class T>
-	struct is_signed_helper<T, false> : false_type {};
+		template<class T>
+		struct is_signed_helper<T, false> : false_type {};
+	}
 
 	template<class T>
 	struct is_signed : is_signed_helper<T>::type {};

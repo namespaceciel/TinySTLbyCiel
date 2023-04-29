@@ -9,64 +9,66 @@
 
 namespace ciel {
 
-	template<class T, bool = is_integral_v<T> || is_enum_v<T>>
-	struct make_signed_helper {};
+	namespace {
+		template<class T, bool = is_integral_v<T> || is_enum_v<T>>
+		struct make_signed_helper {};
 
 #define PLACEHOLDER signed long long
-	using signed_types = type_list<signed char,
-								   type_list<signed short,
-											 type_list<signed int,
-													   type_list<signed long,
-																 type_list<signed long long, PLACEHOLDER >>>>>;
+		using signed_types = type_list<signed char,
+									   type_list<signed short,
+												 type_list<signed int,
+														   type_list<signed long,
+																	 type_list<signed long long, PLACEHOLDER >>>>>;
 #undef PLACEHOLDER
 
-	template<class T>
-	struct make_signed_helper<T, true> {
-		using type = typename find_first<signed_types, sizeof(T)>::type;
-	};
+		template<class T>
+		struct make_signed_helper<T, true> {
+			using type = typename find_first<signed_types, sizeof(T)>::type;
+		};
 
-	template<>
-	struct make_signed_helper<bool, true> {};
+		template<>
+		struct make_signed_helper<bool, true> {};
 
-	template<>
-	struct make_signed_helper<signed short, true> {
-		using type = signed short;
-	};
+		template<>
+		struct make_signed_helper<signed short, true> {
+			using type = signed short;
+		};
 
-	template<>
-	struct make_signed_helper<unsigned short, true> {
-		using type = signed short;
-	};
+		template<>
+		struct make_signed_helper<unsigned short, true> {
+			using type = signed short;
+		};
 
-	template<>
-	struct make_signed_helper<signed int, true> {
-		using type = signed int;
-	};
+		template<>
+		struct make_signed_helper<signed int, true> {
+			using type = signed int;
+		};
 
-	template<>
-	struct make_signed_helper<unsigned int, true> {
-		using type = signed int;
-	};
+		template<>
+		struct make_signed_helper<unsigned int, true> {
+			using type = signed int;
+		};
 
-	template<>
-	struct make_signed_helper<signed long, true> {
-		using type = signed long;
-	};
+		template<>
+		struct make_signed_helper<signed long, true> {
+			using type = signed long;
+		};
 
-	template<>
-	struct make_signed_helper<unsigned long, true> {
-		using type = signed long;
-	};
+		template<>
+		struct make_signed_helper<unsigned long, true> {
+			using type = signed long;
+		};
 
-	template<>
-	struct make_signed_helper<signed long long, true> {
-		using type = signed long long;
-	};
+		template<>
+		struct make_signed_helper<signed long long, true> {
+			using type = signed long long;
+		};
 
-	template<>
-	struct make_signed_helper<unsigned long long, true> {
-		using type = signed long long;
-	};
+		template<>
+		struct make_signed_helper<unsigned long long, true> {
+			using type = signed long long;
+		};
+	}
 
 	template<class T>
 	struct make_signed {

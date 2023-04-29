@@ -6,18 +6,20 @@
 
 namespace ciel {
 
-	template<class T>
-	type_identity<remove_reference_t<T>*> add_pointer_helper(int);
+	namespace {
+		template<class T>
+		type_identity<remove_reference_t<T>*> add_pointer_helper(int);
 
-	//SFINAE: 若T为cv或引用限定的函数类型时启用
-	/*
-	e.g.
-	struct S {
-		add_pointer_t<void()const> f;
-	};
-	*/
-	template<class T>
-	type_identity<T> add_pointer_helper(...);
+		//SFINAE: 若T为cv或引用限定的函数类型时启用
+		/*
+		e.g.
+		struct S {
+			add_pointer_t<void()const> f;
+		};
+		*/
+		template<class T>
+		type_identity<T> add_pointer_helper(...);
+	}
 
 	template<class T>
 	struct add_pointer : decltype(add_pointer_helper<T>(0)) {};

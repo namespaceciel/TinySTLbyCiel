@@ -6,11 +6,13 @@
 
 namespace ciel {
 
-	template<class T>
-	struct is_pointer_helper : false_type {};
+	namespace {
+		template<class T>
+		struct is_pointer_helper : false_type {};
 
-	template<class T>
-	struct is_pointer_helper<T*> : true_type {};
+		template<class T>
+		struct is_pointer_helper<T*> : true_type {};
+	}
 
 	template<class T>
 	struct is_pointer : is_pointer_helper<remove_cv_t<T>> {};

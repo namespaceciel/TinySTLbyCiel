@@ -7,11 +7,13 @@
 
 namespace ciel {
 
-	template<class T>
-	struct is_member_function_pointer_helper : false_type {};
+	namespace {
+		template<class T>
+		struct is_member_function_pointer_helper : false_type {};
 
-	template<class T, class U>
-	struct is_member_function_pointer_helper<T U::*> : is_function<T> {};
+		template<class T, class U>
+		struct is_member_function_pointer_helper<T U::*> : is_function<T> {};
+	}
 
 	template<class T>
 	struct is_member_function_pointer : is_member_function_pointer_helper<remove_cv_t<T> > {};

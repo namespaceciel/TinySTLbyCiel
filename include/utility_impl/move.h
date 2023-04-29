@@ -1,7 +1,7 @@
 #ifndef TINYSTLBYCIEL_INCLUDE_UTILITY_IMPL_MOVE_H_
 #define TINYSTLBYCIEL_INCLUDE_UTILITY_IMPL_MOVE_H_
 
-#include "../type_traits.h"
+#include "../type_traits_impl/remove_reference.h"
 
 namespace ciel {
 

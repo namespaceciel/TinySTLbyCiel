@@ -5,18 +5,20 @@
 
 namespace ciel {
 
-	template<class T>
-	struct add_reference_helper {
-		using type = T&;
-	};
-	template<class T>
-	struct add_reference_helper<T&> {
-		using type = T&;
-	};
-	template<>
-	struct add_reference_helper<void> {
-		using type = void;
-	};
+	namespace {
+		template<class T>
+		struct add_reference_helper {
+			using type = T&;
+		};
+		template<class T>
+		struct add_reference_helper<T&> {
+			using type = T&;
+		};
+		template<>
+		struct add_reference_helper<void> {
+			using type = void;
+		};
+	}
 
 	template<class T>
 	struct add_reference {

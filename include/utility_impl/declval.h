@@ -1,12 +1,12 @@
 #ifndef TINYSTLBYCIEL_INCLUDE_UTILITY_IMPL_DECLVAL_H_
 #define TINYSTLBYCIEL_INCLUDE_UTILITY_IMPL_DECLVAL_H_
 
-#include "../type_traits.h"
+#include "../type_traits_impl/add_rvalue_reference.h"
 
 namespace ciel {
 
 	template<class T>
-	std::add_rvalue_reference_t<T> declval() noexcept;
+	add_rvalue_reference_t<T> declval() noexcept;
 
 }   //namespace ciel
 
