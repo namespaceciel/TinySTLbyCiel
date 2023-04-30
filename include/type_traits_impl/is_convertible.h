@@ -5,7 +5,7 @@
 #include "../utility_impl/declval.h"
 
 namespace ciel {
-
+/*
 	namespace {
 		//逗号表达式: 挨个求值并返回最后一个值，以此实现SFINAE
 
@@ -21,6 +21,21 @@ namespace ciel {
 		//目前来看static_cast<void(*)(To)>(nullptr)与declval<void(&)(To)>()貌似效果一样。。
 		template<class From, class To>
 		auto test_implicitly_convertible(int) -> decltype(void(declval<void(&)(To)>()(declval<From>())), true_type{});
+
+		template<class, class>
+		false_type test_implicitly_convertible(...);
+	}
+*/
+
+	namespace {
+		template<class To, class = decltype(static_cast<To(*)()>(nullptr))>
+		true_type test_returnable(int);
+
+		template<class>
+		false_type test_returnable(...);
+
+		template<class From, class To, class = decltype(declval<void(&)(To)>()(declval<From>()))>
+		true_type test_implicitly_convertible(int);
 
 		template<class, class>
 		false_type test_implicitly_convertible(...);
