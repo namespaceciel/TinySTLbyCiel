@@ -15,7 +15,7 @@ namespace ciel {
 		template<class Base, class Derived>
 		auto is_base_of_helper(int) -> decltype(is_convertible_to_base<Base>(static_cast<Derived*>(nullptr)));
 
-		//SFINAE: 防止private继承时，子类指针强转为父类指针时的编译错误，这时丢弃上述特化，而采用以下版本
+		//SFINAE: 防止 private 继承时，子类指针强转为父类指针时的编译错误，这时丢弃上述特化，而采用以下版本
 		template<class, class>
 		true_type is_base_of_helper(...);
 	}

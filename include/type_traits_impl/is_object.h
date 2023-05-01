@@ -6,10 +6,9 @@
 #include "is_reference.h"
 #include "is_void.h"
 
-//对象类型（即任何函数、引用或 void 类型外的可有 cv 限定的类型）
-
 namespace ciel {
 
+	//对象类型（即任何函数、引用或 void 类型外的可有 cv 限定的类型）
 	template<class T>
 	struct is_object : bool_constant<!is_function_v<T> && !is_reference_v<T> && !is_void_v<T>> {};
 

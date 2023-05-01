@@ -56,7 +56,7 @@
 #include "type_traits_impl/is_assignable.h"/*由编译器实现*/
 #include "type_traits_impl/is_copy_assignable.h"
 #include "type_traits_impl/is_move_assignable.h"
-//#include "_type_traits/is_destructible.h"
+#include "type_traits_impl/is_destructible.h"/*部分依靠编译器*/
 #include "type_traits_impl/has_virtual_destructor.h"/*由编译器实现*/
 //#include "_type_traits/is_swappable.h"
 
@@ -69,6 +69,9 @@
 #include "type_traits_impl/is_same.h"
 #include "type_traits_impl/is_base_of.h"
 #include "type_traits_impl/is_convertible.h"
+//#include "type_traits_impl/is_layout_compatible.h"
+//#include "type_traits_impl/is_pointer_interconvertible_base_of.h"
+//#include "type_traits_impl/is_invocable.h"
 
 //常-易变性说明符
 #include "type_traits_impl/remove_cv.h"
@@ -94,18 +97,27 @@
 //杂项变换
 #include "type_traits_impl/decay.h"
 #include "type_traits_impl/remove_cvref.h"
-//#include "type_traits_impl/enable_if.h"
+#include "type_traits_impl/enable_if.h"
 #include "type_traits_impl/conditional.h"
 //#include "type_traits_impl/common_type.h"
+//#include "type_traits_impl/common_reference.h"
+//#include "type_traits_impl/underlying_type.h"
+//#include "type_traits_impl/invoke_result.h"
 #include "type_traits_impl/void_t.h"
 #include "type_traits_impl/type_identity.h"
 
 //类型特征的运算
+#include "type_traits_impl/conjunction.h"
+#include "type_traits_impl/disjunction.h"
+#include "type_traits_impl/negation.h"
 
 //////////////////////////////函数////////////////////////////
 //成员关系
+//#include "type_traits_impl/is_pointer_interconvertible_with_class.h"
+//#include "type_traits_impl/is_corresponding_member.h"
 
 //常量求值语境
+//#include "type_traits_impl/is_constant_evaluated.h"
 
 /////////////////////////////非标准////////////////////////////
 #include "type_traits_impl/add_reference.h"

@@ -11,6 +11,7 @@
 
 namespace ciel {
 
+	//对类型 T 应用左值到右值、数组到指针及函数到函数指针的隐式转换，移除 cv 限定符
 	template<class T>
 	class decay {
 	private:

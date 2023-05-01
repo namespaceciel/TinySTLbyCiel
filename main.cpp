@@ -1,35 +1,18 @@
 #include <iostream>
-
+#include <memory>
 #include "include/type_traits.h"
-#include "include/utility.h"
-
 using namespace ciel;
 
-class E { public: template<class T> E(T&&) { } };
+struct A { };
+struct B { ~B(){} };
+struct C { ~C() noexcept(false) {} };
 
-int main()
-{
-	class A {};
-	class B : public A {};
-	class C {};
-	class D { public: operator C() { return c; }  C c; };
-
-
-	bool b2a = is_convertible<B*, A*>::value;
-	bool a2b = is_convertible<A*, B*>::value;
-	bool b2c = is_convertible<B*, C*>::value;
-	bool d2c = is_convertible<D, C>::value;
-
-	// 完美转发构造函数使类能从任何类型转换
-
-	bool everything2e = is_convertible<A, E>::value; //< B, C, D 等
-
+int main() {
 	std::cout << std::boolalpha;
-
-	std::cout << b2a << '\n';
-	std::cout << a2b << '\n';
-	std::cout << b2c << '\n';
-	std::cout << d2c << '\n';
-	std::cout << '\n';
-	std::cout << everything2e << '\n';
+	std::cout << "is_nothrow_destructible:" << std::endl;
+	std::cout << "int: " << is_nothrow_destructible<int>::value << std::endl;
+	std::cout << "A: " << is_nothrow_destructible<A>::value << std::endl;
+	std::cout << "B: " << is_nothrow_destructible<B>::value << std::endl;
+	std::cout << "C: " << is_nothrow_destructible<C>::value << std::endl;
+	return 0;
 }

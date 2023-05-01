@@ -4,10 +4,9 @@
 #include "integral_constant.h"
 #include "is_fundamental.h"
 
-//复合类型是从基础类型构造的类型。任何 C++ 类型为基础或复合之一。
-
 namespace ciel {
 
+	//复合类型是从基础类型构造的类型。任何 C++ 类型为基础或复合之一。
 	template<class T>
 	struct is_compound : bool_constant<!is_fundamental_v<T>> {};
 

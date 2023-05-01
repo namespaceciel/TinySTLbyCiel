@@ -10,7 +10,7 @@ namespace ciel {
 		template<class T>
 		type_identity<remove_reference_t<T>*> add_pointer_helper(int);
 
-		//SFINAE: 若T为cv或引用限定的函数类型时启用
+		//SFINAE: 若 T 为 cv 或引用限定的函数类型时启用
 		/*
 		e.g.
 		struct S {

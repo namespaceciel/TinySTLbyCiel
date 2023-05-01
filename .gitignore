@@ -32,5 +32,6 @@
 *.app
 
 .idea
+main
 .DS_Store
 */.DS_Store
