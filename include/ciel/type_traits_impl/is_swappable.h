@@ -1,7 +1,7 @@
 #ifndef TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_IS_SWAPPABLE_H_
 #define TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_IS_SWAPPABLE_H_
 
-#include "../utility_impl/declval.h"
+#include <ciel/utility_impl/declval.h>
 
 namespace ciel {
 

@@ -1,8 +1,8 @@
 #ifndef TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_IS_COMPOUND_H_
 #define TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_IS_COMPOUND_H_
 
-#include "integral_constant.h"
-#include "is_fundamental.h"
+#include <ciel/type_traits_impl/integral_constant.h>
+#include <ciel/type_traits_impl/is_fundamental.h>
 
 namespace ciel {
 

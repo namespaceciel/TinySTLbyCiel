@@ -1,8 +1,8 @@
 #ifndef TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_IS_STANDARD_LAYOUT_H_
 #define TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_IS_STANDARD_LAYOUT_H_
 
-#include "is_scalar.h"
-#include "remove_all_extents.h"
+#include <ciel/type_traits_impl/is_scalar.h>
+#include <ciel/type_traits_impl/remove_all_extents.h>
 
 namespace ciel {
 

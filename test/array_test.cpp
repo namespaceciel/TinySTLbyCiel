@@ -1,5 +1,5 @@
 #include <iostream>
-#include "../include/ciel/array.h"
+#include <ciel/array.h>
 
 #define CHECK(x) if(!(x)){std::cerr<<__FUNCTION__<<"() Line "<<__LINE__<<" failed.";abort();}
 

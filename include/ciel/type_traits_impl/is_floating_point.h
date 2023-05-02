@@ -1,9 +1,9 @@
 #ifndef TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_IS_FLOATING_POINT_H_
 #define TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_IS_FLOATING_POINT_H_
 
-#include "integral_constant.h"
-#include "is_same.h"
-#include "remove_cv.h"
+#include <ciel/type_traits_impl/integral_constant.h>
+#include <ciel/type_traits_impl/is_same.h>
+#include <ciel/type_traits_impl/remove_cv.h>
 
 namespace ciel {
 

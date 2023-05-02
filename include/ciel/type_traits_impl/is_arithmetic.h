@@ -1,9 +1,9 @@
 #ifndef TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_IS_ARITHMETIC_H_
 #define TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_IS_ARITHMETIC_H_
 
-#include "integral_constant.h"
-#include "is_integral.h"
-#include "is_floating_point.h"
+#include <ciel/type_traits_impl/integral_constant.h>
+#include <ciel/type_traits_impl/is_integral.h>
+#include <ciel/type_traits_impl/is_floating_point.h>
 
 namespace ciel {
 

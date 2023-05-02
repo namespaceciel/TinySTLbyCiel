@@ -1,9 +1,9 @@
 #ifndef TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_HAS_UNIQUE_OBJECT_REPRESENTATIONS_H_
 #define TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_HAS_UNIQUE_OBJECT_REPRESENTATIONS_H_
 
-#include "integral_constant.h"
-#include "remove_cv.h"
-#include "remove_all_extents.h"
+#include <ciel/type_traits_impl/integral_constant.h>
+#include <ciel/type_traits_impl/remove_cv.h>
+#include <ciel/type_traits_impl/remove_all_extents.h>
 
 namespace ciel {
 

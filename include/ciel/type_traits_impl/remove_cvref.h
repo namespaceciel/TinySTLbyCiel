@@ -1,8 +1,8 @@
 #ifndef TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_REMOVE_CVREF_H_
 #define TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_REMOVE_CVREF_H_
 
-#include "remove_cv.h"
-#include "remove_reference.h"
+#include <ciel/type_traits_impl/remove_cv.h>
+#include <ciel/type_traits_impl/remove_reference.h>
 
 namespace ciel {
 

@@ -1,7 +1,7 @@
 #ifndef TINYSTLBYCIEL_INCLUDE_CIEL_FUNCTIONAL_H_
 #define TINYSTLBYCIEL_INCLUDE_CIEL_FUNCTIONAL_H_
 
-#include "utility.h"
+#include <ciel/utility_impl/forward.h>
 
 namespace ciel {
 

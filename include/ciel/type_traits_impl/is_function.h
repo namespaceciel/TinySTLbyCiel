@@ -1,8 +1,8 @@
 #ifndef TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_IS_FUNCTION_H_
 #define TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_IS_FUNCTION_H_
 
-#include "is_const.h"
-#include "is_reference.h"
+#include <ciel/type_traits_impl/is_const.h>
+#include <ciel/type_traits_impl/is_reference.h>
 
 namespace ciel {
 

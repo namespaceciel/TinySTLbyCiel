@@ -3,9 +3,9 @@
 
 //Not C++ standard
 
-#include "is_const.h"
-#include "is_volatile.h"
-#include "remove_reference.h"
+#include <ciel/type_traits_impl/is_const.h>
+#include <ciel/type_traits_impl/is_volatile.h>
+#include <ciel/type_traits_impl/remove_reference.h>
 
 namespace ciel {
 

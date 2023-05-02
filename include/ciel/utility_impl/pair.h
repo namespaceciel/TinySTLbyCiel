@@ -1,7 +1,6 @@
 #ifndef TINYSTLBYCIEL_INCLUDE_CIEL_UTILITY_IMPL_PAIR_H_
 #define TINYSTLBYCIEL_INCLUDE_CIEL_UTILITY_IMPL_PAIR_H_
 
-#include "../type_traits.h"
 
 namespace ciel {
 

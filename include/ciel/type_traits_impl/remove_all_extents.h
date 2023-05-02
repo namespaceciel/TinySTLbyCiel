@@ -1,7 +1,7 @@
 #ifndef TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_REMOVE_ALL_EXTENTS_H_
 #define TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_REMOVE_ALL_EXTENTS_H_
 
-#include <cstddef>
+#include <stddef.h>
 
 namespace ciel {
 

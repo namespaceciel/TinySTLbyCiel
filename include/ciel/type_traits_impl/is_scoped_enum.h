@@ -1,8 +1,8 @@
 #ifndef TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_IS_SCOPED_ENUM_H
 #define TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_IS_SCOPED_ENUM_H
 
-#include "../utility_impl/declval.h"
-#include "is_enum.h"
+#include <ciel/utility_impl/declval.h>
+#include <ciel/type_traits_impl/is_enum.h>
 #include <type_traits>
 
 namespace ciel {

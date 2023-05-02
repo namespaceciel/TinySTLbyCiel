@@ -1,8 +1,8 @@
 #ifndef TINYSTLBYCIEL_INCLUDE_CIEL_ALLOCATOR_H_
 #define TINYSTLBYCIEL_INCLUDE_CIEL_ALLOCATOR_H_
 
-#include <iostream>
-#include <cstddef>
+#include <ciel/utility_impl/forward.h>
+#include <stddef.h>
 #include <limits>
 
 namespace ciel{
@@ -52,7 +52,7 @@ namespace ciel{
 
 		template<class U, class... Args>
 		static void construct(U* ptr, Args&& ...args){
-			new(ptr) U(std::forward<Args>(args)...);
+			new(ptr) U(forward<Args>(args)...);
 		}
 
 		template<class U>

@@ -1,8 +1,8 @@
 #ifndef TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_IS_TRIVIAL_H_
 #define TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_IS_TRIVIAL_H_
 
-#include "is_trivially_copyable.h"
-#include "is_default_constructible.h"
+#include <ciel/type_traits_impl/is_trivially_copyable.h>
+#include <ciel/type_traits_impl/is_default_constructible.h>
 
 namespace ciel {
 

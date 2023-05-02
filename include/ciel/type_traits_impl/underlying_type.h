@@ -1,7 +1,7 @@
 #ifndef TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_UNDERLYING_TYPE_H
 #define TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_UNDERLYING_TYPE_H
 
-#include "is_enum.h"
+#include <ciel/type_traits_impl/is_enum.h>
 
 namespace ciel {
 

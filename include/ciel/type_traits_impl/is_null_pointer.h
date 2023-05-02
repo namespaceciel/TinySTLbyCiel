@@ -1,14 +1,14 @@
 #ifndef TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_IS_NULL_POINTER_H_
 #define TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_IS_NULL_POINTER_H_
 
-#include <cstddef>
-#include "is_same.h"
-#include "remove_cv.h"
+#include <stddef.h>
+#include <ciel/type_traits_impl/is_same.h>
+#include <ciel/type_traits_impl/remove_cv.h>
 
 namespace ciel {
 
 	template<class T>
-	struct is_null_pointer : is_same<std::nullptr_t, remove_cv_t<T>> {};
+	struct is_null_pointer : is_same<nullptr_t, remove_cv_t<T>> {};
 
 	template<class T>
 	inline constexpr bool is_null_pointer_v = is_null_pointer<T>::value;

@@ -1,7 +1,7 @@
 #ifndef TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_IS_SIGNED_H_
 #define TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_IS_SIGNED_H_
 
-#include "is_arithmetic.h"
+#include <ciel/type_traits_impl/is_arithmetic.h>
 
 namespace ciel {
 

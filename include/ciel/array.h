@@ -1,8 +1,9 @@
 #ifndef TINYSTLBYCIEL_INCLUDE_CIEL_ARRAY_H_
 #define TINYSTLBYCIEL_INCLUDE_CIEL_ARRAY_H_
 
-#include <cstddef>
-#include "iterator.h"
+#include <stddef.h>
+#include <ciel/iterator.h>
+#include <ciel/utility_impl/move.h>
 
 namespace ciel{
 
@@ -125,9 +126,9 @@ namespace ciel{
 		void swap(array<T, N>& swapped_obj){
 			T temp_obj;
 			for (size_type i = 0; i < N; ++i){
-				temp_obj = std::move(m_data[i]);
-				m_data[i] = std::move(swapped_obj[i]);
-				swapped_obj[i] = std::move(temp_obj);
+				temp_obj = move(m_data[i]);
+				m_data[i] = move(swapped_obj[i]);
+				swapped_obj[i] = move(temp_obj);
 			}
 		}
 	};  //class array

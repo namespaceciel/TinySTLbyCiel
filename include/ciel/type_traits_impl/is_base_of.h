@@ -1,7 +1,7 @@
 #ifndef TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_IS_BASE_OF_H_
 #define TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_IS_BASE_OF_H_
 
-#include "is_class.h"
+#include <ciel/type_traits_impl/is_class.h>
 
 namespace ciel {
 

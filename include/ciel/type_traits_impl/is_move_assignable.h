@@ -1,9 +1,9 @@
 #ifndef TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_IS_MOVE_ASSIGNABLE_H_
 #define TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_IS_MOVE_ASSIGNABLE_H_
 
-#include "is_assignable.h"
-#include "add_lvalue_reference.h"
-#include "add_rvalue_reference.h"
+#include <ciel/type_traits_impl/is_assignable.h>
+#include <ciel/type_traits_impl/add_lvalue_reference.h>
+#include <ciel/type_traits_impl/add_rvalue_reference.h>
 
 namespace ciel {
 	template<class T>

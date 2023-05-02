@@ -1,8 +1,8 @@
 #ifndef TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_RANK_H_
 #define TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_RANK_H_
 
-#include "integral_constant.h"
-#include <cstddef>
+#include <ciel/type_traits_impl/integral_constant.h>
+#include <stddef.h>
 
 namespace ciel {
 
@@ -12,7 +12,7 @@ namespace ciel {
 	template<class T>
 	struct rank<T[]> : integral_constant<size_t, rank<T>::value + 1> {};
 
-	template<class T, std::size_t N>
+	template<class T, size_t N>
 	struct rank<T[N]> : integral_constant<size_t, rank<T>::value + 1> {};
 
 	template<class T>

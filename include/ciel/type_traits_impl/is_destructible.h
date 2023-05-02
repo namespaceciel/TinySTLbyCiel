@@ -1,23 +1,23 @@
 #ifndef TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_IS_DESTRUCTIBLE_H_
 #define TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_IS_DESTRUCTIBLE_H_
 
-#include "conditional.h"
-#include "is_reference.h"
-#include "is_void.h"
-#include "is_function.h"
-#include "is_unbounded_array.h"
-#include "is_object.h"
-#include "remove_all_extents.h"
-#include "is_class.h"
-#include "is_enum.h"
-#include "is_union.h"
-#include "../utility_impl/declval.h"
+#include <ciel/type_traits_impl/conditional.h>
+#include <ciel/type_traits_impl/is_reference.h>
+#include <ciel/type_traits_impl/is_void.h>
+#include <ciel/type_traits_impl/is_function.h>
+#include <ciel/type_traits_impl/is_unbounded_array.h>
+#include <ciel/type_traits_impl/is_object.h>
+#include <ciel/type_traits_impl/remove_all_extents.h>
+#include <ciel/type_traits_impl/is_class.h>
+#include <ciel/type_traits_impl/is_enum.h>
+#include <ciel/type_traits_impl/is_union.h>
+#include <ciel/utility_impl/declval.h>
 
 namespace ciel {
 
 	//若 T 是引用类型，则提供等于 true 的成员常量 value。
 	//若 T 是（可以有 cv 限定的）void、函数类型或未知边界数组，则 value 等于 false。
-	//若 T 是对象类型，则对于作为 std::remove_all_extents<T>::type 的类型 U，若表达式 std::declval<U&>().~U() 在不求值语境合法，则 value 等于 true 。否则，value 等于 false。
+	//若 T 是对象类型，则对于作为 remove_all_extents<T>::type 的类型 U，若表达式 declval<U&>().~U() 在不求值语境合法，则 value 等于 true 。否则，value 等于 false。
 	namespace {
         //https://stackoverflow.com/questions/54699526/why-is-is-destructible-defined-using-declvalu-u-and-not-declvalu
 		template<class T>
@@ -39,7 +39,7 @@ namespace ciel {
 																  true_type,
 																  false_type>>>> {};
 
-	//同上，并且 std::remove_all_extents<T>::type 要么是非类类型，要么是拥有平凡析构函数的类类型。
+	//同上，并且 remove_all_extents<T>::type 要么是非类类型，要么是拥有平凡析构函数的类类型。
 	template<class T>
 	struct is_trivially_destructible
 		: conditional_t<is_reference_v<T>,

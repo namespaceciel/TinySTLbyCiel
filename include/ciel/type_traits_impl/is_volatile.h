@@ -1,7 +1,7 @@
 #ifndef TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_IS_VOLATILE_H_
 #define TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_IS_VOLATILE_H_
 
-#include "integral_constant.h"
+#include <ciel/type_traits_impl/integral_constant.h>
 
 namespace ciel {
 

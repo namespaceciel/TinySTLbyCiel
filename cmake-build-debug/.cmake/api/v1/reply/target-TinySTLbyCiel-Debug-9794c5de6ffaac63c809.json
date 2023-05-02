@@ -10,7 +10,8 @@
 	{
 		"commands" : 
 		[
-			"add_executable"
+			"add_executable",
+			"target_include_directories"
 		],
 		"files" : 
 		[
@@ -26,6 +27,12 @@
 				"file" : 0,
 				"line" : 8,
 				"parent" : 0
+			},
+			{
+				"command" : 1,
+				"file" : 0,
+				"line" : 10,
+				"parent" : 0
 			}
 		]
 	},
@@ -39,6 +46,13 @@
 				},
 				{
 					"fragment" : "-std=gnu++2b"
+				}
+			],
+			"includes" : 
+			[
+				{
+					"backtrace" : 2,
+					"path" : "/Users/ciel/Downloads/Github/TinySTLbyCiel/include"
 				}
 			],
 			"language" : "CXX",
