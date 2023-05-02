@@ -1,0 +1,3 @@
+/Users/ciel/Downloads/Github/TinySTLbyCiel/cmake-build-debug/CMakeFiles/TinySTLbyCiel.dir
+/Users/ciel/Downloads/Github/TinySTLbyCiel/cmake-build-debug/CMakeFiles/edit_cache.dir
+/Users/ciel/Downloads/Github/TinySTLbyCiel/cmake-build-debug/CMakeFiles/rebuild_cache.dir
