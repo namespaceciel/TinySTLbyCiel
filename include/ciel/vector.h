@@ -3,7 +3,7 @@
 
 #include <stddef.h>
 #include <ciel/allocator.h>
-#include <ciel/iterator.h>
+#include <ciel/iterator_legacy.h>
 #include <ciel/memory.h>    //fill()与fill_n()
 
 namespace ciel{
