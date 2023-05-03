@@ -69,8 +69,8 @@
 #include <ciel/type_traits_impl/is_same.h>
 #include <ciel/type_traits_impl/is_base_of.h>
 #include <ciel/type_traits_impl/is_convertible.h>
-//#include <ciel/type_traits_impl/is_layout_compatible.h>
-//#include <ciel/type_traits_impl/is_pointer_interconvertible_base_of.h>
+//#include <ciel/type_traits_impl/is_layout_compatible.h>/*找不到相关实现*/
+//#include <ciel/type_traits_impl/is_pointer_interconvertible_base_of.h>/*找不到相关实现*/
 //#include <ciel/type_traits_impl/is_invocable.h>
 
 //常-易变性说明符
@@ -99,7 +99,7 @@
 #include <ciel/type_traits_impl/remove_cvref.h>
 #include <ciel/type_traits_impl/enable_if.h>
 #include <ciel/type_traits_impl/conditional.h>
-//#include <ciel/type_traits_impl/common_type.h>
+#include <ciel/type_traits_impl/common_type.h>
 //#include <ciel/type_traits_impl/common_reference.h>
 #include <ciel/type_traits_impl/underlying_type.h>/*由编译器实现*/
 //#include <ciel/type_traits_impl/invoke_result.h>
@@ -113,15 +113,17 @@
 
 //////////////////////////////函数////////////////////////////
 //成员关系
-//#include <ciel/type_traits_impl/is_pointer_interconvertible_with_class.h>
-//#include <ciel/type_traits_impl/is_corresponding_member.h>
+//#include <ciel/type_traits_impl/is_pointer_interconvertible_with_class.h>/*找不到相关实现*/
+//#include <ciel/type_traits_impl/is_corresponding_member.h>/*找不到相关实现*/
 
 //常量求值语境
-//#include <ciel/type_traits_impl/is_constant_evaluated.h>
+#include <ciel/type_traits_impl/is_constant_evaluated.h>/*由编译器实现*/
 
 /////////////////////////////非标准////////////////////////////
-//#include <ciel/type_traits_impl/add_reference.h>
-//#include <ciel/type_traits_impl/apply_cv.h>
-//#include <ciel/type_traits_impl/type_list.h>
+/*
+#include <ciel/type_traits_impl/add_reference.h>
+#include <ciel/type_traits_impl/apply_cv.h>
+#include <ciel/type_traits_impl/type_list.h>
+*/
 
 #endif //TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_H_
