@@ -2,7 +2,7 @@
 #define TINYSTLBYCIEL_INCLUDE_CIEL_VECTOR_H_
 
 #include <stddef.h>
-#include <ciel/allocator.h>
+#include "ciel/memory_impl/allocator.h"
 #include <ciel/iterator_legacy.h>
 #include <ciel/memory.h>    //fill()与fill_n()
 

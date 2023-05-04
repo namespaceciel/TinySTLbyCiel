@@ -56,20 +56,6 @@ build CMakeFiles/TinySTLbyCiel.dir/main.cpp.o: CXX_COMPILER__TinySTLbyCiel_Debug
   OBJECT_DIR = CMakeFiles/TinySTLbyCiel.dir
   OBJECT_FILE_DIR = CMakeFiles/TinySTLbyCiel.dir
 
-build CMakeFiles/TinySTLbyCiel.dir/test/array_test.cpp.o: CXX_COMPILER__TinySTLbyCiel_Debug /Users/ciel/Downloads/Github/TinySTLbyCiel/test/array_test.cpp || cmake_object_order_depends_target_TinySTLbyCiel
-  DEP_FILE = CMakeFiles/TinySTLbyCiel.dir/test/array_test.cpp.o.d
-  FLAGS = -g -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk -fcolor-diagnostics -std=gnu++2b
-  INCLUDES = -I/Users/ciel/Downloads/Github/TinySTLbyCiel/include
-  OBJECT_DIR = CMakeFiles/TinySTLbyCiel.dir
-  OBJECT_FILE_DIR = CMakeFiles/TinySTLbyCiel.dir/test
-
-build CMakeFiles/TinySTLbyCiel.dir/test/vector_test.cpp.o: CXX_COMPILER__TinySTLbyCiel_Debug /Users/ciel/Downloads/Github/TinySTLbyCiel/test/vector_test.cpp || cmake_object_order_depends_target_TinySTLbyCiel
-  DEP_FILE = CMakeFiles/TinySTLbyCiel.dir/test/vector_test.cpp.o.d
-  FLAGS = -g -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk -fcolor-diagnostics -std=gnu++2b
-  INCLUDES = -I/Users/ciel/Downloads/Github/TinySTLbyCiel/include
-  OBJECT_DIR = CMakeFiles/TinySTLbyCiel.dir
-  OBJECT_FILE_DIR = CMakeFiles/TinySTLbyCiel.dir/test
-
 
 # =============================================================================
 # Link build statements for EXECUTABLE target TinySTLbyCiel
@@ -78,7 +64,7 @@ build CMakeFiles/TinySTLbyCiel.dir/test/vector_test.cpp.o: CXX_COMPILER__TinySTL
 #############################################
 # Link the executable TinySTLbyCiel
 
-build TinySTLbyCiel: CXX_EXECUTABLE_LINKER__TinySTLbyCiel_Debug CMakeFiles/TinySTLbyCiel.dir/main.cpp.o CMakeFiles/TinySTLbyCiel.dir/test/array_test.cpp.o CMakeFiles/TinySTLbyCiel.dir/test/vector_test.cpp.o
+build TinySTLbyCiel: CXX_EXECUTABLE_LINKER__TinySTLbyCiel_Debug CMakeFiles/TinySTLbyCiel.dir/main.cpp.o
   FLAGS = -g -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk
   OBJECT_DIR = CMakeFiles/TinySTLbyCiel.dir
   POST_BUILD = :

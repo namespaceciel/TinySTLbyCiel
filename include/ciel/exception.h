@@ -7,11 +7,11 @@ namespace ciel {
 	public:
 		exception() noexcept {}
 
-		exception(const exception& other) noexcept = default;
+		exception(const exception&) noexcept = default;
 
 		virtual ~exception() noexcept;
 
-		exception& operator=(const exception& other) noexcept;
+		exception& operator=(const exception&) noexcept;
 
 		virtual const char* what() const noexcept;
 
