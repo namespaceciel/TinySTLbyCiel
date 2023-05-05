@@ -1,8 +1,6 @@
 #ifndef TINYSTLBYCIEL_INCLUDE_CIEL_UTILITY_IMPL_SWAP_H
 #define TINYSTLBYCIEL_INCLUDE_CIEL_UTILITY_IMPL_SWAP_H
 
-#include <ciel/type_traits_impl/is_move_constructible.h>
-#include <ciel/type_traits_impl/is_move_assignable.h>
 #include <stddef.h>
 #include <ciel/type_traits_impl/is_swappable.h>
 #include <ciel/utility_impl/move.h>
