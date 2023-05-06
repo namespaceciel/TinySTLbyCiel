@@ -9,7 +9,8 @@
 
 namespace ciel {
 
-	namespace {
+	namespace make_unsigned_details {
+
 		template<class T, bool = is_integral_v<T> || is_enum_v<T>>
 		struct make_unsigned_helper {};
 
@@ -72,7 +73,7 @@ namespace ciel {
 
 	template<class T>
 	struct make_unsigned {
-		using type = apply_cv_t<T, typename make_unsigned_helper<remove_cv_t<T>>::type>;
+		using type = apply_cv_t<T, typename make_unsigned_details::make_unsigned_helper<remove_cv_t<T>>::type>;
 	};
 
 	template<class T>

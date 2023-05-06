@@ -6,7 +6,8 @@
 
 namespace ciel {
 
-	namespace {
+	namespace is_pointer_details {
+
 		template<class T>
 		struct is_pointer_helper : false_type {};
 
@@ -15,7 +16,7 @@ namespace ciel {
 	}
 
 	template<class T>
-	struct is_pointer : is_pointer_helper<remove_cv_t<T>> {};
+	struct is_pointer : is_pointer_details::is_pointer_helper<remove_cv_t<T>> {};
 
 	template<class T>
 	inline constexpr bool is_pointer_v = is_pointer<T>::value;

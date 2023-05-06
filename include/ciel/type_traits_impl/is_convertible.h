@@ -8,7 +8,7 @@
 
 namespace ciel {
 /*
-	namespace {
+	namespace is_convertible_details {
 		//逗号表达式: 挨个求值并返回最后一个值，以此实现 SFINAE
 
 		//将 nullptr 强转为返回值为 To 的函数指针，以测试 returnable
@@ -29,7 +29,8 @@ namespace ciel {
 	}
 */
 
-	namespace {
+	namespace is_convertible_details {
+
 		template<class To, class = decltype(static_cast<To(*)()>(nullptr))>
 		true_type test_returnable(int);
 
@@ -45,7 +46,7 @@ namespace ciel {
 
 	template<class From, class To>
 	struct is_convertible : bool_constant<
-		((decltype(test_returnable<To>(0))::value && decltype(test_implicitly_convertible<From, To>(0))::value))
+		((decltype(is_convertible_details::test_returnable<To>(0))::value && decltype(is_convertible_details::test_implicitly_convertible<From, To>(0))::value))
 		|| (is_void_v<From> && is_void_v<To>)> {};
 
 	template<class From, class To>

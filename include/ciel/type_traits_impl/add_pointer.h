@@ -6,7 +6,8 @@
 
 namespace ciel {
 
-	namespace {
+	namespace add_pointer_details {
+
 		template<class T>
 		type_identity<remove_reference_t<T>*> add_pointer_helper(int);
 
@@ -22,7 +23,7 @@ namespace ciel {
 	}
 
 	template<class T>
-	struct add_pointer : decltype(add_pointer_helper<T>(0)) {};
+	struct add_pointer : decltype(add_pointer_details::add_pointer_helper<T>(0)) {};
 
 	template<class T>
 	using add_pointer_t = typename add_pointer<T>::type;

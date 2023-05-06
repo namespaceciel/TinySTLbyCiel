@@ -7,7 +7,8 @@
 
 namespace ciel {
 
-	namespace {
+	namespace is_member_function_pointer_details {
+
 		template<class T>
 		struct is_member_function_pointer_helper : false_type {};
 
@@ -16,7 +17,7 @@ namespace ciel {
 	}
 
 	template<class T>
-	struct is_member_function_pointer : is_member_function_pointer_helper<remove_cv_t<T> > {};
+	struct is_member_function_pointer : is_member_function_pointer_details::is_member_function_pointer_helper<remove_cv_t<T> > {};
 
 	template<class T>
 	inline constexpr bool is_member_function_pointer_v = is_member_function_pointer<T>::value;

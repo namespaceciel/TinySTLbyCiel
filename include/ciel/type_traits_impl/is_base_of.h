@@ -5,7 +5,8 @@
 
 namespace ciel {
 
-	namespace {
+	namespace is_base_of_details {
+
 		template<class B>
 		true_type is_convertible_to_base(const volatile B*);
 
@@ -21,7 +22,7 @@ namespace ciel {
 	}
 
 	template<class Base, class Derived>
-	struct is_base_of : bool_constant<is_class_v<Base> && is_class_v<Derived> && decltype(is_base_of_helper<Base, Derived>(0))::value> {};
+	struct is_base_of : bool_constant<is_class_v<Base> && is_class_v<Derived> && decltype(is_base_of_details::is_base_of_helper<Base, Derived>(0))::value> {};
 
 	template<class Base, class Derived>
 	inline constexpr bool is_base_of_v = is_base_of<Base, Derived>::value;

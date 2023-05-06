@@ -5,7 +5,8 @@
 
 namespace ciel {
 
-	namespace {
+	namespace add_rvalue_reference_details {
+
 		template<class T>
 		type_identity<T&&> add_rvalue_reference_helper(int);
 
@@ -15,7 +16,7 @@ namespace ciel {
 	}
 
 	template<class T>
-	struct add_rvalue_reference : decltype(add_rvalue_reference_helper<T>(0)) {};
+	struct add_rvalue_reference : decltype(add_rvalue_reference_details::add_rvalue_reference_helper<T>(0)) {};
 
 	template<class T>
 	using add_rvalue_reference_t = typename add_rvalue_reference<T>::type;

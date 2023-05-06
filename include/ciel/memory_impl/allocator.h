@@ -1,14 +1,15 @@
 #ifndef TINYSTLBYCIEL_INCLUDE_CIEL_MEMORY_IMPL_ALLOCATOR_H_
 #define TINYSTLBYCIEL_INCLUDE_CIEL_MEMORY_IMPL_ALLOCATOR_H_
 
-#include "ciel/type_traits.h"
-#include "ciel/utility.h"
-#include <new>
+#include <ciel/type_traits.h>
+#include <ciel/utility.h>
+#include <ciel/limits.h>
 #include <stddef.h>
+#include <new>
 
 namespace ciel {
 /*
-	namespace {
+	namespace allocator_details {
 		template<bool, class Unique>
 		struct non_trivial_if {};
 
@@ -31,7 +32,8 @@ namespace ciel {
 */
 	template<class T>
 	class allocator {
-		static_assert(!is_volatile<T>::value, "allocator does not support volatile types");
+
+//		static_assert(!is_volatile<T>::value, "allocator does not support volatile types");
 
 	public:
 		using value_type = T;
@@ -42,19 +44,18 @@ namespace ciel {
 	public:
 		constexpr allocator() noexcept = default;
 
-		constexpr allocator(const allocator&) noexcept {}
+		constexpr allocator(const allocator&) noexcept = default;
 
 		template<class U>
 		constexpr allocator(const allocator<U>&) noexcept {}
 
 		constexpr ~allocator() = default;
 
-		static T* allocate(size_type n) {
+		[[nodiscard]] constexpr T* allocate( size_t n ) {
+			if(numeric_limits<size_t>::max() / sizeof(T) < n){
+				throw std::bad_array_new_length();
+			}
 			return static_cast<T*>(::operator new(sizeof(T) * n));
-		}
-
-		static T* allocate(size_type n, const void* hint) {
-			return allocate(n);
 		}
 
 		static void deallocate(T* ptr) {

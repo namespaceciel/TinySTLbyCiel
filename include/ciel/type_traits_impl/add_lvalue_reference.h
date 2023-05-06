@@ -5,7 +5,8 @@
 
 namespace ciel {
 
-	namespace {
+	namespace add_lvalue_reference_details {
+
 		template<class T>
 		type_identity<T&> add_lvalue_reference_helper(int);
 
@@ -15,7 +16,7 @@ namespace ciel {
 	}
 
 	template<class T>
-	struct add_lvalue_reference : decltype(add_lvalue_reference_helper<T>(0)) {};
+	struct add_lvalue_reference : decltype(add_lvalue_reference_details::add_lvalue_reference_helper<T>(0)) {};
 
 	template<class T>
 	using add_lvalue_reference_t = typename add_lvalue_reference<T>::type;

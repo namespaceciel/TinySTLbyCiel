@@ -5,7 +5,8 @@
 
 namespace ciel {
 
-	namespace {
+	namespace add_reference_details {
+
 		template<class T>
 		struct add_reference_helper {
 			using type = T&;
@@ -22,7 +23,7 @@ namespace ciel {
 
 	template<class T>
 	struct add_reference {
-		using type = typename add_reference_helper<T>::type;
+		using type = typename add_reference_details::add_reference_helper<T>::type;
 	};
 
 	template<class T>

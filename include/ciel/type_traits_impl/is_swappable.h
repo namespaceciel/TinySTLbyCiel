@@ -5,6 +5,8 @@
 #include <ciel/utility_impl/move.h>
 #include <ciel/type_traits_impl/is_move_constructible.h>
 #include <ciel/type_traits_impl/is_move_assignable.h>
+#include <ciel/type_traits_impl/is_void.h>
+#include <ciel/type_traits_impl/is_function.h>
 
 namespace ciel {
 
@@ -15,7 +17,8 @@ namespace ciel {
 		b = move(temp);
 	}
 
-	namespace {
+	namespace is_swappable_details {
+
 		template<class T, class U>
 		concept can_swap = requires {
 			swap(declval<T&>(), declval<U&>());
@@ -42,7 +45,7 @@ namespace ciel {
 	}
 
 	template<class T, class U>
-	struct is_swappable_with : is_swappable_with_helper<T,U> {};
+	struct is_swappable_with : is_swappable_details::is_swappable_with_helper<T,U> {};
 
 	template<class T, class U>
 	inline constexpr bool is_swappable_with_v = is_swappable_with<T, U>::value;
@@ -54,7 +57,7 @@ namespace ciel {
 	inline constexpr bool is_swappable_v = is_swappable<T>::value;
 
 	template<class T, class U>
-	struct is_nothrow_swappable_with : is_nothrow_swappable_with_helper<T, U> {};
+	struct is_nothrow_swappable_with : is_swappable_details::is_nothrow_swappable_with_helper<T, U> {};
 
 	template<class T, class U>
 	inline constexpr bool is_nothrow_swappable_with_v = is_nothrow_swappable_with<T, U>::value;

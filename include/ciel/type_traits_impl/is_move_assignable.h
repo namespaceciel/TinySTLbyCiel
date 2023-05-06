@@ -6,6 +6,7 @@
 #include <ciel/type_traits_impl/add_rvalue_reference.h>
 
 namespace ciel {
+
 	template<class T>
 	struct is_move_assignable : is_assignable<add_lvalue_reference_t<T>, add_rvalue_reference_t<T>> {};
 

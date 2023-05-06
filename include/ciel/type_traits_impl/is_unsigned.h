@@ -5,7 +5,8 @@
 
 namespace ciel {
 
-	namespace {
+	namespace is_unsigned_details {
+
 		template<class T, bool = is_arithmetic<T>::value>
 		struct is_unsigned_helper : bool_constant<T(0) < T(-1)> {};	//T(-1) > T(0)的写法会与之前的 < 匹配
 
@@ -14,7 +15,7 @@ namespace ciel {
 	}
 
 	template<class T>
-	struct is_unsigned : is_unsigned_helper<T>::type {};
+	struct is_unsigned : is_unsigned_details::is_unsigned_helper<T>::type {};
 
 	template<class T>
 	inline constexpr bool is_unsigned_v = is_unsigned<T>::value;

@@ -6,12 +6,13 @@
 
 namespace ciel {
 
-	namespace {
+	namespace pointer_traits_details {
+
 		template<class T, class = void>
 		struct has_element_type : false_type {};
 
 		template<class T>
-		struct has_element_type<T, typename T::element_type> : true_type {};
+		struct has_element_type<T, void_t<typename T::element_type>> : true_type {};
 
 		template<class Ptr, bool = has_element_type<Ptr>::value>
 		struct element_type_of {};
@@ -37,7 +38,7 @@ namespace ciel {
 		struct has_difference_type : false_type {};
 
 		template<class T>
-		struct has_difference_type<T, typename T::difference_type> : true_type {};
+		struct has_difference_type<T, void_t<typename T::difference_type>> : true_type {};
 
 		template<class Ptr, bool = has_difference_type<Ptr>::type>
 		struct difference_type_of {
@@ -83,11 +84,11 @@ namespace ciel {
 	struct pointer_traits {
 
 		using pointer = Ptr;
-		using element_type = typename element_type_of<Ptr>::type;
-		using difference_type = typename difference_type_of<Ptr>::type;
+		using element_type = typename pointer_traits_details::element_type_of<Ptr>::type;
+		using difference_type = typename pointer_traits_details::difference_type_of<Ptr>::type;
 
 		template<class U>
-		using rebind = typename rebind_of<pointer, U>::type;
+		using rebind = typename pointer_traits_details::rebind_of<pointer, U>::type;
 
 		static pointer pointer_to(conditional_t<is_void_v<element_type>, void, element_type&> r) {
 			return pointer::pointer_to(r);

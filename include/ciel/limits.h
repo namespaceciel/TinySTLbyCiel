@@ -5,7 +5,8 @@
 
 namespace ciel {
 
-	namespace {
+	namespace limits_details {
+
 		template<class T, bool = is_arithmetic_v<T>>
 		class numeric_limits_helper {
 		protected:
@@ -117,9 +118,9 @@ namespace ciel {
 	}
 
 	template<class T>
-	class numeric_limits : private numeric_limits_helper<remove_cv_t<T>> {
+	class numeric_limits : private limits_details::numeric_limits_helper<remove_cv_t<T>> {
 	private:
-		using base = numeric_limits_helper<remove_cv_t<T>>;
+		using base = limits_details::numeric_limits_helper<remove_cv_t<T>>;
 		using type = typename base::type;
 
 	public:
