@@ -103,7 +103,7 @@
 #include <ciel/type_traits_impl/enable_if.h>
 #include <ciel/type_traits_impl/conditional.h>
 #include <ciel/type_traits_impl/common_type.h>
-//#include <ciel/type_traits_impl/common_reference.h>
+#include <ciel/type_traits_impl/common_reference.h>
 #include <ciel/type_traits_impl/underlying_type.h>/*由编译器实现*/
 //#include <ciel/type_traits_impl/invoke_result.h>
 #include <ciel/type_traits_impl/void_t.h>

@@ -4,8 +4,8 @@
 #include <ciel/type_traits.h>
 #include <ciel/utility.h>
 #include <ciel/limits.h>
+#include <ciel/new.h>
 #include <stddef.h>
-#include <new>
 
 namespace ciel {
 /*
@@ -53,17 +53,14 @@ namespace ciel {
 
 		[[nodiscard]] constexpr T* allocate( size_t n ) {
 			if(numeric_limits<size_t>::max() / sizeof(T) < n){
-				throw std::bad_array_new_length();
+				throw ciel::bad_array_new_length();
 			}
 			return static_cast<T*>(::operator new(sizeof(T) * n));
 		}
-
-		static void deallocate(T* ptr) {
-			operator delete(ptr);
-		}
-
-		static void deallocate(T* ptr, size_type objectNum) {
-			deallocate(ptr);
+		//没看懂 allocate 和 deallocate 这里的标准库实现。。。目前来看像是为了标准里的这一要求：
+		//				  在常量表达式的求值中，此函数必须解分配在同一表达式的求值内分配的存储。
+		constexpr void deallocate( T* p, size_t n ){
+			::operator delete(p);
 		}
 
 	};  //class allocator

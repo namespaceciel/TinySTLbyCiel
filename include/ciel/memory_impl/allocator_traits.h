@@ -228,35 +228,37 @@ namespace ciel {
 
 		template<class T, class... Args, class = void, class = enable_if_t<!allocator_traits_details::has_construct<void, allocator_type, T*, Args...>::value>>
 		static constexpr void construct(allocator_type& a, T* p, Args&& ... args) {
-			construct_at(p, std::forward<Args>(args)...);
+			//这里显式加上命名空间作用域是为了防止在形参为 std:: 物件时触发 ADL 而跟 std::construct_at() 撞车
+			ciel::construct_at(p, forward<Args>(args)...);
 		}
 
-		template<class T, class = enable_if<allocator_traits_details::has_destroy<allocator_type, T*>::value>>
+		template<class T, class = enable_if_t<allocator_traits_details::has_destroy<allocator_type, T*>::value>>
 		static constexpr void destroy(allocator_type& a, T* p) {
 			a.destroy(p);
 		}
 
-		template<class T, class = void, class = enable_if<!allocator_traits_details::has_destroy<allocator_type, T*>::value>>
+		template<class T, class = void, class = enable_if_t<!allocator_traits_details::has_destroy<allocator_type, T*>::value>>
 		static constexpr void destroy(allocator_type& a, T* p) {
-			destroy_at(p);
+			//同上
+			ciel::destroy_at(p);
 		}
 
-		template<class = enable_if<allocator_traits_details::has_max_size<const allocator_type>::value>>
+		template<class A = allocator_type, class = enable_if_t<allocator_traits_details::has_max_size<const A>::value>>
 		static constexpr size_type max_size(const allocator_type& a) noexcept {
 			return a.max_size();
 		}
 
-		template<class = void, class = enable_if<!allocator_traits_details::has_max_size<const allocator_type>::value>>
+		template<class A = allocator_type, class = void, class = enable_if_t<!allocator_traits_details::has_max_size<const A>::value>>
 		static constexpr size_type max_size(const allocator_type& a) noexcept {
 			return numeric_limits<size_type>::max() / sizeof(value_type);
 		}
 
-		template<class = enable_if<allocator_traits_details::has_select_on_container_copy_construction<const allocator_type>::value>>
+		template<class A = allocator_type, class = enable_if_t<allocator_traits_details::has_select_on_container_copy_construction<const A>::value>>
 		static constexpr Alloc select_on_container_copy_construction(const allocator_type& a) {
 			return a.select_on_container_copy_construction();
 		}
 
-		template<class = void, class = enable_if<!allocator_traits_details::has_select_on_container_copy_construction<const allocator_type>::value>>
+		template<class A = allocator_type, class = void, class = enable_if_t<!allocator_traits_details::has_select_on_container_copy_construction<const A>::value>>
 		static constexpr Alloc select_on_container_copy_construction(const allocator_type& a) {
 			return a;
 		}

@@ -3,7 +3,7 @@
 
 namespace ciel {
 
-	template<bool B, class T = void>
+	template<bool, class T = void>
 	struct enable_if {};
 
 	template<class T>

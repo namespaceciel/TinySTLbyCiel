@@ -19,7 +19,8 @@ namespace ciel {
 	//若 T 是（可以有 cv 限定的）void、函数类型或未知边界数组，则 value 等于 false。
 	//若 T 是对象类型，则对于作为 remove_all_extents<T>::type 的类型 U，若表达式 declval<U&>().~U() 在不求值语境合法，则 value 等于 true 。否则，value 等于 false。
 	namespace is_destructible_details {
-        //https://stackoverflow.com/questions/54699526/why-is-is-destructible-defined-using-declvalu-u-and-not-declvalu
+		//关于这里为什么用的是 T&：
+        //		https://stackoverflow.com/questions/54699526/why-is-is-destructible-defined-using-declvalu-u-and-not-declvalu
 		template<class T>
 		concept has_dtor = requires { declval<T&>().~T(); };
 

@@ -7,7 +7,7 @@ namespace ciel {
 
 	template<class T, class... Args, class = decltype(::new(declval<void*>()) T(declval<Args>()...))>
 	constexpr T* construct_at(T* p, Args&& ... args) {
-		static_assert(p != nullptr, "你他妈传空指针进来？");    //其实标准规定这里是 undefined behavior
+//		static_assert(p != nullptr, "你他妈传空指针进来？");    //其实标准规定这里是 undefined behavior
 		/*
 		以下使用了 placement new，它的形参在正常情况下会传入标准分配函数 void* operator new(std::size_t, void*)，它直接返回未更改的第二实参
 		但是如果 operator new 有更多的重载版本，为了避免被其它版本接管，这里先将 p 强转成 void*

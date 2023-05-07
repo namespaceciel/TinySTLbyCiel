@@ -5,15 +5,17 @@ namespace ciel {
 
 	class exception {
 	public:
-		exception() noexcept {}
+		exception() noexcept = default;
 
 		exception(const exception&) noexcept = default;
 
-		virtual ~exception() noexcept;
+		exception& operator=(const exception&) noexcept = default;
 
-		exception& operator=(const exception&) noexcept;
+		virtual const char* what() const noexcept {
+			return "ciel::exception";
+		}
 
-		virtual const char* what() const noexcept;
+		virtual ~exception() noexcept = default;
 
 	};    //class exception
 
