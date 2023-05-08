@@ -21,21 +21,16 @@ namespace ciel {
 		template <class T1, class T2> struct common_reference_sub_bullet2 : common_reference_sub_bullet3<T1, T2> {};
 		template <class T1, class T2> struct common_reference_sub_bullet1 : common_reference_sub_bullet2<T1, T2> {};
 
-		//最泛化版本和最后兜底
 		template<class... T>
 		struct common_reference_helper {};
 
-		//模板形参为 0
 		template<>
 		struct common_reference_helper<> {};
-
-		//模板形参为 1
+		
 		template<class T>
 		struct common_reference_helper<T> {
 			using type = T;
 		};
-
-		//模板形参为 2
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /*
