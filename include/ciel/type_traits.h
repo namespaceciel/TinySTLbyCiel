@@ -135,6 +135,8 @@
 #include <ciel/type_traits_impl/add_reference.h>
 #include <ciel/type_traits_impl/apply_cv.h>
 #include <ciel/type_traits_impl/type_list.h>
+#include <ciel/type_traits_impl/copy_cv.h>
+#include <ciel/type_traits_impl/copy_cvref.h>
 */
 
 #endif //TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_H_
