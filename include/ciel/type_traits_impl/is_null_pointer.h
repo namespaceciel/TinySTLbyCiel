@@ -1,7 +1,7 @@
 #ifndef TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_IS_NULL_POINTER_H_
 #define TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_IS_NULL_POINTER_H_
 
-#include <stddef.h>
+#include <cstddef>
 #include <ciel/type_traits_impl/is_same.h>
 #include <ciel/type_traits_impl/remove_cv.h>
 

@@ -2,7 +2,7 @@
 #define TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_EXTENT_H_
 
 #include <ciel/type_traits_impl/integral_constant.h>
-#include <stddef.h>
+#include <cstddef>
 
 namespace ciel {
 

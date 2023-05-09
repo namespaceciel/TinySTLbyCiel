@@ -4,8 +4,8 @@
 #include <ciel/type_traits.h>
 #include <ciel/utility.h>
 #include <ciel/limits.h>
-#include <ciel/new.h>
-#include <stddef.h>
+#include <new>
+#include <cstddef>
 
 namespace ciel {
 /*
@@ -53,7 +53,7 @@ namespace ciel {
 
 		[[nodiscard]] constexpr T* allocate( size_t n ) {
 			if(numeric_limits<size_t>::max() / sizeof(T) < n){
-				throw ciel::bad_array_new_length();
+				throw std::bad_array_new_length();
 			}
 			return static_cast<T*>(::operator new(sizeof(T) * n));
 		}

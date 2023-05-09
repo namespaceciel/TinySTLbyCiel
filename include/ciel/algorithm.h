@@ -1,28 +1,34 @@
 #ifndef TINYSTLBYCIEL_INCLUDE_CIEL_ALGORITHM_H_
 #define TINYSTLBYCIEL_INCLUDE_CIEL_ALGORITHM_H_
 
-namespace ciel{
+//不修改序列的操作
 
-	template< class InputIt, class OutputIt >
-	OutputIt copy( InputIt first, InputIt last, OutputIt d_first ){
+//修改序列的操作
+#include <ciel/algorithm_impl/copy.h>
+#include <ciel/algorithm_impl/copy_if.h>
+#include <ciel/algorithm_impl/copy_n.h>
+#include <ciel/algorithm_impl/copy_backward.h>
+#include <ciel/algorithm_impl/move.h>
+#include <ciel/algorithm_impl/move_backward.h>
+#include <ciel/algorithm_impl/fill.h>
+#include <ciel/algorithm_impl/fill_n.h>
 
-	}
+//划分操作
 
-	template<class ForwardIterator, class T>
-	void fill(ForwardIterator first, ForwardIterator last, const T& filled_value){
-		for (; first != last; ++first){
-			*first = filled_value;
-		}
-	}
+//排序操作
 
-	template<class OutputIterator, class Size, class T>
-	OutputIterator fill_n(OutputIterator first, Size n, const T& filled_value){
-		for (; n > 0; --n, ++first){
-			*first = filled_value;
-		}
-		return first;
-	}
+//（已排序范围上的）二分搜索操作
 
-} //namespace ciel
+//其他已排序范围上的操作
+
+//（已排序范围上的）集合操作
+
+//堆操作
+
+//最小/最大操作
+
+//比较操作
+
+//排列操作
 
 #endif //TINYSTLBYCIEL_INCLUDE_CIEL_ALGORITHM_H_

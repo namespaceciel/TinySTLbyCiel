@@ -1,8 +1,9 @@
 #ifndef TINYSTLBYCIEL_INCLUDE_CIEL_ARRAY_H_
 #define TINYSTLBYCIEL_INCLUDE_CIEL_ARRAY_H_
 
-#include <stddef.h>
-#include <ciel/iterator_legacy.h>
+#include <cstddef>
+#include <stdexcept>
+#include <iterator>
 #include <ciel/utility_impl/move.h>
 
 namespace ciel {
@@ -13,121 +14,130 @@ namespace ciel {
 		using value_type = T;
 		using size_type = size_t;
 		using difference_type = ptrdiff_t;
-		using reference = T&;
-		using const_reference = const T&;
-		using pointer = T*;
-		using const_pointer = const T*;
-		using iterator = T*;
-		using const_iterator = const T*;
+		using reference = value_type&;
+		using const_reference = const value_type&;
+		using pointer = value_type*;
+		using const_pointer = const value_type*;
 
-		using reverse_iterator = ciel::reverse_iterator<iterator>;
-		using const_reverse_iterator = ciel::reverse_iterator<const_iterator>;
+		using iterator = value_type*;
+		using const_iterator = const value_type*;
+
+		using reverse_iterator = std::reverse_iterator<iterator>;
+		using const_reverse_iterator = std::reverse_iterator<const_iterator>;
 
 		T m_data[N];
 
-//		array& operator=(array<T, N> moved_data) {
-//			for (size_type i = 0; i < N; ++i) {
-//				m_data[i] = moved_data[i];
-//			}
-//		}
-
-		reference at(size_type index) {
-			if (index >= N) {
-				throw std::out_of_range("array成员函数at遇到越界问题");
+		constexpr reference at(size_type pos) {
+			if (pos >= N) {
+				throw std::out_of_range("ciel::array 成员函数 at 遇到越界问题");
 			}
-			return m_data[index];
+			return m_data[pos];
 		}
 
-		reference operator[](size_type index) {
-			return m_data[index];
+		constexpr const_reference at(size_type pos) const {
+			if (pos >= N) {
+				throw std::out_of_range("ciel::array 成员函数 at 遇到越界问题");
+			}
+			return m_data[pos];
 		}
 
-		reference front() {
+		constexpr reference operator[](size_type pos) {
+			return m_data[pos];
+		}
+
+		constexpr const_reference operator[](size_type pos) const {
+			return m_data[pos];
+		}
+
+		constexpr reference front() {
 			return m_data[0];
 		}
 
-		reference back() {
+		constexpr const_reference front() const {
+			return m_data[0];
+		}
+
+		constexpr reference back() {
 			return m_data[N - 1];
 		}
 
-		T* data() {
+		constexpr const_reference back() const {
+			return m_data[N - 1];
+		}
+
+		constexpr T* data() noexcept {
 			return m_data;
 		}
 
-		iterator begin() {
+		constexpr const T* data() const noexcept {
 			return m_data;
 		}
 
-		const_iterator begin() const {
-			return m_data;
+		constexpr iterator begin() noexcept {
+			return iterator(m_data);
 		}
 
-		const_iterator cbegin() const {
-			return m_data;
+		constexpr const_iterator begin() const noexcept {
+			return const_iterator(m_data);
 		}
 
-		iterator end() {
-			return m_data + N;
+		constexpr const_iterator cbegin() const noexcept {
+			return begin();
 		}
 
-		const_iterator end() const {
-			return m_data + N;
+		constexpr iterator end() noexcept {
+			return iterator(m_data + N);
 		}
 
-		const_iterator cend() const {
-			return m_data + N;
+		constexpr const_iterator end() const noexcept {
+			return const_iterator(m_data + N);
 		}
 
-		reverse_iterator rbegin() {
-			return reverse_iterator(&m_data[N]);
+		constexpr const_iterator cend() const noexcept {
+			return end();
 		}
 
-		const_reverse_iterator rbegin() const {
-			return const_reverse_iterator(&m_data[N]);
+		constexpr reverse_iterator rbegin() noexcept {
+			return reverse_iterator(end());
 		}
 
-		const_reverse_iterator crbegin() const {
-			return const_reverse_iterator(&m_data[N]);
+		constexpr const_reverse_iterator rbegin() const noexcept {
+			return const_reverse_iterator(end());
 		}
 
-		reverse_iterator rend() {
-			return reverse_iterator(&m_data[0]);
+		constexpr const_reverse_iterator crbegin() const noexcept {
+			return rbegin();
 		}
 
-		const_reverse_iterator rend() const {
-			return const_reverse_iterator(&m_data[0]);
+		constexpr reverse_iterator rend() noexcept {
+			return reverse_iterator(begin());
 		}
 
-		const_reverse_iterator crend() const {
-			return const_reverse_iterator(&m_data[0]);
+		constexpr const_reverse_iterator rend() const noexcept {
+			return const_reverse_iterator(begin());
 		}
 
-		bool empty() {
+		constexpr const_reverse_iterator crend() const noexcept {
+			return rend();
+		}
+
+		[[nodiscard]] constexpr bool empty() const noexcept{
 			return N == 0;
 		}
 
-		size_type size() {
+		constexpr size_type size() const noexcept{
 			return N;
 		}
 
-		size_type max_size() {
+		constexpr size_type max_size() const noexcept{
 			return N;
 		}
 
-		void fill(const_reference copied_obj) {
-			for (size_type i = 0; i < N; ++i) {
-				m_data[i] = copied_obj;
-			}
+		constexpr void fill( const T& value ){
+
 		}
 
-		void swap(array<T, N>& swapped_obj) {
-			T temp_obj;
-			for (size_type i = 0; i < N; ++i) {
-				temp_obj = move(m_data[i]);
-				m_data[i] = move(swapped_obj[i]);
-				swapped_obj[i] = move(temp_obj);
-			}
-		}
+
 	};  //class array
 
 	template<class T, size_t N>
