@@ -26,7 +26,7 @@ namespace ciel {
 
 		template<>
 		struct common_reference_helper<> {};
-		
+
 		template<class T>
 		struct common_reference_helper<T> {
 			using type = T;
@@ -126,9 +126,9 @@ namespace ciel {
 		template<class T1, class T2>
 		struct common_reference_helper<T1, T2> : common_reference_sub_bullet1<T1, T2> {};
 
-		template <class T1, class T2, class T3, class... Rest>
+		template <class T1, class T2, class... Rest>
 			requires requires { typename common_reference_helper<T1, T2>::type; }
-		struct common_reference_helper<T1, T2, T3, Rest...> : common_reference_helper<typename common_reference_helper<T1, T2>::type, T3, Rest...> {};
+		struct common_reference_helper<T1, T2, Rest...> : common_reference_helper<typename common_reference_helper<T1, T2>::type, Rest...> {};
 	}
 
 	template<class... T>
@@ -140,5 +140,21 @@ namespace ciel {
 	using common_reference_t = typename common_reference<T...>::type;
 
 }   //namespace ciel
+
+/*
+	using namespace ciel;
+	static_assert(is_same_v<common_reference_t<A>, A>);
+	static_assert(is_same_v<common_reference_t<A&>, A&>);
+	static_assert(is_same_v<common_reference_t<A&&>, A&&>);
+	static_assert(is_same_v<common_reference_t<A, B, C>, A>);
+	static_assert(is_same_v<common_reference_t<B, C>, B>);
+	static_assert(is_same_v<common_reference_t<const A&, volatile C>, A>);
+	static_assert(is_same_v<common_reference_t<const volatile A, B>, const volatile A>);
+	static_assert(is_same_v<common_reference_t<const volatile A&, B>, A>);
+	static_assert(is_same_v<common_reference_t<const volatile A, B&&>, const volatile A>);
+	static_assert(is_same_v<common_reference_t<int&, double&>, double>);
+	static_assert(is_same_v<common_reference_t<int, double>, double>);
+	static_assert(is_same_v<common_reference_t<int&, long&>, long>);
+*/
 
 #endif //TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_COMMON_REFERENCE_H_
