@@ -9,17 +9,13 @@
 
 namespace ciel {
 
+	//此 traits 存在的意义：
+	//		https://stackoverflow.com/questions/59011331/what-is-the-purpose-of-c20-stdcommon-reference
+
 	template<class, class, template<class> class, template<class> class>
 	struct basic_common_reference {};
 
-	//此 traits 存在的意义：
-	//		https://stackoverflow.com/questions/59011331/what-is-the-purpose-of-c20-stdcommon-reference
 	namespace common_reference_details {
-
-		//替补关系，如果本身存在 type，那么继承到的 type 就会被覆盖。以此对应以下四种存在情况
-		template <class T1, class T2> struct common_reference_sub_bullet3;
-		template <class T1, class T2> struct common_reference_sub_bullet2 : common_reference_sub_bullet3<T1, T2> {};
-		template <class T1, class T2> struct common_reference_sub_bullet1 : common_reference_sub_bullet2<T1, T2> {};
 
 		template<class... T>
 		struct common_reference_helper {};
@@ -32,7 +28,10 @@ namespace ciel {
 			using type = T;
 		};
 
+		//模板形参为 2 时的处理细节
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 /*
 二个引用类型 T1 和 T2 的简单共用引用类型定义如下：
 
@@ -79,16 +78,22 @@ namespace ciel {
 		template<class T1, class T2>
 		using have_simple_common_reference_type_t = typename have_simple_common_reference_type<T1, T2>::type;
 
-//若 T1 和 T2 都是引用类型，而 T1 和 T2 的简单共用引用类型 S 存在，则成员类型 type 指名 S：
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+		//替补关系，如果本身存在 type，那么继承到的 type 就会被覆盖。以此对应以下四种存在情况
+		template <class T1, class T2> struct common_reference_sub_bullet3;
+		template <class T1, class T2> struct common_reference_sub_bullet2 : common_reference_sub_bullet3<T1, T2> {};
+		template <class T1, class T2> struct common_reference_sub_bullet1 : common_reference_sub_bullet2<T1, T2> {};
+
+		//一、若 T1 和 T2 都是引用类型，而 T1 和 T2 的简单共用引用类型 S 存在，则成员类型 type 指名 S：
 		template<class T1, class T2>
 			requires is_reference_v<T1> && is_reference_v<T2> && requires { typename have_simple_common_reference_type_t<T1, T2>; }
 		struct common_reference_sub_bullet1<T1, T2> {
 			using type = have_simple_common_reference_type_t<T1, T2>;
 		};
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//否则，若 basic_common_reference<remove_cvref_t<T1>, remove_cvref_t<T2>, T1Q, T2Q>::type 存在，
-//			其中 TiQ 是一元别名模板，满足 TiQ<U> 为 U 带上 Ti 的 cv 及引用限定符，则成员类型 type 指名该类型：
+		//二、否则，若 basic_common_reference<remove_cvref_t<T1>, remove_cvref_t<T2>, T1Q, T2Q>::type 存在，
+		//			其中 TiQ 是一元别名模板，满足 TiQ<U> 为 U 带上 Ti 的 cv 及引用限定符，则成员类型 type 指名该类型：
 		template <class T>
 		struct TiQ {
 			template<class U>
@@ -104,8 +109,7 @@ namespace ciel {
 			using type = basic_common_reference_t<T1, T2>;
 		};
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//否则，若 decltype(false? val<T1>() : val<T2>()) 是合法类型，其中 val 为函数模板 template<class T> T val(); 则成员类型 type 指名该类型
+		//三、否则，若 decltype(false? val<T1>() : val<T2>()) 是合法类型，其中 val 为函数模板 template<class T> T val(); 则成员类型 type 指名该类型
 		template<class T>
 		T val();
 
@@ -118,10 +122,11 @@ namespace ciel {
 			using type = simple_common_reference3<T1, T2>;
 		};
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//否则，若 common_type_t<T1, T2> 为合法类型，则成员类型 type 代表该类型
+		//四、否则，若 common_type_t<T1, T2> 为合法类型，则成员类型 type 代表该类型
 		template<class T1, class T2>
 		struct common_reference_sub_bullet3 : common_type<T1, T2> {};
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 		template<class T1, class T2>
 		struct common_reference_helper<T1, T2> : common_reference_sub_bullet1<T1, T2> {};
@@ -129,7 +134,8 @@ namespace ciel {
 		template <class T1, class T2, class... Rest>
 			requires requires { typename common_reference_helper<T1, T2>::type; }
 		struct common_reference_helper<T1, T2, Rest...> : common_reference_helper<typename common_reference_helper<T1, T2>::type, Rest...> {};
-	}
+
+	}	//namespace common_reference_details
 
 	template<class... T>
 	struct common_reference {
@@ -142,7 +148,8 @@ namespace ciel {
 }   //namespace ciel
 
 /*
-	using namespace ciel;
+	//一点测试，C 继承自 B，B 继承自 A
+ 	using namespace ciel;
 	static_assert(is_same_v<common_reference_t<A>, A>);
 	static_assert(is_same_v<common_reference_t<A&>, A&>);
 	static_assert(is_same_v<common_reference_t<A&&>, A&&>);

@@ -1,6 +1,4 @@
-#include <initializer_list>
+#include <iostream>
 
 int main() {
-	auto arr = {1, 2, 3};
-	initializer_list<>
 }

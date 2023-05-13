@@ -33,7 +33,7 @@ namespace ciel {
 	template<class T>
 	class allocator {
 
-//		static_assert(!is_volatile<T>::value, "allocator does not support volatile types");
+		static_assert(!is_const_v<T> && !is_volatile_v<T>, "分配器要求无 cv 限定的对象类型");
 
 	public:
 		using value_type = T;
