@@ -9,10 +9,10 @@ namespace ciel {
 	namespace pointer_traits_details {
 
 		template<class T, class = void>
-		struct has_element_type : false_type {};
+		struct has_element_type : ciel::false_type {};
 
 		template<class T>
-		struct has_element_type<T, void_t<typename T::element_type>> : true_type {};
+		struct has_element_type<T, ciel::void_t<typename T::element_type>> : ciel::true_type {};
 
 		template<class Ptr, bool = has_element_type<Ptr>::value>
 		struct element_type_of {};
@@ -35,10 +35,10 @@ namespace ciel {
 /////////////////////////////////////////////////////////////////////////////////////
 
 		template<class T, class = void>
-		struct has_difference_type : false_type {};
+		struct has_difference_type : ciel::false_type {};
 
 		template<class T>
-		struct has_difference_type<T, void_t<typename T::difference_type>> : true_type {};
+		struct has_difference_type<T, ciel::void_t<typename T::difference_type>> : ciel::true_type {};
 
 		template<class Ptr, bool = has_difference_type<Ptr>::type>
 		struct difference_type_of {
@@ -56,9 +56,9 @@ namespace ciel {
 		struct has_rebind {
 		private:
 			template<class X>
-			static false_type test(...);
+			static ciel::false_type test(...);
 			template<class X>
-			static true_type test(typename X::template rebind<U>* = 0);
+			static ciel::true_type test(typename X::template rebind<U>* = 0);
 
 		public:
 			static const bool value = decltype(test<T>(0))::value;
@@ -90,7 +90,7 @@ namespace ciel {
 		template<class U>
 		using rebind = typename pointer_traits_details::rebind_of<pointer, U>::type;
 
-		static pointer pointer_to(conditional_t<is_void_v<element_type>, void, element_type&> r) {
+		static pointer pointer_to(ciel::conditional_t<ciel::is_void_v<element_type>, void, element_type&> r) {
 			return pointer::pointer_to(r);
 		}
 
@@ -106,8 +106,8 @@ namespace ciel {
 		template<class U>
 		using rebind = U*;
 
-		static constexpr pointer pointer_to(conditional_t<is_void_v<element_type>, void, element_type&> r) noexcept {
-			return addressof(r);
+		static constexpr pointer pointer_to(ciel::conditional_t<ciel::is_void_v<element_type>, void, element_type&> r) noexcept {
+			return ciel::addressof(r);
 		}
 
 	};    //struct pointer_traits<T*>

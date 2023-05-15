@@ -6,10 +6,10 @@
 namespace ciel{
 
 	template<class T>
-	struct is_const : false_type {};
+	struct is_const : ciel::false_type {};
 
 	template<class T>
-	struct is_const<const T> : true_type {};
+	struct is_const<const T> : ciel::true_type {};
 
 	template<class T>
 	inline constexpr bool is_const_v = is_const<T>::value;

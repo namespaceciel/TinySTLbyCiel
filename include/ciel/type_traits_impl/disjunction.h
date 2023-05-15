@@ -7,13 +7,13 @@
 namespace ciel {
 
 	template<class...>
-	struct disjunction : false_type {};
+	struct disjunction : ciel::false_type {};
 
 	template<class B1>
 	struct disjunction<B1> : B1 {};
 
 	template<class B1, class... Bn>
-	struct disjunction<B1, Bn...> : conditional_t<bool(B1::value), B1, disjunction<Bn...>> {};
+	struct disjunction<B1, Bn...> : ciel::conditional_t<bool(B1::value), B1, disjunction<Bn...>> {};
 
 	template<class... B>
 	inline constexpr bool disjunction_v = disjunction<B...>::value;

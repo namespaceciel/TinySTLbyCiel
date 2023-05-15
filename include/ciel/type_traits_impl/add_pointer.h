@@ -9,7 +9,7 @@ namespace ciel {
 	namespace add_pointer_details {
 
 		template<class T>
-		type_identity<remove_reference_t<T>*> add_pointer_helper(int);
+		ciel::type_identity<ciel::remove_reference_t<T>*> add_pointer_helper(int);
 
 		//SFINAE: 若 T 为 cv 或引用限定的函数类型时启用
 		/*
@@ -19,7 +19,7 @@ namespace ciel {
 		};
 		*/
 		template<class T>
-		type_identity<T> add_pointer_helper(...);
+		ciel::type_identity<T> add_pointer_helper(...);
 	}
 
 	template<class T>

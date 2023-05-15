@@ -10,14 +10,14 @@ namespace ciel {
 	namespace is_member_function_pointer_details {
 
 		template<class T>
-		struct is_member_function_pointer_helper : false_type {};
+		struct is_member_function_pointer_helper : ciel::false_type {};
 
 		template<class T, class U>
-		struct is_member_function_pointer_helper<T U::*> : is_function<T> {};
+		struct is_member_function_pointer_helper<T U::*> : ciel::is_function<T> {};
 	}
 
 	template<class T>
-	struct is_member_function_pointer : is_member_function_pointer_details::is_member_function_pointer_helper<remove_cv_t<T> > {};
+	struct is_member_function_pointer : is_member_function_pointer_details::is_member_function_pointer_helper<ciel::remove_cv_t<T> > {};
 
 	template<class T>
 	inline constexpr bool is_member_function_pointer_v = is_member_function_pointer<T>::value;

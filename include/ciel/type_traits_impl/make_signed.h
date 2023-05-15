@@ -11,15 +11,15 @@ namespace ciel {
 
 	namespace make_signed_details {
 
-		template<class T, bool = is_integral_v<T> || is_enum_v<T>>
+		template<class T, bool = ciel::is_integral_v<T> || ciel::is_enum_v<T>>
 		struct make_signed_helper {};
 
 #define PLACEHOLDER signed long long
-		using signed_types = type_list<signed char,
-									   type_list<signed short,
-												 type_list<signed int,
-														   type_list<signed long,
-																	 type_list<signed long long, PLACEHOLDER >>>>>;
+		using signed_types = ciel::type_list<signed char,
+											 ciel::type_list<signed short,
+															 ciel::type_list<signed int,
+																			 ciel::type_list<signed long,
+																							 ciel::type_list<signed long long, PLACEHOLDER >>>>>;
 #undef PLACEHOLDER
 
 		template<class T>
@@ -73,7 +73,7 @@ namespace ciel {
 
 	template<class T>
 	struct make_signed {
-		using type = apply_cv_t<T, typename make_signed_details::make_signed_helper<remove_cv_t<T>>::type>;
+		using type = ciel::apply_cv_t<T, typename make_signed_details::make_signed_helper<ciel::remove_cv_t<T>>::type>;
 	};
 
 	template<class T>

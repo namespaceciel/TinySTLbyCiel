@@ -6,10 +6,10 @@
 namespace ciel {
 
 	template<class T>
-	struct is_volatile : false_type {};
+	struct is_volatile : ciel::false_type {};
 
 	template<class T>
-	struct is_volatile<volatile T> : true_type {};
+	struct is_volatile<volatile T> : ciel::true_type {};
 
 	template<class T>
 	inline constexpr bool is_volatile_v = is_volatile<T>::value;

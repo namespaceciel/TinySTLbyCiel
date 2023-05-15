@@ -6,7 +6,7 @@
 namespace ciel {
 
 	template<class T>
-	struct has_virtual_destructor : bool_constant<__has_virtual_destructor(T)> {};
+	struct has_virtual_destructor : ciel::bool_constant<__has_virtual_destructor(T)> {};
 
 	template<class T>
 	inline constexpr bool has_virtual_destructor_v = has_virtual_destructor<T>::value;

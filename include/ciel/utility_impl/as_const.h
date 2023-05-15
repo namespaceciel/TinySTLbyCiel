@@ -6,7 +6,7 @@
 namespace ciel {
 
 	template<class T>
-	constexpr add_const_t<T>& as_const(T& t) noexcept {
+	constexpr ciel::add_const_t<T>& as_const(T& t) noexcept {
 		return t;
 	}
 

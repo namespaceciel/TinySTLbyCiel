@@ -8,7 +8,7 @@ namespace ciel {
 
 	template<class T>
 	struct remove_cvref {
-		typedef remove_cv_t<remove_reference_t<T>> type;
+		using type = ciel::remove_cv_t<ciel::remove_reference_t<T>>;
 	};
 
 	template<class T>

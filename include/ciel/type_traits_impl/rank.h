@@ -7,13 +7,13 @@
 namespace ciel {
 
 	template<class T>
-	struct rank : integral_constant<size_t, 0> {};
+	struct rank : ciel::integral_constant<size_t, 0> {};
 
 	template<class T>
-	struct rank<T[]> : integral_constant<size_t, rank<T>::value + 1> {};
+	struct rank<T[]> : ciel::integral_constant<size_t, rank<T>::value + 1> {};
 
 	template<class T, size_t N>
-	struct rank<T[N]> : integral_constant<size_t, rank<T>::value + 1> {};
+	struct rank<T[N]> : ciel::integral_constant<size_t, rank<T>::value + 1> {};
 
 	template<class T>
 	inline constexpr size_t rank_v = rank<T>::value;

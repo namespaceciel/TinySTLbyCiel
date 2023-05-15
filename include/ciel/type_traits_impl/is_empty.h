@@ -6,7 +6,7 @@
 namespace ciel {
 
 	template<class T>
-	struct is_empty : bool_constant<__is_empty(T)> {};
+	struct is_empty : ciel::bool_constant<__is_empty(T)> {};
 
 	template<class T>
 	inline constexpr bool is_empty_v = is_empty<T>::value;

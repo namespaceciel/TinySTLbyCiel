@@ -14,17 +14,17 @@ namespace ciel {
 
 	template<class From, class To>
 	struct copy_cv<const From, To> {
-		using type = add_const_t<To>;
+		using type = ciel::add_const_t<To>;
 	};
 
 	template<class From, class To>
 	struct copy_cv<volatile From, To> {
-		using type = add_volatile_t<To>;
+		using type = ciel::add_volatile_t<To>;
 	};
 
 	template<class From, class To>
 	struct copy_cv<const volatile From, To> {
-		using type = add_cv_t<To>;
+		using type = ciel::add_cv_t<To>;
 	};
 
 	template<class From, class To>

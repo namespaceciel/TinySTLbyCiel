@@ -9,7 +9,7 @@
 namespace ciel {
 
 	template<class T>
-	struct is_fundamental : bool_constant<is_arithmetic_v<T> || is_void_v<T> || is_null_pointer_v<T>> {};
+	struct is_fundamental : ciel::bool_constant<ciel::is_arithmetic_v<T> || ciel::is_void_v<T> || ciel::is_null_pointer_v<T>> {};
 
 	template<class T>
 	inline constexpr bool is_fundamental_v = is_fundamental<T>::value;

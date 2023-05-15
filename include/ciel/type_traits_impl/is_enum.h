@@ -6,7 +6,7 @@
 namespace ciel {
 
 	template<class T>
-	struct is_enum : bool_constant<__is_enum(T)> {};
+	struct is_enum : ciel::bool_constant<__is_enum(T)> {};
 
 	template<class T>
 	inline constexpr bool is_enum_v = is_enum<T>::value;

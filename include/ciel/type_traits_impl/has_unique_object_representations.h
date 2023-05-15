@@ -8,9 +8,9 @@
 namespace ciel {
 
 	template<class T>
-	struct has_unique_object_representations:bool_constant<__has_unique_object_representations(remove_cv_t<remove_all_extents_t<T>>)>{};
+	struct has_unique_object_representations : ciel::bool_constant<__has_unique_object_representations(ciel::remove_cv_t<ciel::remove_all_extents_t<T>>)> {};
 
-	template< class T >
+	template<class T>
 	inline constexpr bool has_unique_object_representations_v = has_unique_object_representations<T>::value;
 
 }   //namespace ciel

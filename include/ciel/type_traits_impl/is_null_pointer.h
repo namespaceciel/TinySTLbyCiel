@@ -8,7 +8,7 @@
 namespace ciel {
 
 	template<class T>
-	struct is_null_pointer : is_same<nullptr_t, remove_cv_t<T>> {};
+	struct is_null_pointer : ciel::is_same<nullptr_t, ciel::remove_cv_t<T>> {};
 
 	template<class T>
 	inline constexpr bool is_null_pointer_v = is_null_pointer<T>::value;

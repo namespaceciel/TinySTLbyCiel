@@ -6,7 +6,7 @@
 namespace ciel {
 
 	template<class B>
-	struct negation : bool_constant<!bool(B::value)> {};
+	struct negation : ciel::bool_constant<!bool(B::value)> {};
 
 	template<class B>
 	inline constexpr bool negation_v = negation<B>::value;

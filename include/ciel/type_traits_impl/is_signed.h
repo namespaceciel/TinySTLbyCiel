@@ -7,11 +7,11 @@ namespace ciel {
 
 	namespace is_signed_details {
 
-		template<class T, bool = is_arithmetic<T>::value>
-		struct is_signed_helper : bool_constant<T(-1) < T(0)> {};
+		template<class T, bool = ciel::is_arithmetic<T>::value>
+		struct is_signed_helper : ciel::bool_constant<T(-1) < T(0)> {};
 
 		template<class T>
-		struct is_signed_helper<T, false> : false_type {};
+		struct is_signed_helper<T, false> : ciel::false_type {};
 	}
 
 	template<class T>

@@ -11,15 +11,15 @@ namespace ciel {
 
 	namespace make_unsigned_details {
 
-		template<class T, bool = is_integral_v<T> || is_enum_v<T>>
+		template<class T, bool = ciel::is_integral_v<T> || ciel::is_enum_v<T>>
 		struct make_unsigned_helper {};
 
 #define PLACEHOLDER unsigned long long
-		using unsigned_types = type_list<unsigned char,
-										 type_list<unsigned short,
-												   type_list<unsigned int,
-															 type_list<unsigned long,
-																	   type_list<unsigned long long, PLACEHOLDER >>>>>;
+		using unsigned_types = ciel::type_list<unsigned char,
+											   ciel::type_list<unsigned short,
+															   ciel::type_list<unsigned int,
+																			   ciel::type_list<unsigned long,
+																							   ciel::type_list<unsigned long long, PLACEHOLDER >>>>>;
 #undef PLACEHOLDER
 
 		template<class T>
@@ -73,7 +73,7 @@ namespace ciel {
 
 	template<class T>
 	struct make_unsigned {
-		using type = apply_cv_t<T, typename make_unsigned_details::make_unsigned_helper<remove_cv_t<T>>::type>;
+		using type = ciel::apply_cv_t<T, typename make_unsigned_details::make_unsigned_helper<ciel::remove_cv_t<T>>::type>;
 	};
 
 	template<class T>

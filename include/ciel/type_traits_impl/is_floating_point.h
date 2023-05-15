@@ -8,9 +8,9 @@
 namespace ciel {
 
 	template<class T>
-	struct is_floating_point : bool_constant<is_same_v<float, remove_cv_t<T>>
-										 || is_same_v<double, remove_cv_t<T>>
-										 || is_same_v<long double, remove_cv_t<T>>> {};
+	struct is_floating_point : ciel::bool_constant<ciel::is_same_v<float, ciel::remove_cv_t<T>>
+												|| ciel::is_same_v<double, ciel::remove_cv_t<T>>
+										 		|| ciel::is_same_v<long double, ciel::remove_cv_t<T>>> {};
 
 	template<class T>
 	inline constexpr bool is_floating_point_v = is_floating_point<T>::value;

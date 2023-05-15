@@ -6,13 +6,13 @@
 namespace ciel {
 
 	template<class T>
-	struct is_default_constructible : is_constructible<T> {};
+	struct is_default_constructible : ciel::is_constructible<T> {};
 
 	template<class T>
-	struct is_trivially_default_constructible : is_trivially_constructible<T> {};
+	struct is_trivially_default_constructible : ciel::is_trivially_constructible<T> {};
 
 	template<class T>
-	struct is_nothrow_default_constructible : is_nothrow_constructible<T> {};
+	struct is_nothrow_default_constructible : ciel::is_nothrow_constructible<T> {};
 
 	template<class T>
 	inline constexpr bool is_default_constructible_v = is_default_constructible<T>::value;

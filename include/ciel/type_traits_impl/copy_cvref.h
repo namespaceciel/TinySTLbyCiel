@@ -11,17 +11,17 @@ namespace ciel {
 
 	template<class From, class To>
 	struct copy_cvref {
-		using type = copy_cv_t<From, To>;
+		using type = ciel::copy_cv_t<From, To>;
 	};
 
 	template<class From, class To>
 	struct copy_cvref<From&, To> {
-		using type = add_lvalue_reference_t<copy_cv_t<From, To>>;
+		using type = ciel::add_lvalue_reference_t<ciel::copy_cv_t<From, To>>;
 	};
 
 	template<class From, class To>
 	struct copy_cvref<From&&, To> {
-		using type = add_rvalue_reference_t<copy_cv_t<From, To>>;
+		using type = ciel::add_rvalue_reference_t<ciel::copy_cv_t<From, To>>;
 	};
 
 	template<class From, class To>

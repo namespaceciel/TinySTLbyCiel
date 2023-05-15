@@ -6,13 +6,13 @@
 namespace ciel {
 
 	template<class T, class U>
-	struct is_assignable : bool_constant<__is_assignable(T, U)> {};
+	struct is_assignable : ciel::bool_constant<__is_assignable(T, U)> {};
 
 	template<class T, class U>
-	struct is_trivially_assignable : bool_constant<__is_trivially_assignable(T, U)> {};
+	struct is_trivially_assignable : ciel::bool_constant<__is_trivially_assignable(T, U)> {};
 
 	template<class T, class U>
-	struct is_nothrow_assignable : bool_constant<__is_nothrow_assignable(T, U)> {};
+	struct is_nothrow_assignable : ciel::bool_constant<__is_nothrow_assignable(T, U)> {};
 
 	template<class T, class U>
 	inline constexpr bool is_assignable_v = is_assignable<T, U>::value;

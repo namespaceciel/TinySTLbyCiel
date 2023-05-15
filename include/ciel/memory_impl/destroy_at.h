@@ -8,9 +8,9 @@ namespace ciel {
 
 	template<class T>
 	constexpr void destroy_at(T* p) {
-		if constexpr (is_array_v<T>) {
+		if constexpr (ciel::is_array_v<T>) {
 			for (auto& elem : *p) {
-				destroy_at(addressof(elem));
+				destroy_at(ciel::addressof(elem));
 			}
 		} else {
 			p->~T();

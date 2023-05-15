@@ -7,7 +7,7 @@
 namespace ciel {
 
 	template<class T>
-	struct is_trivial : bool_constant<is_trivially_copyable_v<T> && is_trivially_default_constructible_v<T>> {};
+	struct is_trivial : ciel::bool_constant<ciel::is_trivially_copyable_v<T> && ciel::is_trivially_default_constructible_v<T>> {};
 
 	template<class T>
 	inline constexpr bool is_trivial_v = is_trivial<T>::value;

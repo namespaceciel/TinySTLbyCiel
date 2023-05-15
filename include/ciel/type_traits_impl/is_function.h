@@ -8,7 +8,7 @@ namespace ciel {
 
 	//A function or reference type is always cv-unqualified.
 	template<class T>
-	struct is_function : bool_constant<!is_const_v<const T> && !is_reference_v<T>> {};
+	struct is_function : ciel::bool_constant<!ciel::is_const_v<const T> && !ciel::is_reference_v<T>> {};
 
 	template<class T>
 	inline constexpr bool is_function_v = is_function<T>::value;

@@ -6,7 +6,7 @@
 namespace ciel {
 
 	template<class T>
-	struct is_aggregate : bool_constant<__is_aggregate(T)> {};
+	struct is_aggregate : ciel::bool_constant<__is_aggregate(T)> {};
 
 	template<class T>
 	inline constexpr bool is_aggregate_v = is_aggregate<T>::value;

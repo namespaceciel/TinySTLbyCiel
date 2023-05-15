@@ -9,14 +9,14 @@ namespace ciel {
 	namespace is_pointer_details {
 
 		template<class T>
-		struct is_pointer_helper : false_type {};
+		struct is_pointer_helper : ciel::false_type {};
 
 		template<class T>
-		struct is_pointer_helper<T*> : true_type {};
+		struct is_pointer_helper<T*> : ciel::true_type {};
 	}
 
 	template<class T>
-	struct is_pointer : is_pointer_details::is_pointer_helper<remove_cv_t<T>> {};
+	struct is_pointer : is_pointer_details::is_pointer_helper<ciel::remove_cv_t<T>> {};
 
 	template<class T>
 	inline constexpr bool is_pointer_v = is_pointer<T>::value;

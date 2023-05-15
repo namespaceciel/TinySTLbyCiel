@@ -6,7 +6,7 @@
 namespace ciel {
 
 	template<class T>
-	struct is_final : bool_constant<__is_final(T)> {};
+	struct is_final : ciel::bool_constant<__is_final(T)> {};
 
 	template<class T>
 	inline constexpr bool is_final_v = is_final<T>::value;

@@ -894,10 +894,10 @@ void TestTypeTraits() {
 	static_assert(alignment_of<ClassAlign32>::value == 32, "alignment_of failure");
 
 	// common_type
-	static_assert((is_same<common_type<NonPod2*>::type, NonPod2*>::value), "common_type failure");
-	static_assert((is_same<common_type<int>::type, int>::value), "common_type failure");
-	static_assert((is_same<common_type<void, void>::type, void>::value), "common_type failure");
-	static_assert((is_same<common_type<int, int>::type, int>::value), "common_type failure");
+	static_assert((is_same<common_type<NonPod2*>::type, NonPod2*>::value));
+	static_assert((is_same<common_type<int>::type, int>::value));
+	static_assert((is_same<common_type<void, void>::type, void>::value));
+	static_assert((is_same<common_type<int, int>::type, int>::value));
 
 	// rank
 	static_assert(rank<int[1][2][3][4][5][6]>::value == 6, "rank failure");

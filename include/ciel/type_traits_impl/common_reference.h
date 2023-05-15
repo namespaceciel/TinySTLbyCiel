@@ -49,25 +49,25 @@ namespace ciel {
 否则，无简单共用引用类型。
 */
 		template<class T1, class T2>
-		using simple_common_reference1 = decltype(true ? declval<copy_cv_t<T1, T2>>() : declval<copy_cv_t<T2, T1>>());
+		using simple_common_reference1 = decltype(true ? ciel::declval<ciel::copy_cv_t<T1, T2>>() : ciel::declval<ciel::copy_cv_t<T2, T1>>());
 
-		template<class T1, class T2, class X = remove_reference_t<T1>, class Y = remove_reference_t<T2>>
+		template<class T1, class T2, class X = ciel::remove_reference_t<T1>, class Y = ciel::remove_reference_t<T2>>
 		struct have_simple_common_reference_type {};
 
 		template<class T1, class T2, class X, class Y>
-			requires requires { typename simple_common_reference1<T1, T2>; } && is_reference_v<simple_common_reference1<T1, T2>>
+			requires requires { typename simple_common_reference1<T1, T2>; } && ciel::is_reference_v<simple_common_reference1<T1, T2>>
 		struct have_simple_common_reference_type<T1&, T2&, X, Y> {
 			using type = simple_common_reference1<T1, T2>;
 		};
 
 		template<class T1, class T2, class X, class Y>
-			requires requires { typename simple_common_reference1<T1&, T2&>; } && is_convertible_v<T1, simple_common_reference1<T1&, T2&>> && is_convertible_v<T2, simple_common_reference1<T1&, T2&>>
+			requires requires { typename simple_common_reference1<T1&, T2&>; } && ciel::is_convertible_v<T1, simple_common_reference1<T1&, T2&>> && ciel::is_convertible_v<T2, simple_common_reference1<T1&, T2&>>
 		struct have_simple_common_reference_type<T1&&, T2&&, X, Y> {
 			using type = simple_common_reference1<T1&, T2&>;
 		};
 
 		template<class T1, class T2, class X, class Y>
-			requires requires { typename simple_common_reference1<T1, const Y&>; } && is_convertible_v<T2, simple_common_reference1<T1, const Y&>>
+			requires requires { typename simple_common_reference1<T1, const Y&>; } && ciel::is_convertible_v<T2, simple_common_reference1<T1, const Y&>>
 		struct have_simple_common_reference_type<T1&, T2&&, X, Y> {
 			using type = simple_common_reference1<T1, const Y&>;
 		};
@@ -87,7 +87,7 @@ namespace ciel {
 
 		//一、若 T1 和 T2 都是引用类型，而 T1 和 T2 的简单共用引用类型 S 存在，则成员类型 type 指名 S：
 		template<class T1, class T2>
-			requires is_reference_v<T1> && is_reference_v<T2> && requires { typename have_simple_common_reference_type_t<T1, T2>; }
+			requires ciel::is_reference_v<T1> && ciel::is_reference_v<T2> && requires { typename have_simple_common_reference_type_t<T1, T2>; }
 		struct common_reference_sub_bullet1<T1, T2> {
 			using type = have_simple_common_reference_type_t<T1, T2>;
 		};
@@ -97,11 +97,11 @@ namespace ciel {
 		template <class T>
 		struct TiQ {
 			template<class U>
-			using apply = copy_cvref_t<T, U>;
+			using apply = ciel::copy_cvref_t<T, U>;
 		};
 
 		template <class T1, class T2>
-		using basic_common_reference_t = typename basic_common_reference<remove_cvref_t<T1>, remove_cvref_t<T2>, TiQ<T1>::template apply, TiQ<T2>::template apply>::type;
+		using basic_common_reference_t = typename basic_common_reference<ciel::remove_cvref_t<T1>, ciel::remove_cvref_t<T2>, TiQ<T1>::template apply, TiQ<T2>::template apply>::type;
 
 		template<class T1, class T2>
 			requires requires { typename basic_common_reference_t<T1, T2>; }
@@ -124,7 +124,7 @@ namespace ciel {
 
 		//四、否则，若 common_type_t<T1, T2> 为合法类型，则成员类型 type 代表该类型
 		template<class T1, class T2>
-		struct common_reference_sub_bullet3 : common_type<T1, T2> {};
+		struct common_reference_sub_bullet3 : ciel::common_type<T1, T2> {};
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

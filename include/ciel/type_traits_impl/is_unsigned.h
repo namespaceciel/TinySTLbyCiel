@@ -7,11 +7,11 @@ namespace ciel {
 
 	namespace is_unsigned_details {
 
-		template<class T, bool = is_arithmetic<T>::value>
-		struct is_unsigned_helper : bool_constant<T(0) < T(-1)> {};	//T(-1) > T(0)的写法会与之前的 < 匹配
+		template<class T, bool = ciel::is_arithmetic<T>::value>
+		struct is_unsigned_helper : ciel::bool_constant<T(0) < T(-1)> {};	//T(-1) > T(0)的写法会与之前的 < 匹配
 
 		template<class T>
-		struct is_unsigned_helper<T, false> : false_type {};
+		struct is_unsigned_helper<T, false> : ciel::false_type {};
 	}
 
 	template<class T>

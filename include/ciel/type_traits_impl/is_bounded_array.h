@@ -7,10 +7,10 @@
 namespace ciel {
 
 	template<class T>
-	struct is_bounded_array : false_type {};
+	struct is_bounded_array : ciel::false_type {};
 
 	template<class T, size_t N>
-	struct is_bounded_array<T[N]> : true_type {};
+	struct is_bounded_array<T[N]> : ciel::true_type {};
 
 	template<class T>
 	inline constexpr bool is_bounded_array_v = is_bounded_array<T>::value;

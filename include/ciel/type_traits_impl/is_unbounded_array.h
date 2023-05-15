@@ -6,10 +6,10 @@
 namespace ciel {
 
 	template<class T>
-	struct is_unbounded_array : false_type {};
+	struct is_unbounded_array : ciel::false_type {};
 
 	template<class T>
-	struct is_unbounded_array<T[]> : true_type {};
+	struct is_unbounded_array<T[]> : ciel::true_type {};
 
 	template<class T>
 	inline constexpr bool is_unbounded_array_v = is_unbounded_array<T>::value;

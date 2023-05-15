@@ -6,7 +6,7 @@
 namespace ciel {
 
 	template<class T>
-	add_rvalue_reference_t<T> declval() noexcept;
+	ciel::add_rvalue_reference_t<T> declval() noexcept;
 
 }   //namespace ciel
 

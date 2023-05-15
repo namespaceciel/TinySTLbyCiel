@@ -7,7 +7,7 @@ namespace ciel {
 
     namespace underlying_type_details {
 
-        template<class T, bool = is_enum_v<T>>
+        template<class T, bool = ciel::is_enum_v<T>>
         struct underlying_type_helper {};
 
         template<class T>

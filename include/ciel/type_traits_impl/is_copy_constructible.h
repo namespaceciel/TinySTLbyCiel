@@ -8,13 +8,13 @@
 namespace ciel {
 
 	template<class T>
-	struct is_copy_constructible : is_constructible<T, add_lvalue_reference_t<add_const_t<T>>> {};
+	struct is_copy_constructible : ciel::is_constructible<T, ciel::add_lvalue_reference_t<ciel::add_const_t<T>>> {};
 
 	template<class T>
-	struct is_trivially_copy_constructible : is_trivially_constructible<T, add_lvalue_reference_t<add_const_t<T>>> {};
+	struct is_trivially_copy_constructible : ciel::is_trivially_constructible<T, ciel::add_lvalue_reference_t<ciel::add_const_t<T>>> {};
 
 	template<class T>
-	struct is_nothrow_copy_constructible : is_nothrow_constructible<T, add_lvalue_reference_t<add_const_t<T>>> {};
+	struct is_nothrow_copy_constructible : ciel::is_nothrow_constructible<T, ciel::add_lvalue_reference_t<ciel::add_const_t<T>>> {};
 
 	template<class T>
 	inline constexpr bool is_copy_constructible_v = is_copy_constructible<T>::value;

@@ -7,7 +7,7 @@
 namespace ciel {
 
 	template<class T>
-	struct is_void : is_same<void, remove_cv_t<T>> {};
+	struct is_void : ciel::is_same<void, ciel::remove_cv_t<T>> {};
 
 	template<class T>
 	inline constexpr bool is_void_v = is_void<T>::value;

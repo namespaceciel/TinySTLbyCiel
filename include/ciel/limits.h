@@ -7,7 +7,7 @@ namespace ciel {
 
 	namespace limits_details {
 
-		template<class T, bool = is_arithmetic_v<T>>
+		template<class T, bool = ciel::is_arithmetic_v<T>>
 		class numeric_limits_helper {
 		protected:
 			using type = T;
@@ -31,7 +31,7 @@ namespace ciel {
 			using type = T;
 
 			static constexpr bool is_specialized = true;
-			static constexpr bool is_signed = is_signed_v<type>;
+			static constexpr bool is_signed = ciel::is_signed_v<type>;
 			static constexpr bool is_integer = true;
 			static constexpr int digits = static_cast<int>(sizeof(type) * __CHAR_BIT__ - is_signed);
 
@@ -118,9 +118,9 @@ namespace ciel {
 	}
 
 	template<class T>
-	class numeric_limits : private limits_details::numeric_limits_helper<remove_cv_t<T>> {
+	class numeric_limits : private limits_details::numeric_limits_helper<ciel::remove_cv_t<T>> {
 	private:
-		using base = limits_details::numeric_limits_helper<remove_cv_t<T>>;
+		using base = limits_details::numeric_limits_helper<ciel::remove_cv_t<T>>;
 		using type = typename base::type;
 
 	public:

@@ -16,8 +16,8 @@ namespace ciel {
 	template<>
 	struct greater<void> {
 		template<class T, class U>
-		constexpr auto operator()(T&& lhs, U&& rhs) const -> decltype(forward<T>(lhs) > forward<U>(rhs)) {
-			return forward<T>(lhs) > forward<U>(rhs);
+		constexpr auto operator()(T&& lhs, U&& rhs) const -> decltype(ciel::forward<T>(lhs) > ciel::forward<U>(rhs)) {
+			return ciel::forward<T>(lhs) > ciel::forward<U>(rhs);
 		}
 	};
 
@@ -32,8 +32,8 @@ namespace ciel {
 	template<>
 	struct greater_equal<void> {
 		template<class T, class U>
-		constexpr auto operator()(T&& lhs, U&& rhs) const -> decltype(forward<T>(lhs) >= forward<U>(rhs)) {
-			return forward<T>(lhs) >= forward<U>(rhs);
+		constexpr auto operator()(T&& lhs, U&& rhs) const -> decltype(ciel::forward<T>(lhs) >= ciel::forward<U>(rhs)) {
+			return ciel::forward<T>(lhs) >= ciel::forward<U>(rhs);
 		}
 	};
 
@@ -48,8 +48,8 @@ namespace ciel {
 	template<>
 	struct less<void> {
 		template<class T, class U>
-		constexpr auto operator()(T&& lhs, U&& rhs) const -> decltype(forward<T>(lhs) < forward<U>(rhs)) {
-			return forward<T>(lhs) < forward<U>(rhs);
+		constexpr auto operator()(T&& lhs, U&& rhs) const -> decltype(ciel::forward<T>(lhs) < ciel::forward<U>(rhs)) {
+			return ciel::forward<T>(lhs) < ciel::forward<U>(rhs);
 		}
 	};
 
@@ -64,8 +64,8 @@ namespace ciel {
 	template<>
 	struct less_equal<void> {
 		template<class T, class U>
-		constexpr auto operator()(T&& lhs, U&& rhs) const -> decltype(forward<T>(lhs) <= forward<U>(rhs)) {
-			return forward<T>(lhs) <= forward<U>(rhs);
+		constexpr auto operator()(T&& lhs, U&& rhs) const -> decltype(ciel::forward<T>(lhs) <= ciel::forward<U>(rhs)) {
+			return ciel::forward<T>(lhs) <= ciel::forward<U>(rhs);
 		}
 	};
 

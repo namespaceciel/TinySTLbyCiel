@@ -4,11 +4,11 @@
 #include <cstddef>
 #include "ciel/memory_impl/allocator.h"
 #include <ciel/iterator_legacy.h>
-#include <ciel/memory.h>    //fill()与fill_n()
+#include <ciel/memory.h>
 
-namespace ciel{
+namespace ciel {
 
-	template<class T, class Allocator=allocator<T>>
+	template<class T, class Allocator=ciel::allocator<T>>
 	class vector{
 
 	public:

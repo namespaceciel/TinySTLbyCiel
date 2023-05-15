@@ -7,13 +7,13 @@
 namespace ciel {
 
 	template<class T>
-	struct is_copy_assignable : is_assignable<add_lvalue_reference_t<T>, add_lvalue_reference_t<const T>> {};
+	struct is_copy_assignable : ciel::is_assignable<ciel::add_lvalue_reference_t<T>, ciel::add_lvalue_reference_t<const T>> {};
 
 	template<class T>
-	struct is_trivially_copy_assignable : is_trivially_assignable<add_lvalue_reference_t<T>, add_lvalue_reference_t<const T>> {};
+	struct is_trivially_copy_assignable : ciel::is_trivially_assignable<ciel::add_lvalue_reference_t<T>, ciel::add_lvalue_reference_t<const T>> {};
 
 	template<class T>
-	struct is_nothrow_copy_assignable : is_nothrow_assignable<add_lvalue_reference_t<T>, add_lvalue_reference_t<const T>> {};
+	struct is_nothrow_copy_assignable : ciel::is_nothrow_assignable<ciel::add_lvalue_reference_t<T>, ciel::add_lvalue_reference_t<const T>> {};
 
 	template<class T>
 	inline constexpr bool is_copy_assignable_v = is_copy_assignable<T>::value;

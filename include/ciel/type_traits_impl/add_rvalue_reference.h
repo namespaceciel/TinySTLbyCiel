@@ -8,11 +8,11 @@ namespace ciel {
 	namespace add_rvalue_reference_details {
 
 		template<class T>
-		type_identity<T&&> add_rvalue_reference_helper(int);
+		ciel::type_identity<T&&> add_rvalue_reference_helper(int);
 
 		//SFINAE: 防止 void 到 void&& 的编译错误，这时丢弃上述特化，而采用以下版本
 		template<class T>
-		type_identity<T> add_rvalue_reference_helper(...);
+		ciel::type_identity<T> add_rvalue_reference_helper(...);
 	}
 
 	template<class T>

@@ -9,7 +9,7 @@
 
 namespace ciel {
 
-	template<class T, class U, bool = is_const_v<remove_reference_t<T>>, bool = is_volatile_v<remove_reference_t<T>>>
+	template<class T, class U, bool = ciel::is_const_v<ciel::remove_reference_t<T>>, bool = ciel::is_volatile_v<ciel::remove_reference_t<T>>>
 	struct apply_cv {
 		using type = U;
 	};

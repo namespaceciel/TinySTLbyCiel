@@ -2,7 +2,6 @@
 #define TINYSTLBYCIEL_INCLUDE_CIEL_MEMORY_IMPL_ALLOCATOR_H_
 
 #include <ciel/type_traits.h>
-#include <ciel/utility.h>
 #include <ciel/limits.h>
 #include <new>
 #include <cstddef>
@@ -33,13 +32,13 @@ namespace ciel {
 	template<class T>
 	class allocator {
 
-		static_assert(!is_const_v<T> && !is_volatile_v<T>, "分配器要求无 cv 限定的对象类型");
+		static_assert(!ciel::is_const_v<T> && !ciel::is_volatile_v<T>, "分配器要求无 cv 限定的对象类型");
 
 	public:
 		using value_type = T;
 		using size_type = size_t;
 		using difference_type = ptrdiff_t;
-		using propagate_on_container_move_assignment = true_type;
+		using propagate_on_container_move_assignment = ciel::true_type;
 
 	public:
 		constexpr allocator() noexcept = default;
@@ -52,7 +51,7 @@ namespace ciel {
 		constexpr ~allocator() = default;
 
 		[[nodiscard]] constexpr T* allocate( size_t n ) {
-			if(numeric_limits<size_t>::max() / sizeof(T) < n){
+			if(ciel::numeric_limits<size_t>::max() / sizeof(T) < n){
 				throw std::bad_array_new_length();
 			}
 			return static_cast<T*>(::operator new(sizeof(T) * n));

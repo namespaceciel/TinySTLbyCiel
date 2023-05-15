@@ -6,13 +6,13 @@
 namespace ciel {
 
 	template<class T>
-	struct is_reference : false_type {};
+	struct is_reference : ciel::false_type {};
 
 	template<class T>
-	struct is_reference<T&> : true_type {};
+	struct is_reference<T&> : ciel::true_type {};
 
 	template<class T>
-	struct is_reference<T&&> : true_type {};
+	struct is_reference<T&&> : ciel::true_type {};
 
 	template<class T>
 	inline constexpr bool is_reference_v = is_reference<T>::value;

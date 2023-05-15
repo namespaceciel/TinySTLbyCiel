@@ -16,115 +16,115 @@ namespace ciel {
 		};
 
 		template<class T, class Alloc>
-		struct has_pointer<T, Alloc, void_t<typename remove_reference_t<Alloc>::pointer>> {
-			using type = typename remove_reference_t<Alloc>::pointer;
+		struct has_pointer<T, Alloc, ciel::void_t<typename ciel::remove_reference_t<Alloc>::pointer>> {
+			using type = typename ciel::remove_reference_t<Alloc>::pointer;
 		};
 
 /////////////////////////////////////////////////////////////////////////////////////
 
 		template<class T, class Ptr, class Alloc, class = void>
 		struct has_const_pointer {
-			using type = typename pointer_traits<Ptr>::template rebind<const T>;
+			using type = typename ciel::pointer_traits<Ptr>::template rebind<const T>;
 		};
 
 		template<class T, class Ptr, class Alloc>
-		struct has_const_pointer<T, Ptr, Alloc, void_t<typename remove_reference_t<Alloc>::const_pointer>> {
-			using type = typename remove_reference_t<Alloc>::const_pointer;
+		struct has_const_pointer<T, Ptr, Alloc, ciel::void_t<typename ciel::remove_reference_t<Alloc>::const_pointer>> {
+			using type = typename ciel::remove_reference_t<Alloc>::const_pointer;
 		};
 
 /////////////////////////////////////////////////////////////////////////////////////
 
 		template<class Ptr, class Alloc, class = void>
 		struct has_void_pointer {
-			using type = typename pointer_traits<Ptr>::template rebind<void>;
+			using type = typename ciel::pointer_traits<Ptr>::template rebind<void>;
 		};
 
 		template<class Ptr, class Alloc>
-		struct has_void_pointer<Ptr, Alloc, void_t<typename remove_reference_t<Alloc>::void_pointer>> {
-			using type = typename remove_reference_t<Alloc>::void_pointer;
+		struct has_void_pointer<Ptr, Alloc, ciel::void_t<typename ciel::remove_reference_t<Alloc>::void_pointer>> {
+			using type = typename ciel::remove_reference_t<Alloc>::void_pointer;
 		};
 
 /////////////////////////////////////////////////////////////////////////////////////
 
 		template<class Ptr, class Alloc, class = void>
 		struct has_const_void_pointer {
-			using type = typename pointer_traits<Ptr>::template rebind<const void>;
+			using type = typename ciel::pointer_traits<Ptr>::template rebind<const void>;
 		};
 
 		template<class Ptr, class Alloc>
-		struct has_const_void_pointer<Ptr, Alloc, void_t<typename remove_reference_t<Alloc>::const_void_pointer>> {
-			using type = typename remove_reference_t<Alloc>::const_void_pointer;
+		struct has_const_void_pointer<Ptr, Alloc, ciel::void_t<typename ciel::remove_reference_t<Alloc>::const_void_pointer>> {
+			using type = typename ciel::remove_reference_t<Alloc>::const_void_pointer;
 		};
 
 /////////////////////////////////////////////////////////////////////////////////////
 
 		template<class Ptr, class Alloc, class = void>
 		struct has_difference_type {
-			using type = typename pointer_traits<Ptr>::difference_type;
+			using type = typename ciel::pointer_traits<Ptr>::difference_type;
 		};
 
 		template<class Ptr, class Alloc>
-		struct has_difference_type<Ptr, Alloc, void_t<typename remove_reference_t<Alloc>::difference_type>> {
-			using type = typename remove_reference_t<Alloc>::difference_type;
+		struct has_difference_type<Ptr, Alloc, ciel::void_t<typename ciel::remove_reference_t<Alloc>::difference_type>> {
+			using type = typename ciel::remove_reference_t<Alloc>::difference_type;
 		};
 
 /////////////////////////////////////////////////////////////////////////////////////
 
 		template<class Diff, class Alloc, class = void>
-		struct has_size_type : make_unsigned<Diff> {};
+		struct has_size_type : ciel::make_unsigned<Diff> {};
 
 		template<class Diff, class Alloc>
-		struct has_size_type<Diff, Alloc, void_t<typename remove_reference_t<Alloc>::size_type>> {
-			using type = typename remove_reference_t<Alloc>::size_type;
+		struct has_size_type<Diff, Alloc, ciel::void_t<typename ciel::remove_reference_t<Alloc>::size_type>> {
+			using type = typename ciel::remove_reference_t<Alloc>::size_type;
 		};
 
 /////////////////////////////////////////////////////////////////////////////////////
 
 		template<class Alloc, class = void>
-		struct has_propagate_on_container_copy_assignment : false_type {};
+		struct has_propagate_on_container_copy_assignment : ciel::false_type {};
 
 		template<class Alloc>
-		struct has_propagate_on_container_copy_assignment<Alloc, void_t<typename remove_reference_t<Alloc>::propagate_on_container_copy_assignment>> {
-			using type = typename remove_reference_t<Alloc>::propagate_on_container_copy_assignment;
+		struct has_propagate_on_container_copy_assignment<Alloc, ciel::void_t<typename ciel::remove_reference_t<Alloc>::propagate_on_container_copy_assignment>> {
+			using type = typename ciel::remove_reference_t<Alloc>::propagate_on_container_copy_assignment;
 		};
 
 /////////////////////////////////////////////////////////////////////////////////////
 
 		template<class Alloc, class = void>
-		struct has_propagate_on_container_move_assignment : false_type {};
+		struct has_propagate_on_container_move_assignment : ciel::false_type {};
 
 		template<class Alloc>
-		struct has_propagate_on_container_move_assignment<Alloc, void_t<typename remove_reference_t<Alloc>::propagate_on_container_move_assignment>> {
-			using type = typename remove_reference_t<Alloc>::propagate_on_container_move_assignment;
+		struct has_propagate_on_container_move_assignment<Alloc, ciel::void_t<typename ciel::remove_reference_t<Alloc>::propagate_on_container_move_assignment>> {
+			using type = typename ciel::remove_reference_t<Alloc>::propagate_on_container_move_assignment;
 		};
 
 /////////////////////////////////////////////////////////////////////////////////////
 
 		template<class Alloc, class = void>
-		struct has_propagate_on_container_swap : false_type {};
+		struct has_propagate_on_container_swap : ciel::false_type {};
 
 		template<class Alloc>
-		struct has_propagate_on_container_swap<Alloc, void_t<typename remove_reference_t<Alloc>::propagate_on_container_swap>> {
-			using type = typename remove_reference_t<Alloc>::propagate_on_container_swap;
+		struct has_propagate_on_container_swap<Alloc, ciel::void_t<typename ciel::remove_reference_t<Alloc>::propagate_on_container_swap>> {
+			using type = typename ciel::remove_reference_t<Alloc>::propagate_on_container_swap;
 		};
 
 /////////////////////////////////////////////////////////////////////////////////////
 
 		template<class Alloc, class = void>
-		struct has_is_always_equal : is_empty<Alloc> {};
+		struct has_is_always_equal : ciel::is_empty<Alloc> {};
 
 		template<class Alloc>
-		struct has_is_always_equal<Alloc, void_t<typename remove_reference_t<Alloc>::is_always_equal>> {
-			using type = typename remove_reference_t<Alloc>::is_always_equal;
+		struct has_is_always_equal<Alloc, ciel::void_t<typename ciel::remove_reference_t<Alloc>::is_always_equal>> {
+			using type = typename ciel::remove_reference_t<Alloc>::is_always_equal;
 		};
 
 /////////////////////////////////////////////////////////////////////////////////////
 
 		template<class T, class U, class = void>
-		struct has_rebind_other : false_type {};
+		struct has_rebind_other : ciel::false_type {};
 
 		template<class T, class U>
-		struct has_rebind_other<T, U, void_t<typename T::template rebind<U>::other>> : true_type {};
+		struct has_rebind_other<T, U, ciel::void_t<typename T::template rebind<U>::other>> : ciel::true_type {};
 
 		template<class T, class U, bool = has_rebind_other<T, U>::value>
 		struct has_rebind_alloc {
@@ -144,42 +144,42 @@ namespace ciel {
 /////////////////////////////////////////////////////////////////////////////////////
 
 		template<class Alloc, class SizeType, class ConstVoidPtr, class = void>
-		struct has_allocate_hint : false_type {};
+		struct has_allocate_hint : ciel::false_type {};
 
 		template<class Alloc, class SizeType, class ConstVoidPtr>
-		struct has_allocate_hint<Alloc, SizeType, ConstVoidPtr, decltype((void)declval<Alloc>().allocate(declval<SizeType>(), declval<ConstVoidPtr>()))> : true_type {};
+		struct has_allocate_hint<Alloc, SizeType, ConstVoidPtr, decltype((void)ciel::declval<Alloc>().allocate(ciel::declval<SizeType>(), ciel::declval<ConstVoidPtr>()))> : ciel::true_type {};
 
 /////////////////////////////////////////////////////////////////////////////////////
 
 		template<class, class Alloc, class... Args>
-		struct has_construct : false_type {};
+		struct has_construct : ciel::false_type {};
 
 		template<class Alloc, class... Args>
-		struct has_construct<decltype((void)declval<Alloc>().construct(declval<Args...>())), Alloc, Args...> : true_type {};
+		struct has_construct<decltype((void)ciel::declval<Alloc>().construct(ciel::declval<Args...>())), Alloc, Args...> : ciel::true_type {};
 
 /////////////////////////////////////////////////////////////////////////////////////
 
 		template<class Alloc, class Ptr, class = void>
-		struct has_destroy : false_type {};
+		struct has_destroy : ciel::false_type {};
 
 		template<class Alloc, class Ptr>
-		struct has_destroy<Alloc, Ptr, decltype((void)declval<Alloc>().destroy(declval<Ptr>()))> : true_type {};
+		struct has_destroy<Alloc, Ptr, decltype((void)ciel::declval<Alloc>().destroy(ciel::declval<Ptr>()))> : ciel::true_type {};
 
 /////////////////////////////////////////////////////////////////////////////////////
 
 		template<class Alloc, class = void>
-		struct has_max_size : false_type {};
+		struct has_max_size : ciel::false_type {};
 
 		template<class Alloc>
-		struct has_max_size<Alloc, decltype((void)declval<Alloc>().max_size())> : true_type {};
+		struct has_max_size<Alloc, decltype((void)ciel::declval<Alloc>().max_size())> : ciel::true_type {};
 
 /////////////////////////////////////////////////////////////////////////////////////
 
 		template<class Alloc, class = void>
-		struct has_select_on_container_copy_construction : false_type {};
+		struct has_select_on_container_copy_construction : ciel::false_type {};
 
 		template<class Alloc>
-		struct has_select_on_container_copy_construction<Alloc, decltype((void)declval<Alloc>().select_on_container_copy_construction())> : true_type {};
+		struct has_select_on_container_copy_construction<Alloc, decltype((void)ciel::declval<Alloc>().select_on_container_copy_construction())> : ciel::true_type {};
 	}
 
 	template<class Alloc>
@@ -207,12 +207,12 @@ namespace ciel {
 			return a.allocate(n);
 		}
 
-		template<class A = allocator_type, class = enable_if_t<allocator_traits_details::has_allocate_hint<A, size_type, const_void_pointer>::value>>
+		template<class A = allocator_type, class = ciel::enable_if_t<allocator_traits_details::has_allocate_hint<A, size_type, const_void_pointer>::value>>
 		[[nodiscard]] static constexpr pointer allocate(allocator_type& a, size_type n, const_void_pointer hint) {
 			return a.allocate(n, hint);
 		}
 
-		template<class A = allocator_type, class = void, class = enable_if_t<!allocator_traits_details::has_allocate_hint<A, size_type, const_void_pointer>::value>>
+		template<class A = allocator_type, class = void, class = ciel::enable_if_t<!allocator_traits_details::has_allocate_hint<A, size_type, const_void_pointer>::value>>
 		[[nodiscard]] static constexpr pointer allocate(allocator_type& a, size_type n, const_void_pointer hint) {
 			return a.allocate(n);
 		}
@@ -221,46 +221,45 @@ namespace ciel {
 			a.deallocate(p, n);
 		}
 
-		template<class T, class... Args, class = enable_if_t<allocator_traits_details::has_construct<void, allocator_type, T*, Args...>::value>>
+		template<class T, class... Args, class = ciel::enable_if_t<allocator_traits_details::has_construct<void, allocator_type, T*, Args...>::value>>
 		static constexpr void construct(allocator_type& a, T* p, Args&& ... args) {
-			a.construct(p, forward<Args>(args)...);
+			a.construct(p, ciel::forward<Args>(args)...);
 		}
 
-		template<class T, class... Args, class = void, class = enable_if_t<!allocator_traits_details::has_construct<void, allocator_type, T*, Args...>::value>>
+		template<class T, class... Args, class = void, class = ciel::enable_if_t<!allocator_traits_details::has_construct<void, allocator_type, T*, Args...>::value>>
 		static constexpr void construct(allocator_type& a, T* p, Args&& ... args) {
-			//这里显式加上命名空间作用域是为了防止在形参为 std:: 物件时触发 ADL 而跟 std::construct_at() 撞车
-			ciel::construct_at(p, forward<Args>(args)...);
+			//显式加上命名空间作用域是为了防止在形参为 std:: 物件时触发 ADL 而跟 std::construct_at() 撞车
+			ciel::construct_at(p, ciel::forward<Args>(args)...);
 		}
 
-		template<class T, class = enable_if_t<allocator_traits_details::has_destroy<allocator_type, T*>::value>>
+		template<class T, class = ciel::enable_if_t<allocator_traits_details::has_destroy<allocator_type, T*>::value>>
 		static constexpr void destroy(allocator_type& a, T* p) {
 			a.destroy(p);
 		}
 
-		template<class T, class = void, class = enable_if_t<!allocator_traits_details::has_destroy<allocator_type, T*>::value>>
+		template<class T, class = void, class = ciel::enable_if_t<!allocator_traits_details::has_destroy<allocator_type, T*>::value>>
 		static constexpr void destroy(allocator_type& a, T* p) {
-			//同上
 			ciel::destroy_at(p);
 		}
 
 //以下两组 SFINAE 函数如果去掉模板参数 A 而写成 template<class = enable_if_t<false>> 形式会报错的原因为：
 //			SFINAE 是在模板替换时出现错误才会抛弃掉替换的结果转而尝试下一个可选模板，在上例中根本没有需要被推导的模板参数，也就压根不会实现 SFINAE
-		template<class A = allocator_type, class = enable_if_t<allocator_traits_details::has_max_size<const A>::value>>
+		template<class A = allocator_type, class = ciel::enable_if_t<allocator_traits_details::has_max_size<const A>::value>>
 		static constexpr size_type max_size(const allocator_type& a) noexcept {
 			return a.max_size();
 		}
 
-		template<class A = allocator_type, class = void, class = enable_if_t<!allocator_traits_details::has_max_size<const A>::value>>
+		template<class A = allocator_type, class = void, class = ciel::enable_if_t<!allocator_traits_details::has_max_size<const A>::value>>
 		static constexpr size_type max_size(const allocator_type& a) noexcept {
 			return ciel::numeric_limits<size_type>::max() / sizeof(value_type);
 		}
 
-		template<class A = allocator_type, class = enable_if_t<allocator_traits_details::has_select_on_container_copy_construction<const A>::value>>
+		template<class A = allocator_type, class = ciel::enable_if_t<allocator_traits_details::has_select_on_container_copy_construction<const A>::value>>
 		static constexpr Alloc select_on_container_copy_construction(const allocator_type& a) {
 			return a.select_on_container_copy_construction();
 		}
 
-		template<class A = allocator_type, class = void, class = enable_if_t<!allocator_traits_details::has_select_on_container_copy_construction<const A>::value>>
+		template<class A = allocator_type, class = void, class = ciel::enable_if_t<!allocator_traits_details::has_select_on_container_copy_construction<const A>::value>>
 		static constexpr Alloc select_on_container_copy_construction(const allocator_type& a) {
 			return a;
 		}

@@ -5,10 +5,10 @@
 
 namespace ciel {
 	template<class T, class U>
-	struct is_same : false_type {};
+	struct is_same : ciel::false_type {};
 
 	template<class T>
-	struct is_same<T, T> : true_type {};
+	struct is_same<T, T> : ciel::true_type {};
 
 	template<class T, class U>
 	inline constexpr bool is_same_v = is_same<T, U>::value;
