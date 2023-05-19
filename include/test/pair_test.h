@@ -11,6 +11,7 @@
 namespace pair_test_details {
 	struct empty {
 		const empty& operator=(const empty&) const { return *this; }
+		const empty& operator=(empty&&) const { return *this; }
 	};
 }
 
