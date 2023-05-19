@@ -15,7 +15,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "CMAKE_ADDR2LINE-NOTFOUND"
+			"value" : "/opt/homebrew/Cellar/llvm/16.0.3/bin/llvm-addr2line"
 		},
 		{
 			"name" : "CMAKE_AR",
@@ -31,7 +31,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "/Library/Developer/CommandLineTools/usr/bin/ar"
+			"value" : "/usr/bin/ar"
 		},
 		{
 			"name" : "CMAKE_BUILD_TYPE",
@@ -115,7 +115,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "/Users/ciel/Library/Application Support/JetBrains/Toolbox/apps/CLion/ch-0/231.8770.66/CLion.app/Contents/bin/cmake/mac/bin/cmake"
+			"value" : "/Users/ciel/Library/Application Support/JetBrains/Toolbox/apps/CLion/ch-0/231.9011.31/CLion.app/Contents/bin/cmake/mac/bin/cmake"
 		},
 		{
 			"name" : "CMAKE_CPACK_COMMAND",
@@ -127,7 +127,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "/Users/ciel/Library/Application Support/JetBrains/Toolbox/apps/CLion/ch-0/231.8770.66/CLion.app/Contents/bin/cmake/mac/bin/cpack"
+			"value" : "/Users/ciel/Library/Application Support/JetBrains/Toolbox/apps/CLion/ch-0/231.9011.31/CLion.app/Contents/bin/cmake/mac/bin/cpack"
 		},
 		{
 			"name" : "CMAKE_CTEST_COMMAND",
@@ -139,7 +139,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "/Users/ciel/Library/Application Support/JetBrains/Toolbox/apps/CLion/ch-0/231.8770.66/CLion.app/Contents/bin/cmake/mac/bin/ctest"
+			"value" : "/Users/ciel/Library/Application Support/JetBrains/Toolbox/apps/CLion/ch-0/231.9011.31/CLion.app/Contents/bin/cmake/mac/bin/ctest"
 		},
 		{
 			"name" : "CMAKE_CXX_COMPILER",
@@ -154,8 +154,40 @@
 					"value" : "CXX compiler"
 				}
 			],
+			"type" : "STRING",
+			"value" : "/opt/homebrew/Cellar/llvm/16.0.3/bin/clang++"
+		},
+		{
+			"name" : "CMAKE_CXX_COMPILER_AR",
+			"properties" : 
+			[
+				{
+					"name" : "ADVANCED",
+					"value" : "1"
+				},
+				{
+					"name" : "HELPSTRING",
+					"value" : "LLVM archiver"
+				}
+			],
 			"type" : "FILEPATH",
-			"value" : "/Library/Developer/CommandLineTools/usr/bin/c++"
+			"value" : "/opt/homebrew/Cellar/llvm/16.0.3/bin/llvm-ar"
+		},
+		{
+			"name" : "CMAKE_CXX_COMPILER_RANLIB",
+			"properties" : 
+			[
+				{
+					"name" : "ADVANCED",
+					"value" : "1"
+				},
+				{
+					"name" : "HELPSTRING",
+					"value" : "Generate index for LLVM archive"
+				}
+			],
+			"type" : "FILEPATH",
+			"value" : "/opt/homebrew/Cellar/llvm/16.0.3/bin/llvm-ranlib"
 		},
 		{
 			"name" : "CMAKE_CXX_FLAGS",
@@ -250,8 +282,40 @@
 					"value" : "C compiler"
 				}
 			],
+			"type" : "STRING",
+			"value" : "/opt/homebrew/Cellar/llvm/16.0.3/bin/clang-16"
+		},
+		{
+			"name" : "CMAKE_C_COMPILER_AR",
+			"properties" : 
+			[
+				{
+					"name" : "ADVANCED",
+					"value" : "1"
+				},
+				{
+					"name" : "HELPSTRING",
+					"value" : "LLVM archiver"
+				}
+			],
 			"type" : "FILEPATH",
-			"value" : "/Library/Developer/CommandLineTools/usr/bin/cc"
+			"value" : "/opt/homebrew/Cellar/llvm/16.0.3/bin/llvm-ar"
+		},
+		{
+			"name" : "CMAKE_C_COMPILER_RANLIB",
+			"properties" : 
+			[
+				{
+					"name" : "ADVANCED",
+					"value" : "1"
+				},
+				{
+					"name" : "HELPSTRING",
+					"value" : "Generate index for LLVM archive"
+				}
+			],
+			"type" : "FILEPATH",
+			"value" : "/opt/homebrew/Cellar/llvm/16.0.3/bin/llvm-ranlib"
 		},
 		{
 			"name" : "CMAKE_C_FLAGS",
@@ -347,7 +411,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "CMAKE_DLLTOOL-NOTFOUND"
+			"value" : "/opt/homebrew/Cellar/llvm/16.0.3/bin/llvm-dlltool"
 		},
 		{
 			"name" : "CMAKE_EXECUTABLE_FORMAT",
@@ -583,7 +647,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "/Library/Developer/CommandLineTools/usr/bin/ld"
+			"value" : "/usr/bin/ld"
 		},
 		{
 			"name" : "CMAKE_MAKE_PROGRAM",
@@ -595,7 +659,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "/Users/ciel/Library/Application Support/JetBrains/Toolbox/apps/CLion/ch-0/231.8770.66/CLion.app/Contents/bin/ninja/mac/ninja"
+			"value" : "/Users/ciel/Library/Application Support/JetBrains/Toolbox/apps/CLion/ch-0/231.9011.31/CLion.app/Contents/bin/ninja/mac/ninja"
 		},
 		{
 			"name" : "CMAKE_MODULE_LINKER_FLAGS",
@@ -691,7 +755,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "/Library/Developer/CommandLineTools/usr/bin/nm"
+			"value" : "/opt/homebrew/Cellar/llvm/16.0.3/bin/llvm-nm"
 		},
 		{
 			"name" : "CMAKE_NUMBER_OF_MAKEFILES",
@@ -719,7 +783,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "CMAKE_OBJCOPY-NOTFOUND"
+			"value" : "/opt/homebrew/Cellar/llvm/16.0.3/bin/llvm-objcopy"
 		},
 		{
 			"name" : "CMAKE_OBJDUMP",
@@ -735,7 +799,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "/Library/Developer/CommandLineTools/usr/bin/objdump"
+			"value" : "/opt/homebrew/Cellar/llvm/16.0.3/bin/llvm-objdump"
 		},
 		{
 			"name" : "CMAKE_OSX_ARCHITECTURES",
@@ -835,7 +899,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "/Library/Developer/CommandLineTools/usr/bin/ranlib"
+			"value" : "/opt/homebrew/Cellar/llvm/16.0.3/bin/llvm-ranlib"
 		},
 		{
 			"name" : "CMAKE_READELF",
@@ -851,7 +915,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "CMAKE_READELF-NOTFOUND"
+			"value" : "/opt/homebrew/Cellar/llvm/16.0.3/bin/llvm-readelf"
 		},
 		{
 			"name" : "CMAKE_ROOT",
@@ -863,7 +927,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "/Users/ciel/Library/Application Support/JetBrains/Toolbox/apps/CLion/ch-0/231.8770.66/CLion.app/Contents/bin/cmake/mac/share/cmake-3.25"
+			"value" : "/Users/ciel/Library/Application Support/JetBrains/Toolbox/apps/CLion/ch-0/231.9011.31/CLion.app/Contents/bin/cmake/mac/share/cmake-3.25"
 		},
 		{
 			"name" : "CMAKE_SHARED_LINKER_FLAGS",
@@ -1071,7 +1135,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "/Library/Developer/CommandLineTools/usr/bin/strip"
+			"value" : "/opt/homebrew/Cellar/llvm/16.0.3/bin/llvm-strip"
 		},
 		{
 			"name" : "CMAKE_UNAME",

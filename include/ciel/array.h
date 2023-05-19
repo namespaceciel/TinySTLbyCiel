@@ -4,7 +4,9 @@
 #include <cstddef>
 #include <stdexcept>
 #include <iterator>
-#include <ciel/utility_impl/move.h>
+#include <ciel/type_traits.h>
+#include <ciel/utility.h>
+#include <ciel/algorithm.h>
 
 namespace ciel {
 
@@ -121,38 +123,89 @@ namespace ciel {
 			return rend();
 		}
 
-		[[nodiscard]] constexpr bool empty() const noexcept{
+		[[nodiscard]] constexpr bool empty() const noexcept {
 			return N == 0;
 		}
 
-		constexpr size_type size() const noexcept{
+		constexpr size_type size() const noexcept {
 			return N;
 		}
 
-		constexpr size_type max_size() const noexcept{
+		constexpr size_type max_size() const noexcept {
 			return N;
 		}
 
-		constexpr void fill( const T& value ){
-
+		constexpr void fill(const T& value) {
+			ciel::fill_n(m_data, N, value);
 		}
 
+		constexpr void swap(array& other) noexcept(ciel::is_nothrow_swappable_v<T>) {
+			ciel::swap_ranges(m_data, m_data + N, other.m_data);
+		}
 
 	};  //class array
 
 	template<class T, size_t N>
-	inline bool operator==(array<T, N>& left_array, array<T, N>& right_array) {
-		for (size_t i = 0; i < N; ++i) {
-			if (left_array[i] != right_array[i]) {
-				return false;
-			}
-		}
-		return true;
+	constexpr bool operator==(array<T, N>& lhs, array<T, N>& rhs) {
+		return ciel::equal(lhs.begin(), lhs.end(), rhs.begin());
+	}
+
+	template<size_t I, class T, size_t N>
+	constexpr T& get(array<T, N>& a) noexcept {
+		static_assert(I < N, "调用 ciel::get(ciel::array) 越界");
+		return a[I];
+	}
+
+	template<size_t I, class T, size_t N>
+	constexpr T&& get(array<T, N>&& a) noexcept {
+		static_assert(I < N, "调用 ciel::get(ciel::array) 越界");
+		return ciel::move(a[I]);
+	}
+
+	template<size_t I, class T, size_t N>
+	constexpr const T& get(const array<T, N>& a) noexcept {
+		static_assert(I < N, "调用 ciel::get(ciel::array) 越界");
+		return a[I];
+	}
+
+	template<size_t I, class T, size_t N>
+	constexpr const T&& get(const array<T, N>&& a) noexcept {
+		static_assert(I < N, "调用 ciel::get(ciel::array) 越界");
+		return ciel::move(a[I]);
 	}
 
 	template<class T, size_t N>
-	inline bool operator!=(array<T, N>& left_array, array<T, N>& right_array) {
-		return !(left_array == right_array);
+	constexpr void swap(array<T, N>& lhs, array<T, N>& rhs) noexcept(noexcept(lhs.swap(rhs))) {
+		lhs.swap(rhs);
+	}
+
+	namespace array_details {
+
+		template<class T, size_t N, size_t... I>
+		constexpr array<ciel::remove_cv_t<T>, N>
+		to_array_impl(T (& a)[N], std::index_sequence<I...>) {
+			return {{a[I]...}};
+		}
+
+		template<class T, size_t N, size_t... I>
+		constexpr array<ciel::remove_cv_t<T>, N>
+		to_array_impl(T (&& a)[N], std::index_sequence<I...>) {
+			return {{ciel::move(a[I])...}};
+		}
+	}
+
+	template<class T, size_t N>
+	constexpr array<ciel::remove_cv_t<T>, N> to_array(T (& a)[N]) {
+		static_assert(!ciel::is_array_v<T>, "ciel::to_array 不接受高维数组");
+		static_assert(ciel::is_constructible_v<T, T&>, "ciel::to_array 需要元素可构造");
+		return array_details::to_array_impl(a, std::make_index_sequence<N>{});
+	}
+
+	template<class T, size_t N>
+	constexpr array<ciel::remove_cv_t<T>, N> to_array(T (&& a)[N]) {
+		static_assert(!ciel::is_array_v<T>, "ciel::to_array 不接受高维数组");
+		static_assert(ciel::is_move_constructible_v<T>, "ciel::to_array 需要元素可移动构造");
+		return array_details::to_array_impl(ciel::move(a), std::make_index_sequence<N>{});
 	}
 
 }   //namespace ciel

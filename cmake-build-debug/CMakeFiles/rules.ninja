@@ -17,7 +17,7 @@
 rule CXX_COMPILER__TinySTLbyCiel_Debug
   depfile = $DEP_FILE
   deps = gcc
-  command = /Library/Developer/CommandLineTools/usr/bin/c++ $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
+  command = /opt/homebrew/Cellar/llvm/16.0.3/bin/clang++ $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
   description = Building CXX object $out
 
 
@@ -25,7 +25,7 @@ rule CXX_COMPILER__TinySTLbyCiel_Debug
 # Rule for linking CXX executable.
 
 rule CXX_EXECUTABLE_LINKER__TinySTLbyCiel_Debug
-  command = $PRE_LINK && /Library/Developer/CommandLineTools/usr/bin/c++ $FLAGS -Wl,-search_paths_first -Wl,-headerpad_max_install_names $LINK_FLAGS $in -o $TARGET_FILE $LINK_PATH $LINK_LIBRARIES && $POST_BUILD
+  command = $PRE_LINK && /opt/homebrew/Cellar/llvm/16.0.3/bin/clang++ $FLAGS -Wl,-search_paths_first -Wl,-headerpad_max_install_names $LINK_FLAGS $in -o $TARGET_FILE $LINK_PATH $LINK_LIBRARIES && $POST_BUILD
   description = Linking CXX executable $TARGET_FILE
   restat = $RESTAT
 
@@ -42,7 +42,7 @@ rule CUSTOM_COMMAND
 # Rule for re-running cmake.
 
 rule RERUN_CMAKE
-  command = "/Users/ciel/Library/Application Support/JetBrains/Toolbox/apps/CLion/ch-0/231.8770.66/CLion.app/Contents/bin/cmake/mac/bin/cmake" --regenerate-during-build -S/Users/ciel/Downloads/Github/TinySTLbyCiel -B/Users/ciel/Downloads/Github/TinySTLbyCiel/cmake-build-debug
+  command = "/Users/ciel/Library/Application Support/JetBrains/Toolbox/apps/CLion/ch-0/231.9011.31/CLion.app/Contents/bin/cmake/mac/bin/cmake" --regenerate-during-build -S/Users/ciel/Downloads/Github/TinySTLbyCiel -B/Users/ciel/Downloads/Github/TinySTLbyCiel/cmake-build-debug
   description = Re-running CMake...
   generator = 1
 
@@ -51,7 +51,7 @@ rule RERUN_CMAKE
 # Rule for cleaning all built files.
 
 rule CLEAN
-  command = "/Users/ciel/Library/Application Support/JetBrains/Toolbox/apps/CLion/ch-0/231.8770.66/CLion.app/Contents/bin/ninja/mac/ninja" $FILE_ARG -t clean $TARGETS
+  command = "/Users/ciel/Library/Application Support/JetBrains/Toolbox/apps/CLion/ch-0/231.9011.31/CLion.app/Contents/bin/ninja/mac/ninja" $FILE_ARG -t clean $TARGETS
   description = Cleaning all built files...
 
 
@@ -59,6 +59,6 @@ rule CLEAN
 # Rule for printing all primary targets available.
 
 rule HELP
-  command = "/Users/ciel/Library/Application Support/JetBrains/Toolbox/apps/CLion/ch-0/231.8770.66/CLion.app/Contents/bin/ninja/mac/ninja" -t targets
+  command = "/Users/ciel/Library/Application Support/JetBrains/Toolbox/apps/CLion/ch-0/231.9011.31/CLion.app/Contents/bin/ninja/mac/ninja" -t targets
   description = All primary targets available:
 

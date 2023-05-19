@@ -1,5 +1,5 @@
-#include <ciel/type_traits.h>
+#include <test/pair_test.h>
 
 int main() {
-	static_assert(ciel::is_same_v<ciel::common_type_t<int>, int>);
+	pair_test();
 }
