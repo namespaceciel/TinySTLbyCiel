@@ -9,8 +9,8 @@ namespace type_traits_test_details {
 	struct Struct {};
 	enum Enum {};
 	union Union {};
-	void FunctionVoidVoid();
-	int FunctionIntDouble(double);
+	void FunctionVoidVoid() {}
+	int FunctionIntDouble(double) { return 0; }
 	void (* FunctionVoidVoidptr)() = FunctionVoidVoid;
 	struct Pod {
 		int a;
