@@ -208,6 +208,9 @@ namespace ciel {
 		return array_details::to_array_impl(ciel::move(a), std::make_index_sequence<N>{});
 	}
 
+	template<class T, class... U, class = ciel::enable_if_t<(ciel::is_same_v<T, U> && ...)>>
+	array(T, U...) -> array<T, 1 + sizeof...(U)>;
+
 }   //namespace ciel
 
 #endif //TINYSTLBYCIEL_INCLUDE_CIEL_ARRAY_H_

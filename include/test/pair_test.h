@@ -42,6 +42,51 @@ void pair_test() {
 		p3 = p4;
 		p3 = ciel::move(p4);
 	}
+	{
+		ciel::pair<size_t, double> p5(2, 1.5);
+		ciel::pair<size_t, double> p6 = p5;
+		CHECK(p5 == p6);
+		CHECK(p5.first == p6.first);
+		CHECK(p5.second == p6.second);
+
+		ciel::pair<int, int> p7 = p6;
+		CHECK(p7.first == 2);
+		CHECK(p7.second == 1);
+
+		//这里是不同模板形参的移动赋值，调用的是完美转发，不会清空 p5
+		ciel::pair<int, int> p8 = ciel::move(p5);
+		CHECK(p5.first == 2);
+		CHECK(p5.second == 1.5);
+//		std::pair<size_t, double> s1(2, 1.5);
+//		std::pair<int, int> s2 = std::move(s1);
+//		CHECK(s1.first == 2);
+//		CHECK(s1.second == 1.5);
+
+		p5 = ciel::move(p6);
+		CHECK(p5.first == 2);
+		CHECK(p5.second == 1.5);
+	}
+	{
+		ciel::pair p9(6, 2.2);
+		ciel::pair p10 = ciel::make_pair(6, 2.2);
+		const auto i1 = p9.first;
+		volatile auto i2 = p9.second;
+		ciel::pair p11 = ciel::make_pair(i1, i2);
+		CHECK(p9 == p10);
+		CHECK(p9 == p11);
+	}
+	{
+		ciel::pair<int, float> p12(7, 9.1);
+		ciel::pair<int, float> p13(12, 0.1);
+		ciel::swap(p12, p13);
+		CHECK(p12.first == 12);
+		CHECK(p13.first == 7);
+		//不要比较两个浮点数是否相等！
+	}
+	{
+		static_assert(ciel::is_same_v<ciel::common_type_t<ciel::pair<const int, int>, ciel::pair<volatile int, int>>,
+									  ciel::pair<int, int>>);
+	}
 
 	std::cout << "All pair_tests finished.\n\n";
 }

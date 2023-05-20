@@ -56,11 +56,9 @@ namespace ciel {
 		//TODO: 如果 first 或 second 的初始化会绑定引用到临时对象，那么此构造函数会定义为被弃置。(C++23 起)
 //		template<pair-like P>
 //		constexpr pair(P&& u);
-//
+
 //		template<class... Args1, class... Args2>
-//		constexpr pair(std::piecewise_construct_t,
-//					   std::tuple<Args1...> first_args,
-//					   std::tuple<Args2...> second_args);
+//		constexpr pair(std::piecewise_construct_t, std::tuple<Args1...> first_args, std::tuple<Args2...> second_args);
 
 		constexpr pair(const pair& p) = default;
 
@@ -123,11 +121,11 @@ namespace ciel {
 			return *this;
 		}
 
-//		template< pair-like P >
-//		constexpr pair& operator=( P&& u );
-//
-//		template< pair-like P >
-//		constexpr const pair& operator=( P&& u ) const;
+//		template<pair-like P>
+//		constexpr pair& operator=(P&& u);
+
+//		template<pair-like P>
+//		constexpr const pair& operator=(P&& u) const;
 
 
 		constexpr void swap(pair& other) noexcept(ciel::is_nothrow_swappable_v<T1> && ciel::is_nothrow_swappable_v<T2>) requires ciel::is_swappable_v<T1> && ciel::is_swappable_v<T2> {
@@ -136,8 +134,7 @@ namespace ciel {
 			swap(second, other.second);
 		}
 
-		constexpr void swap(const pair& other) noexcept(ciel::is_nothrow_swappable_v<const T1> && ciel::is_nothrow_swappable_v<const T2>) requires ciel::is_swappable_v<const T1>
-			&& ciel::is_swappable_v<const T2> {
+		constexpr void swap(const pair& other) noexcept(ciel::is_nothrow_swappable_v<const T1> && ciel::is_nothrow_swappable_v<const T2>) requires ciel::is_swappable_v<const T1> && ciel::is_swappable_v<const T2> {
 			using ciel::swap;
 			swap(first, other.first);
 			swap(second, other.second);
@@ -156,7 +153,7 @@ namespace ciel {
 	}
 
 	template<class T1, class T2>
-	constexpr void swap(std::pair<T1, T2>& x, std::pair<T1, T2>& y) noexcept(noexcept(x.swap(y))) requires ciel::is_swappable_v<typename pair<T1, T2>::first_type> && ciel::is_swappable_v<typename pair<T1, T2>::second_type> {
+	constexpr void swap(pair<T1, T2>& x, pair<T1, T2>& y) noexcept(noexcept(x.swap(y))) requires ciel::is_swappable_v<typename pair<T1, T2>::first_type> && ciel::is_swappable_v<typename pair<T1, T2>::second_type> {
 		x.swap(y);
 	}
 

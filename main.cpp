@@ -1,5 +1,8 @@
-#include <test/pair_test.h>
+#include <iostream>
 
 int main() {
-	pair_test();
+	int a = 1;
+	const double& b = a;
+	a = 2;
+	std::cout << a << '\n' << b;
 }

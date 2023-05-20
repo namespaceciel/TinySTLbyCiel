@@ -78,6 +78,9 @@ void array_test() {
 		CHECK(i == 10);
 	}
 
+	const int x = 10;
+	ciel::array d{1, 2, 3, 5, x};
+
 	std::cout << "All array_tests finished.\n\n";
 }
 
