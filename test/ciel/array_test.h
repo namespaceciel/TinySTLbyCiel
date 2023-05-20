@@ -1,5 +1,5 @@
-#ifndef TINYSTLBYCIEL_INCLUDE_TEST_ARRAY_TEST_H_
-#define TINYSTLBYCIEL_INCLUDE_TEST_ARRAY_TEST_H_
+#ifndef TINYSTLBYCIEL_TEST_CIEL_ARRAY_TEST_H_
+#define TINYSTLBYCIEL_TEST_CIEL_ARRAY_TEST_H_
 
 #include <iostream>
 #include <ciel/array.h>
@@ -84,4 +84,4 @@ void array_test() {
 	std::cout << "All array_tests finished.\n\n";
 }
 
-#endif //TINYSTLBYCIEL_INCLUDE_TEST_ARRAY_TEST_H_
+#endif //TINYSTLBYCIEL_TEST_CIEL_ARRAY_TEST_H_

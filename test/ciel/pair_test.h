@@ -1,5 +1,5 @@
-#ifndef TINYSTLBYCIEL_INCLUDE_TEST_PAIR_TEST_H_
-#define TINYSTLBYCIEL_INCLUDE_TEST_PAIR_TEST_H_
+#ifndef TINYSTLBYCIEL_TEST_CIEL_PAIR_TEST_H_
+#define TINYSTLBYCIEL_TEST_CIEL_PAIR_TEST_H_
 
 #include <iostream>
 #include <ciel/utility.h>
@@ -91,4 +91,4 @@ void pair_test() {
 	std::cout << "All pair_tests finished.\n\n";
 }
 
-#endif //TINYSTLBYCIEL_INCLUDE_TEST_PAIR_TEST_H_
+#endif //TINYSTLBYCIEL_TEST_CIEL_PAIR_TEST_H_
