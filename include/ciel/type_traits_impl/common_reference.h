@@ -147,21 +147,4 @@ namespace ciel {
 
 }   //namespace ciel
 
-/*
-	//一点测试，C 继承自 B，B 继承自 A
- 	using namespace ciel;
-	static_assert(is_same_v<common_reference_t<A>, A>);
-	static_assert(is_same_v<common_reference_t<A&>, A&>);
-	static_assert(is_same_v<common_reference_t<A&&>, A&&>);
-	static_assert(is_same_v<common_reference_t<A, B, C>, A>);
-	static_assert(is_same_v<common_reference_t<B, C>, B>);
-	static_assert(is_same_v<common_reference_t<const A&, volatile C>, A>);
-	static_assert(is_same_v<common_reference_t<const volatile A, B>, const volatile A>);
-	static_assert(is_same_v<common_reference_t<const volatile A&, B>, A>);
-	static_assert(is_same_v<common_reference_t<const volatile A, B&&>, const volatile A>);
-	static_assert(is_same_v<common_reference_t<int&, double&>, double>);
-	static_assert(is_same_v<common_reference_t<int, double>, double>);
-	static_assert(is_same_v<common_reference_t<int&, long&>, long>);
-*/
-
 #endif //TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_COMMON_REFERENCE_H_

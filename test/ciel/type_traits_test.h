@@ -26,15 +26,30 @@ namespace type_traits_test_details {
 		int b;
 	};
 	struct Abstract {
-		virtual void f() = 0;
+		virtual ~Abstract() = 0;
 	};
 	struct Final final {};
 	enum struct EnumStruct { oz };
 	enum class EnumClass : int {};
+	class A {};
+	class B : public A {};
+	class C : private B {};
+	struct ClassOperatorInt {
+		operator int() { return 0; }
+	};
+	constexpr int ConstantEvaluated() {
+		if (ciel::is_constant_evaluated()) {
+			return 1;
+		} else {
+			return 0;
+		}
+	}
 }
 
 void type_traits_test() {
 	using namespace type_traits_test_details;
+
+	//integral_constant
 
 	//is_void
 	static_assert(ciel::is_void_v<void>);
@@ -301,6 +316,235 @@ void type_traits_test() {
 	static_assert(ciel::is_scoped_enum_v<EnumClass>);
 	static_assert(ciel::is_scoped_enum_v<EnumStruct>);
 	static_assert(!ciel::is_scoped_enum_v<Enum>);
+
+	//is_constructible
+	//is_trivially_constructible
+	//is_nothrow_constructible
+
+	//is_default_constructible
+	//is_trivially_default_constructible
+	//is_nothrow_default_constructible
+
+	//is_copy_constructible
+	//is_trivially_copy_constructible
+	//is_nothrow_copy_constructible
+
+	//is_move_constructible
+	//is_trivially_move_constructible
+	//is_nothrow_move_constructible
+
+	//is_assignable
+	//is_trivially_assignable
+	//is_nothrow_assignable
+
+	//is_copy_assignable
+	//is_trivially_copy_assignable
+	//is_nothrow_copy_assignable
+
+	//is_move_assignable
+	//is_trivially_move_assignable
+	//is_nothrow_move_assignable
+
+	//is_destructible
+	//is_trivially_destructible
+	//is_nothrow_destructible
+
+	//has_virtual_destructor
+	static_assert(!ciel::has_virtual_destructor_v<Struct>);
+	static_assert(ciel::has_virtual_destructor_v<Virtual>);
+	static_assert(ciel::has_virtual_destructor_v<Abstract>);
+
+	//is_swappable_with
+	//is_swappable
+	//is_nothrow_swappable_with
+	//is_nothrow_swappable
+
+	//alignment_of
+	static_assert(ciel::alignment_of_v<uint64_t> == 8);
+	static_assert(ciel::alignment_of_v<NotAlign> == 4);
+
+	//rank
+	static_assert(ciel::rank_v<int[1][2][3][4][5][6]> == 6);
+	static_assert(ciel::rank_v<int> == 0);
+	static_assert(ciel::rank_v<int[][2][3][4]> == 4);
+	static_assert(ciel::rank_v<int[1][2]> == 2);
+
+	//extent
+	static_assert(ciel::extent_v<int> == 0);
+	static_assert(ciel::extent_v<int[]> == 0);
+	static_assert(ciel::extent_v<int[][2]> == 0);
+	static_assert(ciel::extent_v<int[1][2]> == 1);
+	static_assert(ciel::extent_v<int, 2> == 0);
+	static_assert(ciel::extent_v<int[][4][6], 1> == 4);
+	static_assert(ciel::extent_v<int[][4][6], 2> == 6);
+
+	//is_same
+	static_assert(!ciel::is_same_v<char, unsigned char>);
+	static_assert(!ciel::is_same_v<char, signed char>);
+
+	//is_base_of
+	static_assert(ciel::is_base_of_v<A, C>);
+	static_assert(ciel::is_base_of_v<A, B>);
+	static_assert(ciel::is_base_of_v<B, C>);
+
+	//is_convertible
+	static_assert(ciel::is_convertible_v<float, double>);
+	static_assert(ciel::is_convertible_v<int, size_t>);
+	static_assert(!ciel::is_convertible_v<C, A>);
+	static_assert(ciel::is_convertible_v<B, A>);
+	static_assert(!ciel::is_convertible_v<C, B>);
+	static_assert(ciel::is_convertible_v<ClassOperatorInt, int>);
+
+	//is_nothrow_convertible
+	static_assert(ciel::is_nothrow_convertible_v<float, double>);
+	static_assert(ciel::is_nothrow_convertible_v<int, size_t>);
+	static_assert(!ciel::is_nothrow_convertible_v<C, A>);
+	static_assert(ciel::is_nothrow_convertible_v<B, A>);
+	static_assert(!ciel::is_nothrow_convertible_v<C, B>);
+	static_assert(!ciel::is_nothrow_convertible_v<ClassOperatorInt, int>);
+
+	//TODO
+
+	//remove_cv
+	static_assert(ciel::is_same_v<ciel::remove_cv_t<const volatile int>, int>);
+	static_assert(ciel::is_same_v<ciel::remove_cv_t<const volatile int&>, const volatile int&>);
+
+	//remove_const
+	static_assert(ciel::is_same_v<ciel::remove_const_t<const volatile int>, volatile int>);
+	static_assert(ciel::is_same_v<ciel::remove_const_t<const volatile int&>, const volatile int&>);
+
+	//remove_volatile
+	static_assert(ciel::is_same_v<ciel::remove_volatile_t<const volatile int>, const int>);
+	static_assert(ciel::is_same_v<ciel::remove_volatile_t<const volatile int&>, const volatile int&>);
+
+	//add_cv
+	static_assert(ciel::is_same_v<ciel::add_cv_t<int>, const volatile int>);
+	static_assert(ciel::is_same_v<ciel::add_cv_t<int&>, int&>);
+
+	//add_const
+	static_assert(ciel::is_same_v<ciel::add_const_t<int>, const int>);
+	static_assert(ciel::is_same_v<ciel::add_const_t<int&>, int&>);
+
+	//add_volatile
+	static_assert(ciel::is_same_v<ciel::add_volatile_t<int>, volatile int>);
+	static_assert(ciel::is_same_v<ciel::add_volatile_t<int&>, int&>);
+
+	//remove_reference
+	static_assert(ciel::is_same_v<ciel::remove_reference_t<const volatile int&>, const volatile int>);
+	static_assert(ciel::is_same_v<ciel::remove_reference_t<int&&>, int>);
+
+	//add_lvalue_reference
+	static_assert(ciel::is_same_v<ciel::add_lvalue_reference_t<int>, int&>);
+	static_assert(ciel::is_same_v<ciel::add_lvalue_reference_t<const int>, const int&>);
+	static_assert(ciel::is_same_v<ciel::add_lvalue_reference_t<void>, void>);
+
+	//add_rvalue_reference
+	static_assert(ciel::is_same_v<ciel::add_rvalue_reference_t<int>, int&&>);
+	static_assert(ciel::is_same_v<ciel::add_rvalue_reference_t<int&>, int&>);
+	static_assert(ciel::is_same_v<ciel::add_rvalue_reference_t<const int>, const int&&>);
+	static_assert(ciel::is_same_v<ciel::add_rvalue_reference_t<void>, void>);
+
+	//remove_pointer
+	static_assert(ciel::is_same_v<ciel::remove_pointer_t<int*>, int>);
+	static_assert(ciel::is_same_v<ciel::remove_pointer_t<const char*>, const char>);
+	static_assert(ciel::is_same_v<ciel::remove_pointer_t<const char* const>, const char>);
+	static_assert(ciel::is_same_v<ciel::remove_pointer_t<int**>, int*>);
+
+	//add_pointer
+	static_assert(ciel::is_same_v<ciel::add_pointer_t<int>, int*>);
+	static_assert(ciel::is_same_v<ciel::add_pointer_t<int**>, int***>);
+	static_assert(ciel::is_same_v<ciel::add_pointer_t<const char* const>, const char* const*>);
+
+	//make_signed
+	static_assert(ciel::is_same_v<ciel::make_signed_t<size_t>, long>);
+	static_assert(ciel::is_same_v<ciel::make_signed_t<unsigned char>, signed char>);
+	static_assert(ciel::is_same_v<ciel::make_signed_t<unsigned int>, int>);
+
+	//make_unsigned
+	static_assert(ciel::is_same_v<ciel::make_unsigned_t<long>, size_t>);
+	static_assert(ciel::is_same_v<ciel::make_unsigned_t<int>, unsigned int>);
+	static_assert(ciel::is_same_v<ciel::make_unsigned_t<char>, unsigned char>);
+
+	//remove_extent
+	static_assert(ciel::is_same_v<ciel::remove_extent_t<int[]>, int>);
+	static_assert(ciel::is_same_v<ciel::remove_extent_t<int[6][2]>, int[2]>);
+	static_assert(ciel::is_same_v<ciel::remove_extent_t<int[][4]>, int[4]>);
+
+	//remove_all_extents
+	static_assert(ciel::is_same_v<ciel::remove_all_extents_t<int[]>, int>);
+	static_assert(ciel::is_same_v<ciel::remove_all_extents_t<int[6][2]>, int>);
+	static_assert(ciel::is_same_v<ciel::remove_all_extents_t<int[][4]>, int>);
+
+	//decay
+	static_assert(ciel::is_same_v<ciel::decay_t<const volatile int&>, int>);
+	static_assert(ciel::is_same_v<ciel::decay_t<int&&>, int>);
+	static_assert(ciel::is_same_v<ciel::decay_t<int[]>, int*>);
+	static_assert(ciel::is_same_v<ciel::decay_t<decltype(FunctionVoidVoidptr)>, void (*)()>);
+
+	//remove_cvref
+	static_assert(ciel::is_same_v<ciel::remove_cvref_t<const volatile int>, int>);
+	static_assert(ciel::is_same_v<ciel::remove_cvref_t<const volatile int&>, int>);
+
+	//enable_if
+
+	//conditional
+	static_assert(ciel::is_same_v<ciel::conditional_t<true, int, size_t>, int>);
+	static_assert(ciel::is_same_v<ciel::conditional_t<false, int, size_t>, size_t>);
+
+	//common_type
+	static_assert(ciel::is_same_v<ciel::common_type_t<A, B>, A>);
+	static_assert(ciel::is_same_v<ciel::common_type_t<int, double>, double>);
+	static_assert(ciel::is_same_v<ciel::common_type_t<int, unsigned int>, unsigned int>);
+
+	//common_reference
+	static_assert(ciel::is_same_v<ciel::common_reference_t<A>, A>);
+	static_assert(ciel::is_same_v<ciel::common_reference_t<A&>, A&>);
+	static_assert(ciel::is_same_v<ciel::common_reference_t<A&&>, A&&>);
+	static_assert(ciel::is_same_v<ciel::common_reference_t<A, B>, A>);
+	static_assert(ciel::is_same_v<ciel::common_reference_t<const A&, volatile B>, A>);
+	static_assert(ciel::is_same_v<ciel::common_reference_t<const volatile A, B>, const volatile A>);
+	static_assert(ciel::is_same_v<ciel::common_reference_t<const volatile A&, B>, A>);
+	static_assert(ciel::is_same_v<ciel::common_reference_t<const volatile A, B&&>, const volatile A>);
+	static_assert(ciel::is_same_v<ciel::common_reference_t<int&, double&>, double>);
+	static_assert(ciel::is_same_v<ciel::common_reference_t<int, double>, double>);
+	static_assert(ciel::is_same_v<ciel::common_reference_t<int&, long&>, long>);
+
+	//basic_common_reference
+
+	//underlying_type
+	static_assert(ciel::is_same_v<ciel::underlying_type_t<EnumClass>, int>);
+	static_assert(ciel::is_same_v<ciel::underlying_type_t<EnumStruct>, int>);
+	static_assert(ciel::is_same_v<ciel::underlying_type_t<Enum>, unsigned int>);
+
+	//TODO
+
+	//void_t
+	static_assert(ciel::is_same_v<ciel::void_t<>, void>);
+	static_assert(ciel::is_same_v<ciel::void_t<const Class&>, void>);
+
+	//type_identity
+
+	//conjunction
+	static_assert(ciel::conjunction_v<>);
+	static_assert(!ciel::conjunction_v<ciel::false_type>);
+	static_assert(ciel::conjunction_v<ciel::true_type, ciel::true_type, ciel::true_type, ciel::true_type>);
+	static_assert(!ciel::conjunction_v<ciel::true_type, ciel::true_type, ciel::true_type, ciel::false_type>);
+
+	//disjunction
+	static_assert(!ciel::disjunction_v<>);
+	static_assert(ciel::disjunction_v<ciel::true_type>);
+	static_assert(ciel::disjunction_v<ciel::true_type, ciel::true_type>);
+	static_assert(ciel::disjunction_v<ciel::true_type, ciel::false_type>);
+
+	//negation
+	static_assert(ciel::negation_v<ciel::false_type>);
+	static_assert(!ciel::negation_v<ciel::true_type>);
+
+	//TODO
+
+	//is_constant_evaluated
+	static_assert(ciel::is_constant_evaluated());
+	static_assert(ConstantEvaluated() == 1);
 
 	std::cout << "All type_traits_tests finished.\n\n";
 }
