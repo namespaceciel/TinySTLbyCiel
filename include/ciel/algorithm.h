@@ -1,6 +1,8 @@
 #ifndef TINYSTLBYCIEL_INCLUDE_CIEL_ALGORITHM_H_
 #define TINYSTLBYCIEL_INCLUDE_CIEL_ALGORITHM_H_
 
+//TODO 概念与约束
+
 //不修改序列的操作
 
 //修改序列的操作

@@ -1,5 +1,5 @@
-#include <ciel/type_traits_test.h>
+#include <ciel/concepts_test.h>
 
 int main() {
-	type_traits_test();
+	concepts_test();
 }

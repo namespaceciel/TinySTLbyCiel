@@ -7,5 +7,6 @@
 #include <ciel/utility_impl/declval.h>
 #include <ciel/utility_impl/swap.h>
 #include <ciel/utility_impl/pair.h>
+#include <ciel/utility_impl/exchange.h>
 
 #endif //TINYSTLBYCIEL_INCLUDE_CIEL_UTILITY_H_

@@ -143,6 +143,7 @@ void type_traits_test() {
 	static_assert(ciel::is_pointer_v<Union*>);
 	static_assert(!ciel::is_pointer_v<decltype(nullptr)>);    //nullptr_t 不是指针类型，但是可以隐式转换为任何指针类型
 	static_assert(!ciel::is_pointer_v<nullptr_t>);    //nullptr_t 不是指针类型，但是可以隐式转换为任何指针类型
+	static_assert(ciel::is_pointer_v<decltype((void*)nullptr)>);
 
 	//is_lvalue_reference
 	static_assert(ciel::is_lvalue_reference_v<int&>);
@@ -509,6 +510,10 @@ void type_traits_test() {
 	static_assert(ciel::is_same_v<ciel::common_reference_t<int&, double&>, double>);
 	static_assert(ciel::is_same_v<ciel::common_reference_t<int, double>, double>);
 	static_assert(ciel::is_same_v<ciel::common_reference_t<int&, long&>, long>);
+	static_assert(ciel::is_same_v<ciel::common_reference_t<const int&, const int&>, const int&>);
+	static_assert(ciel::is_same_v<ciel::common_reference_t<const int&&, const int&&>, const int&&>);
+	static_assert(ciel::is_same_v<ciel::common_reference_t<const int&, const int&&>, const int&>);
+	static_assert(ciel::is_same_v<ciel::common_reference_t<const int&&, int&>, const int&>);
 
 	//basic_common_reference
 

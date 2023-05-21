@@ -1,6 +1,8 @@
 #ifndef TINYSTLBYCIEL_INCLUDE_CIEL_CONCEPTS_H_
 #define TINYSTLBYCIEL_INCLUDE_CIEL_CONCEPTS_H_
 
+#include <ciel/concepts_impl/boolean_testable.h>
+
 //核心语言概念
 #include <ciel/concepts_impl/same_as.h>
 #include <ciel/concepts_impl/derived_from.h>
@@ -25,6 +27,11 @@
 //对象概念
 
 //可调用概念
+#include <ciel/concepts_impl/ranges::swap.h>
 
+////////////////////////////////////////////////////
+//非标准
+////////////////////////////////////////////////////
+#include <ciel/concepts_impl/class_or_enum_or_union.h>
 
 #endif //TINYSTLBYCIEL_INCLUDE_CIEL_CONCEPTS_H_

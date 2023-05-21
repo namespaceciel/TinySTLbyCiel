@@ -55,21 +55,21 @@ namespace ciel {
 		struct have_simple_common_reference_type {};
 
 		template<class T1, class T2, class X, class Y>
-			requires requires { typename simple_common_reference1<T1, T2>; } && ciel::is_reference_v<simple_common_reference1<T1, T2>>
+			requires requires { typename simple_common_reference1<X&, Y&>; } && ciel::is_reference_v<simple_common_reference1<X&, Y&>>
 		struct have_simple_common_reference_type<T1&, T2&, X, Y> {
-			using type = simple_common_reference1<T1, T2>;
+			using type = simple_common_reference1<X&, Y&>;
 		};
 
 		template<class T1, class T2, class X, class Y>
-			requires requires { typename simple_common_reference1<T1&, T2&>; } && ciel::is_convertible_v<T1, simple_common_reference1<T1&, T2&>> && ciel::is_convertible_v<T2, simple_common_reference1<T1&, T2&>>
+			requires requires { typename simple_common_reference1<X&&, Y&&>; } && ciel::is_convertible_v<X&&, simple_common_reference1<X&&, Y&&>> && ciel::is_convertible_v<Y&&, simple_common_reference1<X&&, Y&&>>
 		struct have_simple_common_reference_type<T1&&, T2&&, X, Y> {
-			using type = simple_common_reference1<T1&, T2&>;
+			using type = simple_common_reference1<X&&, Y&&>;
 		};
 
 		template<class T1, class T2, class X, class Y>
-			requires requires { typename simple_common_reference1<T1, const Y&>; } && ciel::is_convertible_v<T2, simple_common_reference1<T1, const Y&>>
+			requires requires { typename simple_common_reference1<X&, const Y&>; } && ciel::is_convertible_v<Y&&, simple_common_reference1<X&, const Y&>>
 		struct have_simple_common_reference_type<T1&, T2&&, X, Y> {
-			using type = simple_common_reference1<T1, const Y&>;
+			using type = simple_common_reference1<X&, const Y&>;
 		};
 
 		template<class T1, class T2, class X, class Y>
