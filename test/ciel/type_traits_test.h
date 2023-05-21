@@ -33,7 +33,7 @@ namespace type_traits_test_details {
 	enum class EnumClass : int {};
 	class A {};
 	class B : public A {};
-	class C : private B {};
+	class C : private B {};    //B 是 C 的基类，但 private 继承使得 C 不能转为 B
 	struct ClassOperatorInt {
 		operator int() { return 0; }
 	};
@@ -128,7 +128,7 @@ void type_traits_test() {
 	static_assert(ciel::is_function_v<decltype(FunctionVoidVoid)>);
 	static_assert(ciel::is_function_v<decltype(FunctionIntDouble)>);
 	static_assert(!ciel::is_function_v<decltype(FunctionVoidVoidptr)>);
-	static_assert(ciel::is_function_v<int(const char*, ...)>);
+	static_assert(ciel::is_function_v<int(const char*, ...)>);    //printf
 	static_assert(ciel::is_function_v<int(float) noexcept>);
 	static_assert(!ciel::is_function_v<void>);
 
@@ -141,8 +141,8 @@ void type_traits_test() {
 	static_assert(ciel::is_pointer_v<Class*>);
 	static_assert(ciel::is_pointer_v<Enum*>);
 	static_assert(ciel::is_pointer_v<Union*>);
-	static_assert(!ciel::is_pointer_v<decltype(nullptr)>);
-	static_assert(!ciel::is_pointer_v<nullptr_t>);
+	static_assert(!ciel::is_pointer_v<decltype(nullptr)>);    //nullptr_t 不是指针类型，但是可以隐式转换为任何指针类型
+	static_assert(!ciel::is_pointer_v<nullptr_t>);    //nullptr_t 不是指针类型，但是可以隐式转换为任何指针类型
 
 	//is_lvalue_reference
 	static_assert(ciel::is_lvalue_reference_v<int&>);
@@ -390,9 +390,9 @@ void type_traits_test() {
 	//is_convertible
 	static_assert(ciel::is_convertible_v<float, double>);
 	static_assert(ciel::is_convertible_v<int, size_t>);
-	static_assert(!ciel::is_convertible_v<C, A>);
+	static_assert(!ciel::is_convertible_v<C, A>);    //private 继承
 	static_assert(ciel::is_convertible_v<B, A>);
-	static_assert(!ciel::is_convertible_v<C, B>);
+	static_assert(!ciel::is_convertible_v<C, B>);    //private 继承
 	static_assert(ciel::is_convertible_v<ClassOperatorInt, int>);
 
 	//is_nothrow_convertible
@@ -401,13 +401,13 @@ void type_traits_test() {
 	static_assert(!ciel::is_nothrow_convertible_v<C, A>);
 	static_assert(ciel::is_nothrow_convertible_v<B, A>);
 	static_assert(!ciel::is_nothrow_convertible_v<C, B>);
-	static_assert(!ciel::is_nothrow_convertible_v<ClassOperatorInt, int>);
+	static_assert(!ciel::is_nothrow_convertible_v<ClassOperatorInt, int>);    //没有 noexcept
 
 	//TODO
 
 	//remove_cv
 	static_assert(ciel::is_same_v<ciel::remove_cv_t<const volatile int>, int>);
-	static_assert(ciel::is_same_v<ciel::remove_cv_t<const volatile int&>, const volatile int&>);
+	static_assert(ciel::is_same_v<ciel::remove_cv_t<const volatile int&>, const volatile int&>);    //这里的 cv 修饰的是指向的对象，而且引用是非 cv 限定的，下同
 
 	//remove_const
 	static_assert(ciel::is_same_v<ciel::remove_const_t<const volatile int>, volatile int>);
@@ -480,6 +480,7 @@ void type_traits_test() {
 	static_assert(ciel::is_same_v<ciel::decay_t<int&&>, int>);
 	static_assert(ciel::is_same_v<ciel::decay_t<int[]>, int*>);
 	static_assert(ciel::is_same_v<ciel::decay_t<decltype(FunctionVoidVoidptr)>, void (*)()>);
+	static_assert(ciel::is_same_v<ciel::decay_t<decltype(FunctionVoidVoidptr)>, decltype(FunctionVoidVoidptr)>);
 
 	//remove_cvref
 	static_assert(ciel::is_same_v<ciel::remove_cvref_t<const volatile int>, int>);

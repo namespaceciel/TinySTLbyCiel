@@ -1,75 +1,9 @@
 #ifndef TINYSTLBYCIEL_INCLUDE_CIEL_FUNCTIONAL_H_
 #define TINYSTLBYCIEL_INCLUDE_CIEL_FUNCTIONAL_H_
 
-#include <ciel/utility_impl/forward.h>
-
-namespace ciel {
-
-	//greater
-	template<class T=void>
-	struct greater {
-		constexpr bool operator()(const T& lhs, const T& rhs) const {
-			return lhs > rhs;
-		}
-	};
-
-	template<>
-	struct greater<void> {
-		template<class T, class U>
-		constexpr auto operator()(T&& lhs, U&& rhs) const -> decltype(ciel::forward<T>(lhs) > ciel::forward<U>(rhs)) {
-			return ciel::forward<T>(lhs) > ciel::forward<U>(rhs);
-		}
-	};
-
-	//greater_equal
-	template<class T=void>
-	struct greater_equal {
-		constexpr bool operator()(const T& lhs, const T& rhs) const {
-			return lhs >= rhs;
-		}
-	};
-
-	template<>
-	struct greater_equal<void> {
-		template<class T, class U>
-		constexpr auto operator()(T&& lhs, U&& rhs) const -> decltype(ciel::forward<T>(lhs) >= ciel::forward<U>(rhs)) {
-			return ciel::forward<T>(lhs) >= ciel::forward<U>(rhs);
-		}
-	};
-
-	//less
-	template<class T=void>
-	struct less {
-		constexpr bool operator()(const T& lhs, const T& rhs) const {
-			return lhs < rhs;
-		}
-	};
-
-	template<>
-	struct less<void> {
-		template<class T, class U>
-		constexpr auto operator()(T&& lhs, U&& rhs) const -> decltype(ciel::forward<T>(lhs) < ciel::forward<U>(rhs)) {
-			return ciel::forward<T>(lhs) < ciel::forward<U>(rhs);
-		}
-	};
-
-	//less_equal
-	template<class T=void>
-	struct less_equal {
-		constexpr bool operator()(const T& lhs, const T& rhs) const {
-			return lhs <= rhs;
-		}
-	};
-
-	template<>
-	struct less_equal<void> {
-		template<class T, class U>
-		constexpr auto operator()(T&& lhs, U&& rhs) const -> decltype(ciel::forward<T>(lhs) <= ciel::forward<U>(rhs)) {
-			return ciel::forward<T>(lhs) <= ciel::forward<U>(rhs);
-		}
-	};
-
-
-}   //namespace ciel
+#include <ciel/functional_impl/greater.h>
+#include <ciel/functional_impl/less.h>
+#include <ciel/functional_impl/greater_equal.h>
+#include <ciel/functional_impl/less_equal.h>
 
 #endif //TINYSTLBYCIEL_INCLUDE_CIEL_FUNCTIONAL_H_
