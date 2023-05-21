@@ -6,7 +6,6 @@
 #include <ciel/concepts_impl/move_constructible.h>
 #include <ciel/concepts_impl/assignable_from.h>
 #include <ciel/utility.h>
-#include <algorithm>
 
 namespace ciel::ranges {
 	//ranges::swap 相比 swap 的好处在于其可以直接取代 using std::swap; swap(a, b); 具体看文档
