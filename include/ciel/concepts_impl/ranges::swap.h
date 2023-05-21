@@ -49,7 +49,9 @@ namespace ciel::ranges {
 			template<class T, class U, size_t Size>
 				requires swappable_arrays<T, U, Size>
 			constexpr void operator()(T(& t)[Size], U(& u)[Size]) const noexcept(noexcept((*this)(*t, *u))) {
-				std::ranges::swap_ranges(t,u);
+				for (size_t i = 0; i < Size; ++i) {
+					(*this)(t[i], u[i]);
+				}
 			}
 
 			//情况 3：

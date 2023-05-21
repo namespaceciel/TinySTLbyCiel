@@ -57,10 +57,6 @@ void pair_test() {
 		ciel::pair<int, int> p8 = ciel::move(p5);
 		CHECK(p5.first == 2);
 		CHECK(p5.second == 1.5);
-//		std::pair<size_t, double> s1(2, 1.5);
-//		std::pair<int, int> s2 = std::move(s1);
-//		CHECK(s1.first == 2);
-//		CHECK(s1.second == 1.5);
 
 		p5 = ciel::move(p6);
 		CHECK(p5.first == 2);

@@ -14,8 +14,7 @@
 #include <ciel/concepts_impl/unsigned_integral.h>
 #include <ciel/concepts_impl/floating_point.h>
 #include <ciel/concepts_impl/assignable_from.h>
-//#include <ciel/concepts_impl/swappable.h>
-//#include <ciel/concepts_impl/swappable_with.h>
+#include <ciel/concepts_impl/swappable.h>
 #include <ciel/concepts_impl/destructible.h>
 #include <ciel/concepts_impl/constructible_from.h>
 #include <ciel/concepts_impl/default_initializable.h>
@@ -25,6 +24,9 @@
 //比较概念
 
 //对象概念
+#include <ciel/concepts_impl/movable.h>
+#include <ciel/concepts_impl/copyable.h>
+#include <ciel/concepts_impl/semiregular.h>
 
 //可调用概念
 #include <ciel/concepts_impl/ranges::swap.h>
