@@ -9,7 +9,7 @@ namespace ciel {
 	concept swappable = requires(T& a, T& b) { ciel::ranges::swap(a, b); };
 
 	template<class T, class U>
-	concept swappable_with = common_reference_with<T, U>
+	concept swappable_with = ciel::common_reference_with<T, U>
 							&& requires(T&& t, U&& u) {
 								ciel::ranges::swap(ciel::forward<T>(t), ciel::forward<T>(t));
 								ciel::ranges::swap(ciel::forward<U>(u), ciel::forward<U>(u));

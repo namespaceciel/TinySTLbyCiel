@@ -22,6 +22,8 @@
 #include <ciel/concepts_impl/copy_constructible.h>
 
 //比较概念
+#include <ciel/concepts_impl/equality_comparable.h>
+#include <ciel/concepts_impl/totally_ordered.h>
 
 //对象概念
 #include <ciel/concepts_impl/movable.h>
@@ -29,11 +31,12 @@
 #include <ciel/concepts_impl/semiregular.h>
 
 //可调用概念
+
+//定制点对象
 #include <ciel/concepts_impl/ranges::swap.h>
 
-////////////////////////////////////////////////////
+
 //非标准
-////////////////////////////////////////////////////
 #include <ciel/concepts_impl/class_or_enum_or_union.h>
 
 #endif //TINYSTLBYCIEL_INCLUDE_CIEL_CONCEPTS_H_

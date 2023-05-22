@@ -1,5 +1,5 @@
-#include <ciel/concepts_test.h>
+#include <ciel/iterator_test.h>
 
 int main() {
-	concepts_test();
+	iterator_test();
 }
