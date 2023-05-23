@@ -13,13 +13,13 @@ namespace ciel {
 	}
 
 	template<class T, class = void, class = typename ciel::is_default_constructible<T>::type>
-	struct is_implicitly_default_constructible : false_type {};
+	struct is_implicitly_default_constructible : ciel::false_type {};
 
 	template<class T>
-	struct is_implicitly_default_constructible<T, decltype(is_implicitly_default_constructible_details::is_implicitly_default_constructible_helper<const T&>({})), true_type> : true_type {};
+	struct is_implicitly_default_constructible<T, decltype(is_implicitly_default_constructible_details::is_implicitly_default_constructible_helper<const T&>({})), ciel::true_type> : ciel::true_type {};
 
 	template<class T>
-	struct is_implicitly_default_constructible<T, decltype(is_implicitly_default_constructible_details::is_implicitly_default_constructible_helper<const T&>({})), false_type> : false_type {};
+	struct is_implicitly_default_constructible<T, decltype(is_implicitly_default_constructible_details::is_implicitly_default_constructible_helper<const T&>({})), ciel::false_type> : ciel::false_type {};
 
 	template<class T>
 	inline constexpr bool is_implicitly_default_constructible_v = is_implicitly_default_constructible<T>::value;
