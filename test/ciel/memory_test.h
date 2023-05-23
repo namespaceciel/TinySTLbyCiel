@@ -70,6 +70,10 @@ void memory_test() {
 	for (size_t i = 0; i < 5; ++i) {
 		CHECK(ptr12[i] == i);
 	}
+	ciel::swap(ptr11, ptr12);
+	for (size_t i = 0; i < 5; ++i) {
+		CHECK(ptr11[i] == i);
+	}
 	ptr10 = ciel::make_unique<int[]>(5);
 	for (size_t i = 0; i < 5; ++i) {
 		CHECK(ptr10[i] == 0);

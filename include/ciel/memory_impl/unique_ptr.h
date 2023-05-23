@@ -192,12 +192,6 @@ namespace ciel {
 		//TODO: 若 Deleter 不是引用类型，则要求它为不抛出可移动构造 (MoveConstructible) （若 Deleter 是引用，则 get_deleter() 和 u.get_deleter() 在移动构造后引用相同值）
 		constexpr unique_ptr(unique_ptr&& u) noexcept requires ciel::is_move_constructible_v<deleter_type>: ptr(u.release()), dlt(ciel::forward<deleter_type>(u.get_deleter())) {}
 
-		//仅若下列皆为真才会参与重载决议
-		//U 是数组类型
-		//pointer 与 element_type* 是同一类型
-		//unique_ptr<U,E>::pointer 与 unique_ptr<U,E>::element_type* 是同一类型
-		//unique_ptr<U,E>::element_type(*)[] 可转换为 element_type(*)[]
-		//Deleter 是引用类型且 E 与 Deleter 是同一类型，或 Deleter 非引用类型且 E 可隐式转换为 Deleter 。
 		template<class U, class E>
 			requires (ciel::is_array_v<U>
 				&& ciel::is_same_v<pointer, element_type*>
