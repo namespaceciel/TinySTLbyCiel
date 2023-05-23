@@ -167,26 +167,26 @@ namespace ciel {
 		explicit unique_ptr(U p) noexcept requires (ciel::is_default_constructible_v<deleter_type> && !ciel::is_pointer_v<deleter_type>): ptr(p), dlt() {}
 
 		//第一组情况
-		template<class U, class = ciel::enable_if_t<unique_ptr_details::unique_ptr_constructor_helper<deleter_type>::tag == 0>>
+		template<class U, class D = deleter_type, class = ciel::enable_if_t<unique_ptr_details::unique_ptr_constructor_helper<D>::tag == 0>>
 			requires ciel::is_nothrow_copy_constructible_v<deleter_type>
 		unique_ptr(U p, const deleter_type& d) noexcept requires ciel::is_constructible_v<deleter_type, decltype(d)>: ptr(p), dlt(ciel::forward<decltype(d)>(d)) {}
 
-		template<class U, class = ciel::enable_if_t<unique_ptr_details::unique_ptr_constructor_helper<deleter_type>::tag == 0>>
+		template<class U, class D = deleter_type, class = ciel::enable_if_t<unique_ptr_details::unique_ptr_constructor_helper<D>::tag == 0>>
 			requires ciel::is_nothrow_move_constructible_v<deleter_type>
 		unique_ptr(U p, deleter_type&& d) noexcept requires ciel::is_constructible_v<deleter_type, decltype(d)>: ptr(p), dlt(ciel::forward<decltype(d)>(d)) {}
 
 		//第二组情况
-		template<class U, class = ciel::enable_if_t<unique_ptr_details::unique_ptr_constructor_helper<deleter_type>::tag == 1>>
+		template<class U, class D = deleter_type, class = ciel::enable_if_t<unique_ptr_details::unique_ptr_constructor_helper<D>::tag == 1>>
 		unique_ptr(U p, deleter_type& d) noexcept requires ciel::is_constructible_v<deleter_type, decltype(d)>: ptr(p), dlt(ciel::forward<decltype(d)>(d)) {}
 
-		template<class U, class = ciel::enable_if_t<unique_ptr_details::unique_ptr_constructor_helper<deleter_type>::tag == 1>>
+		template<class U, class D = deleter_type, class = ciel::enable_if_t<unique_ptr_details::unique_ptr_constructor_helper<D>::tag == 1>>
 		unique_ptr(U p, deleter_type&& d) = delete;
 
 		//第三组情况
-		template<class U, class = ciel::enable_if_t<unique_ptr_details::unique_ptr_constructor_helper<deleter_type>::tag == 2>>
+		template<class U, class D = deleter_type, class = ciel::enable_if_t<unique_ptr_details::unique_ptr_constructor_helper<D>::tag == 2>>
 		unique_ptr(U p, const deleter_type& d) noexcept requires ciel::is_constructible_v<deleter_type, decltype(d)>: ptr(p), dlt(ciel::forward<decltype(d)>(d)) {}
 
-		template<class U, class = ciel::enable_if_t<unique_ptr_details::unique_ptr_constructor_helper<deleter_type>::tag == 2>>
+		template<class U, class D = deleter_type, class = ciel::enable_if_t<unique_ptr_details::unique_ptr_constructor_helper<D>::tag == 2>>
 		unique_ptr(U p, const deleter_type&& d) = delete;
 
 		//TODO: 若 Deleter 不是引用类型，则要求它为不抛出可移动构造 (MoveConstructible) （若 Deleter 是引用，则 get_deleter() 和 u.get_deleter() 在移动构造后引用相同值）
@@ -370,6 +370,39 @@ namespace ciel {
 	void swap(unique_ptr<T, D>& lhs, unique_ptr<T, D>& rhs) noexcept {
 		lhs.swap(rhs);
 	}
+
+	//make_unique 不允许构造已知边界的数组，原因大概是 unique_ptr 本身只需要有未知数组版本就足够使用了
+	//	而如果 make_unique 允许构造已知边界数组，返回值将为 unique_ptr<T[N]>，毫无疑问会重载到通常版本，这显然是很蠢的
+	template<class T, class... Args>
+		requires (!ciel::is_array_v<T>)
+	unique_ptr<T> make_unique(Args&&... args) {
+		return unique_ptr<T>(new T(ciel::forward<Args>(args)...));
+	}
+
+	template<class T>
+		requires ciel::is_unbounded_array_v<T>
+	unique_ptr<T> make_unique(size_t size) {
+		return unique_ptr<T>(new ciel::remove_extent_t<T>[size]());
+	}
+
+	template<class T, class... Args>
+		requires ciel::is_bounded_array_v<T>
+	auto make_unique(Args&&... args) = delete;
+
+	template<class T>
+		requires (!ciel::is_array_v<T>)
+	unique_ptr<T> make_unique_for_overwrite() {
+		return unique_ptr<T>(new T);
+	}
+
+	template<class T>
+		requires ciel::is_unbounded_array_v<T>
+	unique_ptr<T> make_unique_for_overwrite(size_t size) {
+		return unique_ptr<T>(new ciel::remove_extent_t<T>[size]);
+	}
+
+	template<class T, class... Args>
+	auto make_unique_for_overwrite(Args&&... args) = delete;
 
 }   //namespace ciel
 
