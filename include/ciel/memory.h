@@ -8,6 +8,14 @@
 #include <ciel/memory_impl/allocator.h>
 #include <ciel/memory_impl/allocator_traits.h>
 
+//智能指针
+#include <ciel/memory_impl/unique_ptr.h>
+
+//辅助类
+#include <ciel/memory_impl/default_delete.h>
+
+//智能指针适配器
+
 //杂项
 #include <ciel/memory_impl/addressof.h>
 
