@@ -63,6 +63,6 @@ namespace ciel::ranges {
 
 	inline constexpr auto swap = swap_details::_fn{};
 
-}   //namespace ciel
+}   //namespace ciel::ranges
 
 #endif //TINYSTLBYCIEL_INCLUDE_CIEL_CONCEPTS_IMPL_RANGES_SWAP_H_

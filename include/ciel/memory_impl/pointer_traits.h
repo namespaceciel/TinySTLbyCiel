@@ -21,6 +21,7 @@ namespace ciel {
 		struct element_type_of<Ptr, true> {
 			using type = typename Ptr::element_type;
 		};
+
 		//令 Ptr 为 S<T, Args...>
 		template<template<class, class...> class S, class T, class... Args>
 		struct element_type_of<S<T, Args...>, true> {
@@ -31,8 +32,6 @@ namespace ciel {
 		struct element_type_of<S<T, Args...>, false> {
 			using type = T;
 		};
-
-/////////////////////////////////////////////////////////////////////////////////////
 
 		template<class T, class = void>
 		struct has_difference_type : ciel::false_type {};
@@ -49,8 +48,6 @@ namespace ciel {
 		struct difference_type_of<Ptr, true> {
 			using type = typename has_difference_type<Ptr>::type;
 		};
-
-/////////////////////////////////////////////////////////////////////////////////////
 
 		template<class T, class U>
 		struct has_rebind {

@@ -30,16 +30,16 @@ namespace ciel {
 	public:
 		using element_type = T;
 		using deleter_type = Deleter;
-		using pointer = allocator_traits_details::has_pointer<element_type, deleter_type>::type;    //pointer 可以为智能指针，但必须满足可空指针 (NullablePointer)，即需要实现 operator bool()
+		using pointer = allocator_traits_details::has_pointer<element_type, deleter_type>::type;    //pointer 可以为智能指针，但必须满足可空指针 (NullablePointer)
 
 	private:
 		pointer ptr;
 		[[no_unique_address]] deleter_type dlt;
 
 	public:
-		constexpr unique_ptr() noexcept requires (ciel::is_default_constructible_v<deleter_type> && !ciel::is_pointer_v<deleter_type>): ptr(), dlt() {}
+		constexpr unique_ptr() noexcept requires (ciel::is_default_constructible_v<deleter_type> && !ciel::is_pointer_v<deleter_type>): ptr(nullptr), dlt() {}
 
-		constexpr unique_ptr(nullptr_t) noexcept requires (ciel::is_default_constructible_v<deleter_type> && !ciel::is_pointer_v<deleter_type>): ptr(), dlt() {}
+		constexpr unique_ptr(nullptr_t) noexcept requires (ciel::is_default_constructible_v<deleter_type> && !ciel::is_pointer_v<deleter_type>): ptr(nullptr), dlt() {}
 
 		constexpr explicit unique_ptr(pointer p) noexcept requires (ciel::is_default_constructible_v<deleter_type> && !ciel::is_pointer_v<deleter_type>): ptr(p), dlt() {}
 

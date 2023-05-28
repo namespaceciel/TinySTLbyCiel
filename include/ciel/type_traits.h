@@ -1,10 +1,6 @@
 #ifndef TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_H_
 #define TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_H_
 
-////////////////////////////////////////////////////
-//类
-////////////////////////////////////////////////////
-
 //辅助类
 #include <ciel/type_traits_impl/integral_constant.h>
 
@@ -114,11 +110,6 @@
 #include <ciel/type_traits_impl/disjunction.h>
 #include <ciel/type_traits_impl/negation.h>
 
-
-////////////////////////////////////////////////////
-//函数
-////////////////////////////////////////////////////
-
 //成员关系
 //#include <ciel/type_traits_impl/is_pointer_interconvertible_with_class.h>/*找不到相关实现*/
 //#include <ciel/type_traits_impl/is_corresponding_member.h>/*找不到相关实现*/
@@ -126,15 +117,13 @@
 //常量求值语境
 #include <ciel/type_traits_impl/is_constant_evaluated.h>/*由编译器实现*/
 
-
-////////////////////////////////////////////////////
 //非标准
-////////////////////////////////////////////////////
 #include <ciel/type_traits_impl/add_reference.h>
 #include <ciel/type_traits_impl/apply_cv.h>
 #include <ciel/type_traits_impl/type_list.h>
 #include <ciel/type_traits_impl/copy_cv.h>
 #include <ciel/type_traits_impl/copy_cvref.h>
 #include <ciel/type_traits_impl/is_implicitly_default_constructible.h>
+#include <ciel/type_traits_impl/is_type_in_pack.h>
 
 #endif //TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_H_

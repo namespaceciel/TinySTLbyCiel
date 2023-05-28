@@ -29,6 +29,7 @@
 #include <ciel/concepts_impl/movable.h>
 #include <ciel/concepts_impl/copyable.h>
 #include <ciel/concepts_impl/semiregular.h>
+#include <ciel/concepts_impl/regular.h>
 
 //可调用概念
 

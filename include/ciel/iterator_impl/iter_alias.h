@@ -2,29 +2,44 @@
 #define TINYSTLBYCIEL_INCLUDE_CIEL_ITERATOR_IMPL_ITER_ALIAS_H_
 
 #include <ciel/concepts.h>
-#include <ciel/iterator_impl/referenceable.h>
+#include <ciel/iterator_impl/referenceable.h>    //iter_reference_t
+#include <ciel/iterator_impl/indirectly_readable_traits.h>
+#include <ciel/iterator_impl/iterator_traits.h>
+#include <ciel/iterator_impl/ranges::iter_move.h>
 
 namespace ciel {
 
+	namespace iter_alias_details {
+		template<class T, class = void>
+		struct iter_value_t_helper {
+			using value_type = ciel::indirectly_readable_traits<ciel::remove_cvref_t<T>>::value_type;
+		};
 
+		template<class T>
+		struct iter_value_t_helper<T, ciel::void_t<typename ciel::iterator_traits<ciel::remove_cvref_t<T>>::value_type>> {
+			using value_type = ciel::iterator_traits<ciel::remove_cvref_t<T>>::value_type;
+		};
 
-	//若 iterator_traits<remove_cvref_t<T>> 未被特化，则 iter_value_t<T> 为 indirectly_readable_traits<remove_cvref_t<T>>::value_type
-	//否则它是 iterator_traits<remove_cvref_t<T>>::value_type 。
-	template< class T >
-	using iter_value_t = /* see below */;
+		template<class T, class = void>
+		struct iter_difference_t_helper {
+			using value_type = ciel::incrementable_traits<ciel::remove_cvref_t<T>>::difference_type;
+		};
 
+		template<class T>
+		struct iter_difference_t_helper<T, ciel::void_t<typename ciel::iterator_traits<ciel::remove_cvref_t<T>>::difference_type>> {
+			using value_type = typename ciel::iterator_traits<ciel::remove_cvref_t<T>>::difference_type;
+		};
+	}
 
+	template<class T>
+	using iter_value_t = iter_alias_details::iter_value_t_helper<T>::value_type;
 
-	template< class T >
-	using iter_difference_t = /* see below */;
+	template<class T>
+	using iter_difference_t = iter_alias_details::iter_difference_t_helper<T>::value_type;
 
-	template< referenceable T>
-		requires /* see below */
-	using iter_rvalue_reference_t = decltype(std::iter_move(std::declval<T&>()));
-
-	template< std::indirectly_readable T >
-	using iter_common_reference_t = std::common_reference_t<std::iter_reference_t<T>,
-	std::iter_value_t<T>&>;
+	template<referenceable T>
+		requires requires {{ ciel::ranges::iter_move(ciel::declval<T&>()) } -> can_reference; }
+	using iter_rvalue_reference_t = decltype(ciel::ranges::iter_move(ciel::declval<T&>()));
 
 }   //namespace ciel
 

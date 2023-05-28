@@ -18,8 +18,6 @@ namespace ciel {
 			using type = Iter::pointer;
 		};
 
-/////////////////////////////////////////////////////////////////////////////////////
-
 		//对应三种情况
 		template<class Iter> struct has_pointer2_helper3 { using type = void; };
 		template<class Iter> struct has_pointer2_helper2 : has_pointer2_helper3<Iter> {};
@@ -37,8 +35,6 @@ namespace ciel {
 			using type = decltype(ciel::declval<Iter&>().operator->());
 		};
 
-/////////////////////////////////////////////////////////////////////////////////////
-
 		template<class Iter, class = void>
 		struct has_reference2 {
 			using type = ciel::iter_reference_t<Iter>;
@@ -48,8 +44,6 @@ namespace ciel {
 		struct has_reference2<Iter, ciel::void_t<typename Iter::reference>> {
 			using type = Iter::reference;
 		};
-
-/////////////////////////////////////////////////////////////////////////////////////
 
 		//对应五种情况
 		template<class Iter> struct has_iterator_category2_helper5 { using type = ciel::input_iterator_tag; };
@@ -79,8 +73,6 @@ namespace ciel {
 			using type = ciel::forward_iterator_tag;
 		};
 
-/////////////////////////////////////////////////////////////////////////////////////
-
 		template<class Iter, class = void>
 		struct has_difference_type3 {
 			using type = void;
@@ -90,8 +82,6 @@ namespace ciel {
 		struct has_difference_type3<Iter, ciel::void_t<typename ciel::incrementable_traits<Iter>::difference_type>> {
 			using type = ciel::incrementable_traits<Iter>::difference_type;
 		};
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 		template<class Iter>
 		concept has_member_pointer = requires { typename Iter::pointer; };
@@ -135,7 +125,8 @@ namespace ciel {
 			using reference = void;
 			using iterator_category = ciel::output_iterator_tag;
 		};
-	}
+
+	}	//namespace iterator_traits_details
 
 	template<class Iter>
 	struct iterator_traits : iterator_traits_details::iterator_traits_helper1<Iter> {};

@@ -21,7 +21,7 @@ namespace ciel {
 		size_t* count;
 
 	public:
-		constexpr weak_ptr() noexcept: ptr(), count() {}
+		constexpr weak_ptr() noexcept: ptr(nullptr), count(nullptr) {}
 
 		weak_ptr(const weak_ptr& r) noexcept: ptr(r.ptr), count(r.count) {}
 

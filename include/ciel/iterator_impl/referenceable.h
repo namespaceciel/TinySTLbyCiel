@@ -16,7 +16,7 @@ namespace ciel {
 	concept referenceable = requires {{ *ciel::declval<T&>() } -> can_reference; };
 
 	template<referenceable T>
-	using iter_reference_t = decltype(*std::declval<T&>());
+	using iter_reference_t = decltype(*ciel::declval<T&>());
 
 }   //namespace ciel
 

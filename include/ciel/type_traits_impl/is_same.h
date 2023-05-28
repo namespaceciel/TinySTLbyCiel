@@ -4,6 +4,7 @@
 #include <ciel/type_traits_impl/integral_constant.h>
 
 namespace ciel {
+
 	template<class T, class U>
 	struct is_same : ciel::false_type {};
 

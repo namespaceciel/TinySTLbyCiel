@@ -20,8 +20,6 @@ namespace ciel {
 			using type = typename ciel::remove_reference_t<Alloc>::pointer;
 		};
 
-/////////////////////////////////////////////////////////////////////////////////////
-
 		template<class T, class Ptr, class Alloc, class = void>
 		struct has_const_pointer {
 			using type = typename ciel::pointer_traits<Ptr>::template rebind<const T>;
@@ -31,8 +29,6 @@ namespace ciel {
 		struct has_const_pointer<T, Ptr, Alloc, ciel::void_t<typename ciel::remove_reference_t<Alloc>::const_pointer>> {
 			using type = typename ciel::remove_reference_t<Alloc>::const_pointer;
 		};
-
-/////////////////////////////////////////////////////////////////////////////////////
 
 		template<class Ptr, class Alloc, class = void>
 		struct has_void_pointer {
@@ -44,8 +40,6 @@ namespace ciel {
 			using type = typename ciel::remove_reference_t<Alloc>::void_pointer;
 		};
 
-/////////////////////////////////////////////////////////////////////////////////////
-
 		template<class Ptr, class Alloc, class = void>
 		struct has_const_void_pointer {
 			using type = typename ciel::pointer_traits<Ptr>::template rebind<const void>;
@@ -55,8 +49,6 @@ namespace ciel {
 		struct has_const_void_pointer<Ptr, Alloc, ciel::void_t<typename ciel::remove_reference_t<Alloc>::const_void_pointer>> {
 			using type = typename ciel::remove_reference_t<Alloc>::const_void_pointer;
 		};
-
-/////////////////////////////////////////////////////////////////////////////////////
 
 		template<class Ptr, class Alloc, class = void>
 		struct has_difference_type {
@@ -68,8 +60,6 @@ namespace ciel {
 			using type = typename ciel::remove_reference_t<Alloc>::difference_type;
 		};
 
-/////////////////////////////////////////////////////////////////////////////////////
-
 		template<class Diff, class Alloc, class = void>
 		struct has_size_type : ciel::make_unsigned<Diff> {};
 
@@ -77,8 +67,6 @@ namespace ciel {
 		struct has_size_type<Diff, Alloc, ciel::void_t<typename ciel::remove_reference_t<Alloc>::size_type>> {
 			using type = typename ciel::remove_reference_t<Alloc>::size_type;
 		};
-
-/////////////////////////////////////////////////////////////////////////////////////
 
 		template<class Alloc, class = void>
 		struct has_propagate_on_container_copy_assignment : ciel::false_type {};
@@ -88,8 +76,6 @@ namespace ciel {
 			using type = typename ciel::remove_reference_t<Alloc>::propagate_on_container_copy_assignment;
 		};
 
-/////////////////////////////////////////////////////////////////////////////////////
-
 		template<class Alloc, class = void>
 		struct has_propagate_on_container_move_assignment : ciel::false_type {};
 
@@ -97,8 +83,6 @@ namespace ciel {
 		struct has_propagate_on_container_move_assignment<Alloc, ciel::void_t<typename ciel::remove_reference_t<Alloc>::propagate_on_container_move_assignment>> {
 			using type = typename ciel::remove_reference_t<Alloc>::propagate_on_container_move_assignment;
 		};
-
-/////////////////////////////////////////////////////////////////////////////////////
 
 		template<class Alloc, class = void>
 		struct has_propagate_on_container_swap : ciel::false_type {};
@@ -108,8 +92,6 @@ namespace ciel {
 			using type = typename ciel::remove_reference_t<Alloc>::propagate_on_container_swap;
 		};
 
-/////////////////////////////////////////////////////////////////////////////////////
-
 		template<class Alloc, class = void>
 		struct has_is_always_equal : ciel::is_empty<Alloc> {};
 
@@ -117,8 +99,6 @@ namespace ciel {
 		struct has_is_always_equal<Alloc, ciel::void_t<typename ciel::remove_reference_t<Alloc>::is_always_equal>> {
 			using type = typename ciel::remove_reference_t<Alloc>::is_always_equal;
 		};
-
-/////////////////////////////////////////////////////////////////////////////////////
 
 		template<class T, class U, class = void>
 		struct has_rebind_other : ciel::false_type {};
@@ -141,15 +121,11 @@ namespace ciel {
 			using type = Alloc<U, Args...>;
 		};
 
-/////////////////////////////////////////////////////////////////////////////////////
-
 		template<class Alloc, class SizeType, class ConstVoidPtr, class = void>
 		struct has_allocate_hint : ciel::false_type {};
 
 		template<class Alloc, class SizeType, class ConstVoidPtr>
 		struct has_allocate_hint<Alloc, SizeType, ConstVoidPtr, decltype((void)ciel::declval<Alloc>().allocate(ciel::declval<SizeType>(), ciel::declval<ConstVoidPtr>()))> : ciel::true_type {};
-
-/////////////////////////////////////////////////////////////////////////////////////
 
 		template<class, class Alloc, class... Args>
 		struct has_construct : ciel::false_type {};
@@ -157,23 +133,17 @@ namespace ciel {
 		template<class Alloc, class... Args>
 		struct has_construct<decltype((void)ciel::declval<Alloc>().construct(ciel::declval<Args...>())), Alloc, Args...> : ciel::true_type {};
 
-/////////////////////////////////////////////////////////////////////////////////////
-
 		template<class Alloc, class Ptr, class = void>
 		struct has_destroy : ciel::false_type {};
 
 		template<class Alloc, class Ptr>
 		struct has_destroy<Alloc, Ptr, decltype((void)ciel::declval<Alloc>().destroy(ciel::declval<Ptr>()))> : ciel::true_type {};
 
-/////////////////////////////////////////////////////////////////////////////////////
-
 		template<class Alloc, class = void>
 		struct has_max_size : ciel::false_type {};
 
 		template<class Alloc>
 		struct has_max_size<Alloc, decltype((void)ciel::declval<Alloc>().max_size())> : ciel::true_type {};
-
-/////////////////////////////////////////////////////////////////////////////////////
 
 		template<class Alloc, class = void>
 		struct has_select_on_container_copy_construction : ciel::false_type {};
@@ -242,8 +212,8 @@ namespace ciel {
 			ciel::destroy_at(p);
 		}
 
-//以下两组 SFINAE 函数如果去掉模板参数 A 而写成 template<class = enable_if_t<false>> 形式会报错的原因为：
-//			SFINAE 是在模板替换时出现错误才会抛弃掉替换的结果转而尝试下一个可选模板，在上例中根本没有需要被推导的模板参数，也就压根不会实现 SFINAE
+		//以下两组 SFINAE 函数如果去掉模板参数 A 而写成 template<class = enable_if_t<false>> 形式会报错的原因为：
+		//			SFINAE 是在模板替换时出现错误才会抛弃掉替换的结果转而尝试下一个可选模板，在上例中根本没有需要被推导的模板参数，也就压根不会实现 SFINAE
 		template<class A = allocator_type, class = ciel::enable_if_t<allocator_traits_details::has_max_size<const A>::value>>
 		static constexpr size_type max_size(const allocator_type& a) noexcept {
 			return a.max_size();

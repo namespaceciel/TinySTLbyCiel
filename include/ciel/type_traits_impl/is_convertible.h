@@ -68,7 +68,6 @@ namespace ciel {
 		};
 	}
 
-	//这是偏特化
 	template<class From, class To>
 		requires is_convertible_details::test_no_throw_convertible<From, To>
 	struct is_nothrow_convertible<From, To> : ciel::true_type {};
