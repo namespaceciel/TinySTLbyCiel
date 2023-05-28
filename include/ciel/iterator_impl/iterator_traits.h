@@ -129,7 +129,9 @@ namespace ciel {
 	}	//namespace iterator_traits_details
 
 	template<class Iter>
-	struct iterator_traits : iterator_traits_details::iterator_traits_helper1<Iter> {};
+	struct iterator_traits : iterator_traits_details::iterator_traits_helper1<Iter> {
+		using primary_template = iterator_traits;	//用于 iter_concept
+	};
 
 	template<class T>
 		requires ciel::is_object_v<T>
