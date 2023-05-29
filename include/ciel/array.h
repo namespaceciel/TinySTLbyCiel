@@ -3,7 +3,7 @@
 
 #include <cstddef>
 #include <stdexcept>
-#include <iterator>
+#include <ciel/iterator.h>
 #include <ciel/type_traits.h>
 #include <ciel/utility.h>
 #include <ciel/algorithm.h>
@@ -24,8 +24,8 @@ namespace ciel {
 		using iterator = value_type*;
 		using const_iterator = const value_type*;
 
-		using reverse_iterator = std::reverse_iterator<iterator>;
-		using const_reverse_iterator = std::reverse_iterator<const_iterator>;
+		using reverse_iterator = ciel::reverse_iterator<iterator>;
+		using const_reverse_iterator = ciel::reverse_iterator<const_iterator>;
 
 		T m_data[N];
 
@@ -153,24 +153,28 @@ namespace ciel {
 	template<size_t I, class T, size_t N>
 	constexpr T& get(array<T, N>& a) noexcept {
 		static_assert(I < N, "调用 ciel::get(ciel::array) 越界");
+
 		return a[I];
 	}
 
 	template<size_t I, class T, size_t N>
 	constexpr T&& get(array<T, N>&& a) noexcept {
 		static_assert(I < N, "调用 ciel::get(ciel::array) 越界");
+
 		return ciel::move(a[I]);
 	}
 
 	template<size_t I, class T, size_t N>
 	constexpr const T& get(const array<T, N>& a) noexcept {
 		static_assert(I < N, "调用 ciel::get(ciel::array) 越界");
+
 		return a[I];
 	}
 
 	template<size_t I, class T, size_t N>
 	constexpr const T&& get(const array<T, N>&& a) noexcept {
 		static_assert(I < N, "调用 ciel::get(ciel::array) 越界");
+
 		return ciel::move(a[I]);
 	}
 
@@ -198,6 +202,7 @@ namespace ciel {
 	constexpr array<ciel::remove_cv_t<T>, N> to_array(T (& a)[N]) {
 		static_assert(!ciel::is_array_v<T>, "ciel::to_array 不接受高维数组");
 		static_assert(ciel::is_constructible_v<T, T&>, "ciel::to_array 需要元素可构造");
+
 		return array_details::to_array_impl(a, std::make_index_sequence<N>{});
 	}
 
@@ -205,6 +210,7 @@ namespace ciel {
 	constexpr array<ciel::remove_cv_t<T>, N> to_array(T (&& a)[N]) {
 		static_assert(!ciel::is_array_v<T>, "ciel::to_array 不接受高维数组");
 		static_assert(ciel::is_move_constructible_v<T>, "ciel::to_array 需要元素可移动构造");
+
 		return array_details::to_array_impl(ciel::move(a), std::make_index_sequence<N>{});
 	}
 

@@ -14,10 +14,10 @@ namespace concepts_details {
 		int v;
 	};
 	void swap(IntLike& lhs, int& rhs) {
-		std::swap(lhs.v, rhs);
+		ciel::swap(lhs.v, rhs);
 	}
 	void swap(int& lhs, IntLike& rhs) {
-		std::swap(lhs, rhs.v);
+		ciel::swap(lhs, rhs.v);
 	}
 	struct HasSwap {
 		void swap(HasSwap&) {}

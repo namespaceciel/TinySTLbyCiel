@@ -1,14 +1,14 @@
 #ifndef TINYSTLBYCIEL_INCLUDE_CIEL_MEMORY_IMPL_UNINITIALIZED_FILL_N_H_
 #define TINYSTLBYCIEL_INCLUDE_CIEL_MEMORY_IMPL_UNINITIALIZED_FILL_N_H_
 
-#include <iterator>
+#include <ciel/iterator.h>
 #include <ciel/memory_impl/addressof.h>
 
 namespace ciel {
 
 	template<class ForwardIt, class Size, class T>
 	ForwardIt uninitialized_fill_n(ForwardIt first, Size count, const T& value) {
-		using V = typename std::iterator_traits<ForwardIt>::value_type;
+		using V = typename ciel::iterator_traits<ForwardIt>::value_type;
 		ForwardIt current = first;
 		try {
 			for (; count > 0; ++current, (void)--count) {

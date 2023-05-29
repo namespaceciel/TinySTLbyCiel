@@ -1,14 +1,14 @@
 #ifndef TINYSTLBYCIEL_INCLUDE_CIEL_MEMORY_IMPL_UNINITIALIZED_COPY_N_H_
 #define TINYSTLBYCIEL_INCLUDE_CIEL_MEMORY_IMPL_UNINITIALIZED_COPY_N_H_
 
-#include <iterator>
+#include <ciel/iterator.h>
 #include <ciel/memory_impl/addressof.h>
 
 namespace ciel {
 
 	template<class InputIt, class Size, class NoThrowForwardIt>
 	NoThrowForwardIt uninitialized_copy_n(InputIt first, Size count, NoThrowForwardIt d_first) {
-		using T = typename std::iterator_traits<NoThrowForwardIt>::value_type;
+		using T = typename ciel::iterator_traits<NoThrowForwardIt>::value_type;
 		NoThrowForwardIt current = d_first;
 		try {
 			for (; count > 0; ++first, (void)++current, --count) {

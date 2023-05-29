@@ -2,15 +2,16 @@
 #define TINYSTLBYCIEL_INCLUDE_CIEL_ITERATOR_IMPL_CONTIGUOUS_ITERATOR_H_
 
 #include <ciel/iterator_impl/random_access_iterator.h>
+#include <ciel/memory.h>
 
 namespace ciel {
 
 	template<class I>
-	concept contiguous_iterator = std::random_access_iterator<I>
-		&& std::derived_from<ciel::iter_concept<I>, std::contiguous_iterator_tag>
-		&& std::is_lvalue_reference_v<std::iter_reference_t<I>>
-		&& std::same_as<std::iter_value_t<I>, std::remove_cvref_t<std::iter_reference_t<I>>>
-		&& requires(const I& i) {{ std::to_address(i) } -> std::same_as<std::add_pointer_t<std::iter_reference_t<I>>>; };
+	concept contiguous_iterator = ciel::random_access_iterator<I>
+		&& ciel::derived_from<ciel::iter_concept<I>, ciel::contiguous_iterator_tag>
+		&& ciel::is_lvalue_reference_v<ciel::iter_reference_t<I>>
+		&& ciel::same_as<ciel::iter_value_t<I>, ciel::remove_cvref_t<ciel::iter_reference_t<I>>>
+		&& requires(const I& i) {{ ciel::to_address(i) } -> ciel::same_as<ciel::add_pointer_t<ciel::iter_reference_t<I>>>; };
 
 }   //namespace ciel
 

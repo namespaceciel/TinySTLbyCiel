@@ -17,6 +17,7 @@
 //智能指针适配器
 
 //杂项
+#include <ciel/memory_impl/to_address.h>
 #include <ciel/memory_impl/addressof.h>
 
 //未初始化存储
