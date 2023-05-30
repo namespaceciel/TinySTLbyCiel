@@ -84,7 +84,7 @@ void pair_test() {
 									  ciel::pair<int, int>>);
 	}
 
-	std::cout << "All pair_tests finished.\n\n";
+	std::cout << "All pair_tests finished.\n";
 }
 
 #endif //TINYSTLBYCIEL_TEST_CIEL_PAIR_TEST_H_

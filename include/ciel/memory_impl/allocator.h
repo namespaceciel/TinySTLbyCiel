@@ -50,16 +50,30 @@ namespace ciel {
 
 		constexpr ~allocator() = default;
 
-		[[nodiscard]] constexpr T* allocate( size_t n ) {
-			if(ciel::numeric_limits<size_t>::max() / sizeof(T) < n){
-				throw std::bad_array_new_length();
-			}
-			return static_cast<T*>(::operator new(sizeof(T) * n));
-		}
 		//没看懂 allocate 和 deallocate 这里的标准库实现。。。目前来看像是为了标准里的这一要求：
 		//				  在常量表达式的求值中，此函数必须解分配在同一表达式的求值内分配的存储。
-		constexpr void deallocate( T* p, size_t n ){
-			::operator delete(p);
+		//TODO: 搞懂过对齐对象用对齐版本的 ::operator new 的必要性
+		[[nodiscard]] constexpr T* allocate(size_t n) {
+			if (ciel::numeric_limits<size_t>::max() / sizeof(T) < n) {
+				throw std::bad_array_new_length();
+			}
+			if (ciel::is_constant_evaluated()) {
+				return static_cast<T*>(::operator new(sizeof(T) * n));
+			} else if (alignof(T) > __STDCPP_DEFAULT_NEW_ALIGNMENT__) {
+				return static_cast<T*>(::operator new(sizeof(T) * n, static_cast<std::align_val_t>(alignof(T))));
+			} else {
+				return static_cast<T*>(::operator new(sizeof(T) * n));
+			}
+		}
+
+		constexpr void deallocate(T* p, size_t n) {
+			if (ciel::is_constant_evaluated()) {
+				::operator delete((void*)p);
+			} else if (alignof(T) > __STDCPP_DEFAULT_NEW_ALIGNMENT__) {
+				::operator delete((void*)p, static_cast<std::align_val_t>(alignof(T)));
+			} else {
+				::operator delete((void*)p);
+			}
 		}
 
 	};  //class allocator

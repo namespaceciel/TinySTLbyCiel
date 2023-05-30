@@ -19,31 +19,6 @@ namespace iterator_test_details {
 		using reference = char;
 		using iterator_category = size_t;
 	};
-/*
-	struct InputIter{
-		int* v;
-		bool operator==(InputIter& other) const{return v==other.v;}
-		bool operator!=(InputIter& other) const{return v!=other.v;}
-		int operator*() const{return *v;}
-	};
-	struct ForwardIter:InputIter{
-		int* operator++(){return nullptr;}
-		int* operator++(int){return nullptr;}
-	};
-	struct BidirectionalIter:ForwardIter{
-		int* operator--(){return nullptr;}
-		int* operator--(int){return nullptr;}
-	};
-	struct RandomAccessIter:BidirectionalIter{
-		int* operator+=(int){return nullptr;}
-		int* operator-=(int){return nullptr;}
-		int operator[](size_t){return 0;}
-		int* operator+(int){return nullptr;}
-		int* operator-(int){return nullptr;}
-	};
-	bool operator==(InputIter&,InputIter&){return true;}
-	bool operator!=(InputIter&,InputIter&){return true;}
-*/
 }
 
 void iterator_test() {
@@ -80,7 +55,18 @@ void iterator_test() {
 	static_assert(ciel::is_same_v<ciel::iterator_traits<IterHasFourMembers>::reference, char>);
 	static_assert(ciel::is_same_v<ciel::iterator_traits<IterHasFourMembers>::iterator_category, size_t>);
 
-	std::cout << "All iterator_tests finished.\n\n";
+	//reverse_iterator
+	int arr1[10] = {9, 8, 7, 6, 5, 4, 3, 2, 1, 0};
+	ciel::reverse_iterator<int*> ri1(arr1 + 10);
+	for (size_t i = 0; i < 10; ++i) {
+		CHECK(ri1[i] == i);
+	}
+	for (size_t i = 0; i < 10; ++i) {
+		CHECK(*ri1 == i);
+		++ri1;
+	}
+
+	std::cout << "All iterator_tests finished.\n";
 };
 
 #endif //TINYSTLBYCIEL_TEST_CIEL_ITERATOR_TEST_H_

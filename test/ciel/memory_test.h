@@ -90,7 +90,7 @@ void memory_test() {
 	ciel::unique_ptr<ciel::unique_ptr<int>> ptr15(new ciel::unique_ptr<int>(new int(5)));
 	ciel::unique_ptr<ciel::unique_ptr<int>> ptr16(ciel::move(ptr15));
 
-	std::cout << "All memory_tests finished.\n\n";
+	std::cout << "All memory_tests finished.\n";
 }
 
 #endif //TINYSTLBYCIEL_TEST_CIEL_MEMORY_TEST_H_

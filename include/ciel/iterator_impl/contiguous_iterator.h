@@ -5,7 +5,7 @@
 #include <ciel/memory.h>
 
 namespace ciel {
-
+	//连续迭代器的作用体现在：如果有一个算法要求传入的是裸指针，那么连续迭代器足以满足其需求
 	template<class I>
 	concept contiguous_iterator = ciel::random_access_iterator<I>
 		&& ciel::derived_from<ciel::iter_concept<I>, ciel::contiguous_iterator_tag>

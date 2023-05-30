@@ -552,7 +552,7 @@ void type_traits_test() {
 	static_assert(ciel::is_constant_evaluated());
 	static_assert(ConstantEvaluated() == 1);
 
-	std::cout << "All type_traits_tests finished.\n\n";
+	std::cout << "All type_traits_tests finished.\n";
 }
 
 #endif //TINYSTLBYCIEL_TEST_CIEL_TYPE_TRAITS_TEST_H_

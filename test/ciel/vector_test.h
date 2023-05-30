@@ -14,7 +14,7 @@
 
 void vector_test() {
 
-	std::cout << "All vector_tests finished.\n\n";
+	std::cout << "All vector_tests finished.\n";
 }
 
 #endif //TINYSTLBYCIEL_TEST_CIEL_VECTOR_TEST_H_

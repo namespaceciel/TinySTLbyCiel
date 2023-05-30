@@ -150,7 +150,8 @@ namespace ciel {
 
 		template<class Alloc>
 		struct has_select_on_container_copy_construction<Alloc, decltype((void)ciel::declval<Alloc>().select_on_container_copy_construction())> : ciel::true_type {};
-	}
+
+	}	//namespace allocator_traits_details
 
 	template<class Alloc>
 	struct allocator_traits {

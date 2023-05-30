@@ -6,7 +6,7 @@
 namespace ciel {
 
 	namespace is_polymorphic_details {
-		//SFINAE: 如果表达式是指向多态类型的指针，且新类型是到 void 的指针，那么结果是指向表达式所指向或引用的最终派生对象的指针
+		//SFINAE: dynamic_cast 规则：如果表达式是指向多态类型的指针，且新类型是到 void 的指针，那么结果是指向表达式所指向或引用的最终派生对象的指针
 		template<class T>
 		ciel::true_type is_polymorphic_helper(decltype(dynamic_cast<const volatile void*>(static_cast<T*>(nullptr))));
 

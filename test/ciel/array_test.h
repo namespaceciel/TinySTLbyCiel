@@ -81,7 +81,7 @@ void array_test() {
 	const int x = 10;
 	ciel::array d{1, 2, 3, 5, x};
 
-	std::cout << "All array_tests finished.\n\n";
+	std::cout << "All array_tests finished.\n";
 }
 
 #endif //TINYSTLBYCIEL_TEST_CIEL_ARRAY_TEST_H_

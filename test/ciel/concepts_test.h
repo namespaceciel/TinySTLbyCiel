@@ -61,7 +61,7 @@ void concepts_test() {
 		swap(a, b);
 	}
 
-	std::cout << "All concepts_tests finished.\n\n";
+	std::cout << "All concepts_tests finished.\n";
 };
 
 #endif //TINYSTLBYCIEL_TEST_CIEL_CONCEPTS_TEST_H_
