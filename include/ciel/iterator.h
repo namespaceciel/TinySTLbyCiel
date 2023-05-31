@@ -39,4 +39,7 @@
 //定制点对象
 #include <ciel/iterator_impl/ranges::iter_move.h>
 
+//非标准
+#include <ciel/iterator_impl/wrap_iter.h>
+
 #endif //TINYSTLBYCIEL_INCLUDE_CIEL_ITERATOR_H_

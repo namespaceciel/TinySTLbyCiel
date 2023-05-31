@@ -7,6 +7,8 @@
 //分配器
 #include <ciel/memory_impl/allocator.h>
 #include <ciel/memory_impl/allocator_traits.h>
+#include <ciel/memory_impl/allocator_arg_t.h>
+#include <ciel/memory_impl/uses_allocator.h>
 
 //智能指针
 #include <ciel/memory_impl/unique_ptr.h>
@@ -15,6 +17,9 @@
 #include <ciel/memory_impl/default_delete.h>
 
 //智能指针适配器
+
+//常量
+#include <ciel/memory_impl/allocator_arg.h>
 
 //杂项
 #include <ciel/memory_impl/to_address.h>

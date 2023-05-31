@@ -66,7 +66,7 @@ namespace ciel {
 			}
 		}
 
-		constexpr void deallocate(T* p, size_t n) {
+		constexpr void deallocate(T* p, size_t) {
 			if (ciel::is_constant_evaluated()) {
 				::operator delete((void*)p);
 			} else if (alignof(T) > __STDCPP_DEFAULT_NEW_ALIGNMENT__) {

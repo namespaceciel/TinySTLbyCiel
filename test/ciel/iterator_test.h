@@ -4,6 +4,10 @@
 #include <iostream>
 #include <ciel/iterator.h>
 
+#ifndef CHECK
+#define CHECK(x) if (!(x)) { std::cerr << "Line " << __LINE__ << " : " << #x << " failed.\n"; }
+#endif
+
 namespace iterator_test_details {
 	struct Struct {};
 	struct IterHasFiveMembers {
@@ -54,6 +58,12 @@ void iterator_test() {
 	static_assert(ciel::is_same_v<ciel::iterator_traits<IterHasFourMembers>::pointer, void>);
 	static_assert(ciel::is_same_v<ciel::iterator_traits<IterHasFourMembers>::reference, char>);
 	static_assert(ciel::is_same_v<ciel::iterator_traits<IterHasFourMembers>::iterator_category, size_t>);
+
+	static_assert(ciel::is_same_v<ciel::iterator_traits<ciel::wrap_iter<int*>>::difference_type, ptrdiff_t>);
+	static_assert(ciel::is_same_v<ciel::iterator_traits<ciel::wrap_iter<int*>>::value_type, int>);
+	static_assert(ciel::is_same_v<ciel::iterator_traits<ciel::wrap_iter<int*>>::pointer, int*>);
+	static_assert(ciel::is_same_v<ciel::iterator_traits<ciel::wrap_iter<int*>>::reference, int&>);
+	static_assert(ciel::is_same_v<ciel::iterator_traits<ciel::wrap_iter<int*>>::iterator_category, ciel::random_access_iterator_tag>);
 
 	//reverse_iterator
 	int arr1[10] = {9, 8, 7, 6, 5, 4, 3, 2, 1, 0};

@@ -72,7 +72,28 @@ namespace ciel {
 
 	template<class... T>
 	using common_type_t = typename common_type<T...>::type;
+/*
+关于为什么第 26 行如果改为继承 common_type_helper<T, T> 会编译错误（明明 common_type<T, T> 也只是紧接着要继承 common_type_helper<T, T> ？）：
+对应问题代码：
+ 	ciel::common_type_t<int>
 
+	在能编译的这个版本中，根据继承关系，在编译期模板实例化的顺序分别是：
+	common_type<int>
+	common_type_helper<int>
+	common_type<int, int>
+	common_type_helper<int, int>
+	common_type_sub_bullet1<int, int>
+	common_type_sub_bullet2<int, int> //在此（43 行）用约束检查了 common_type<T1, T2> 是否定义了 type 成员
+	common_type_sub_bullet3<int, int>
+	common_type_sub_bullet4<int, int>
+
+	所以在 43 行 common_type<int, int> 已经存在且无 type 成员，放行
+
+	而当 26 行改为直接继承 common_type_helper<T, T> 时，继承关系里就少了个 common_type<int, int>，导致其未实例化
+
+	这时候在 43 行需要检查 common_type<int, int> 的时候，由于其还未实例化，需要实例化它，而它紧接着又要继承 common_type_helper<int, int>，
+ 	而其这时候是一个 incomplete type（因为它本身实例化了但是基类在那时还没实例化完），报错
+*/
 }   //namespace ciel
 
 #endif //TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_COMMON_TYPE_H_
