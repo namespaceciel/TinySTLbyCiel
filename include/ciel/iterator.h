@@ -39,6 +39,12 @@
 //定制点对象
 #include <ciel/iterator_impl/ranges::iter_move.h>
 
+//操作
+#include <ciel/iterator_impl/advance.h>
+#include <ciel/iterator_impl/distance.h>
+#include <ciel/iterator_impl/next.h>
+#include <ciel/iterator_impl/prev.h>
+
 //非标准
 #include <ciel/iterator_impl/wrap_iter.h>
 

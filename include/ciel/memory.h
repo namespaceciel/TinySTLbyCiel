@@ -32,7 +32,10 @@
 #include <ciel/memory_impl/uninitialized_fill_n.h>
 #include <ciel/memory_impl/uninitialized_move.h>
 #include <ciel/memory_impl/uninitialized_move_n.h>
-
+#include <ciel/memory_impl/uninitialized_default_construct.h>
+#include <ciel/memory_impl/uninitialized_default_construct_n.h>
+#include <ciel/memory_impl/uninitialized_value_construct.h>
+#include <ciel/memory_impl/uninitialized_value_construct_n.h>
 #include <ciel/memory_impl/construct_at.h>
 #include <ciel/memory_impl/destroy_at.h>
 #include <ciel/memory_impl/destroy.h>

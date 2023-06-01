@@ -216,22 +216,22 @@ namespace ciel {
 		//以下两组 SFINAE 函数如果去掉模板参数 A 而写成 template<class = enable_if_t<false>> 形式会报错的原因为：
 		//			SFINAE 是在模板替换时出现错误才会抛弃掉替换的结果转而尝试下一个可选模板，在上例中根本没有需要被推导的模板参数，也就压根不会实现 SFINAE
 		template<class A = allocator_type, class = ciel::enable_if_t<allocator_traits_details::has_max_size<const A>::value>>
-		static constexpr size_type max_size(const allocator_type& a) noexcept {
+		static constexpr size_type max_size(const A& a) noexcept {
 			return a.max_size();
 		}
 
 		template<class A = allocator_type, class = void, class = ciel::enable_if_t<!allocator_traits_details::has_max_size<const A>::value>>
-		static constexpr size_type max_size(const allocator_type& a) noexcept {
+		static constexpr size_type max_size(const A& a) noexcept {
 			return ciel::numeric_limits<size_type>::max() / sizeof(value_type);
 		}
 
 		template<class A = allocator_type, class = ciel::enable_if_t<allocator_traits_details::has_select_on_container_copy_construction<const A>::value>>
-		static constexpr Alloc select_on_container_copy_construction(const allocator_type& a) {
+		static constexpr A select_on_container_copy_construction(const A& a) {
 			return a.select_on_container_copy_construction();
 		}
 
 		template<class A = allocator_type, class = void, class = ciel::enable_if_t<!allocator_traits_details::has_select_on_container_copy_construction<const A>::value>>
-		static constexpr Alloc select_on_container_copy_construction(const allocator_type& a) {
+		static constexpr A select_on_container_copy_construction(const A& a) {
 			return a;
 		}
 
