@@ -11,6 +11,6 @@ namespace ciel {
 	template<class T>
 	const T* addressof(const T&&) = delete;
 
-}   //namespace ciel
+}   // namespace ciel
 
-#endif //TINYSTLBYCIEL_INCLUDE_CIEL_MEMORY_IMPL_ADDRESSOF_H_
+#endif // TINYSTLBYCIEL_INCLUDE_CIEL_MEMORY_IMPL_ADDRESSOF_H_

@@ -12,6 +12,6 @@ namespace ciel {
 		}
 	}
 
-}   //namespace ciel
+}   // namespace ciel
 
-#endif //TINYSTLBYCIEL_INCLUDE_CIEL_MEMORY_IMPL_DESTROY_H_
+#endif // TINYSTLBYCIEL_INCLUDE_CIEL_MEMORY_IMPL_DESTROY_H_

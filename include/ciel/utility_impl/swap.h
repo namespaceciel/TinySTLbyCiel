@@ -16,6 +16,6 @@ namespace ciel {
         }
     }
 
-}   //namespace ciel
+}   // namespace ciel
 
-#endif //TINYSTLBYCIEL_INCLUDE_CIEL_UTILITY_IMPL_SWAP_H
+#endif // TINYSTLBYCIEL_INCLUDE_CIEL_UTILITY_IMPL_SWAP_H

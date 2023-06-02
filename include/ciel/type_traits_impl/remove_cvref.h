@@ -14,6 +14,6 @@ namespace ciel {
 	template<class T>
 	using remove_cvref_t = typename remove_cvref<T>::type;
 
-}   //namespace ciel
+}   // namespace ciel
 
-#endif //TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_REMOVE_CVREF_H_
+#endif // TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_REMOVE_CVREF_H_

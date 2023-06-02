@@ -151,7 +151,7 @@ namespace ciel {
 		template<class Alloc>
 		struct has_select_on_container_copy_construction<Alloc, decltype((void)ciel::declval<Alloc>().select_on_container_copy_construction())> : ciel::true_type {};
 
-	}	//namespace allocator_traits_details
+	}	// namespace allocator_traits_details
 
 	template<class Alloc>
 	struct allocator_traits {
@@ -199,7 +199,7 @@ namespace ciel {
 
 		template<class T, class... Args, class = void, class = ciel::enable_if_t<!allocator_traits_details::has_construct<void, allocator_type, T*, Args...>::value>>
 		static constexpr void construct(allocator_type& a, T* p, Args&& ... args) {
-			//显式加上命名空间作用域是为了防止在形参为 std:: 物件时触发 ADL 而跟 std::construct_at() 撞车
+			// 显式加上命名空间作用域是为了防止在形参为 std:: 物件时触发 ADL 而跟 std::construct_at() 撞车
 			ciel::construct_at(p, ciel::forward<Args>(args)...);
 		}
 
@@ -213,8 +213,8 @@ namespace ciel {
 			ciel::destroy_at(p);
 		}
 
-		//以下两组 SFINAE 函数如果去掉模板参数 A 而写成 template<class = enable_if_t<false>> 形式会报错的原因为：
-		//			SFINAE 是在模板替换时出现错误才会抛弃掉替换的结果转而尝试下一个可选模板，在上例中根本没有需要被推导的模板参数，也就压根不会实现 SFINAE
+		// 以下两组 SFINAE 函数如果去掉模板参数 A 而写成 template<class = enable_if_t<false>> 形式会报错的原因为：
+		// 			SFINAE 是在模板替换时出现错误才会抛弃掉替换的结果转而尝试下一个可选模板，在上例中根本没有需要被推导的模板参数，也就压根不会实现 SFINAE
 		template<class A = allocator_type, class = ciel::enable_if_t<allocator_traits_details::has_max_size<const A>::value>>
 		static constexpr size_type max_size(const A& a) noexcept {
 			return a.max_size();
@@ -235,8 +235,8 @@ namespace ciel {
 			return a;
 		}
 
-	};    //struct allocator_traits
+	};    // struct allocator_traits
 
-}   //namespace ciel
+}   // namespace ciel
 
-#endif //TINYSTLBYCIEL_INCLUDE_CIEL_MEMORY_IMPL_ALLOCATOR_TRAITS_H_
+#endif // TINYSTLBYCIEL_INCLUDE_CIEL_MEMORY_IMPL_ALLOCATOR_TRAITS_H_

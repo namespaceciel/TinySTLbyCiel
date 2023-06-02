@@ -23,6 +23,6 @@ namespace ciel {
 	template<indirectly_readable T>
 	using iter_common_reference_t = ciel::common_reference_t<ciel::iter_reference_t<T>, ciel::iter_value_t<T>&>;
 
-}   //namespace ciel
+}   // namespace ciel
 
-#endif //TINYSTLBYCIEL_INCLUDE_CIEL_ITERATOR_IMPL_INDIRECTLY_READABLE_H_
+#endif // TINYSTLBYCIEL_INCLUDE_CIEL_ITERATOR_IMPL_INDIRECTLY_READABLE_H_

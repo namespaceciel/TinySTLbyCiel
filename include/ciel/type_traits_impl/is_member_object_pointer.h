@@ -13,6 +13,6 @@ namespace ciel {
 	template<class T>
 	inline constexpr bool is_member_object_pointer_v = is_member_object_pointer<T>::value;
 
-}   //namespace ciel
+}   // namespace ciel
 
-#endif //TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_IS_MEMBER_OBJECT_POINTER_H_
+#endif // TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_IS_MEMBER_OBJECT_POINTER_H_

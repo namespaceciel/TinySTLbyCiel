@@ -23,6 +23,6 @@ namespace ciel {
 		return {first, current};
 	}
 
-}   //namespace ciel
+}   // namespace ciel
 
-#endif //TINYSTLBYCIEL_INCLUDE_CIEL_MEMORY_IMPL_UNINITIALIZED_MOVE_N_H_
+#endif // TINYSTLBYCIEL_INCLUDE_CIEL_MEMORY_IMPL_UNINITIALIZED_MOVE_N_H_

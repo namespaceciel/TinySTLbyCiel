@@ -19,6 +19,6 @@ namespace ciel {
 		return first;
 	}
 
-}   //namespace ciel
+}   // namespace ciel
 
-#endif //TINYSTLBYCIEL_INCLUDE_CIEL_ALGORITHM_IMPL_REMOVE_IF_H_
+#endif // TINYSTLBYCIEL_INCLUDE_CIEL_ALGORITHM_IMPL_REMOVE_IF_H_

@@ -14,6 +14,6 @@ namespace ciel {
 		&& ciel::incrementable<I>
 		&& ciel::sentinel_for<I, I>;
 
-}   //namespace ciel
+}   // namespace ciel
 
-#endif //TINYSTLBYCIEL_INCLUDE_CIEL_ITERATOR_IMPL_FORWARD_ITERATOR_H_
+#endif // TINYSTLBYCIEL_INCLUDE_CIEL_ITERATOR_IMPL_FORWARD_ITERATOR_H_

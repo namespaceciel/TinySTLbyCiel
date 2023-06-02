@@ -11,6 +11,6 @@ namespace ciel {
 									&& ciel::convertible_to<T, ciel::common_reference_t<T, U>>
 									&& ciel::convertible_to<U, ciel::common_reference_t<T, U>>;
 
-}   //namespace ciel
+}   // namespace ciel
 
-#endif //TINYSTLBYCIEL_INCLUDE_CIEL_CONCEPTS_IMPL_COMMON_REFERENCE_WITH_H_
+#endif // TINYSTLBYCIEL_INCLUDE_CIEL_CONCEPTS_IMPL_COMMON_REFERENCE_WITH_H_

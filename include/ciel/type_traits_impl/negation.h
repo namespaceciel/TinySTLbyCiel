@@ -11,6 +11,6 @@ namespace ciel {
 	template<class B>
 	inline constexpr bool negation_v = negation<B>::value;
 
-}   //namespace ciel
+}   // namespace ciel
 
-#endif //TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_NEGATION_H_
+#endif // TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_NEGATION_H_

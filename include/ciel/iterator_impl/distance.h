@@ -22,6 +22,6 @@ namespace ciel {
 		}
 	}
 
-}   //namespace ciel
+}   // namespace ciel
 
-#endif //TINYSTLBYCIEL_INCLUDE_CIEL_ITERATOR_IMPL_DISTANCE_H_
+#endif // TINYSTLBYCIEL_INCLUDE_CIEL_ITERATOR_IMPL_DISTANCE_H_

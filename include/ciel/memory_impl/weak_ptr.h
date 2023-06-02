@@ -106,7 +106,7 @@ namespace ciel {
 			return count < other.count;
 		}
 
-	};    //class weak_ptr
+	};    // class weak_ptr
 
 	template<class T>
 	void swap(weak_ptr<T>& lhs, weak_ptr<T>& rhs) noexcept {
@@ -116,6 +116,6 @@ namespace ciel {
 	template<class T>
 	weak_ptr(ciel::shared_ptr<T>) -> weak_ptr<T>;
 
-}   //namespace ciel
+}   // namespace ciel
 
-#endif //TINYSTLBYCIEL_INCLUDE_CIEL_MEMORY_IMPL_WEAK_PTR_H_
+#endif // TINYSTLBYCIEL_INCLUDE_CIEL_MEMORY_IMPL_WEAK_PTR_H_

@@ -15,6 +15,6 @@ namespace ciel {
 			i++;
 		};
 
-}   //namespace ciel
+}   // namespace ciel
 
-#endif //TINYSTLBYCIEL_INCLUDE_CIEL_ITERATOR_IMPL_WEAKLY_INCREMENTABLE_H_
+#endif // TINYSTLBYCIEL_INCLUDE_CIEL_ITERATOR_IMPL_WEAKLY_INCREMENTABLE_H_

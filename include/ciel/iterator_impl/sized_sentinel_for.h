@@ -16,6 +16,6 @@ namespace ciel {
 			{ i - s } -> ciel::same_as<ciel::iter_difference_t<I>>;
 		};
 
-}   //namespace ciel
+}   // namespace ciel
 
-#endif //TINYSTLBYCIEL_INCLUDE_CIEL_ITERATOR_IMPL_SIZED_SENTINEL_FOR_H_
+#endif // TINYSTLBYCIEL_INCLUDE_CIEL_ITERATOR_IMPL_SIZED_SENTINEL_FOR_H_

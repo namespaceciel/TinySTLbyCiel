@@ -32,6 +32,6 @@ namespace ciel {
 因为如果只有单向的话，same_as<T, U> 与 same_as<U, T> 将会是两个不同的概念，放在偏特化场景下是无法比较的，
 只有当一个概念完全包含另一个概念时，它们才能实现偏特化。
 */
-}   //namespace ciel
+}   // namespace ciel
 
-#endif //TINYSTLBYCIEL_INCLUDE_CIEL_CONCEPTS_IMPL_SAME_AS_H_
+#endif // TINYSTLBYCIEL_INCLUDE_CIEL_CONCEPTS_IMPL_SAME_AS_H_

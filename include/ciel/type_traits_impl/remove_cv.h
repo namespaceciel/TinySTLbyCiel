@@ -52,6 +52,6 @@ namespace ciel{
 	template<class T>
 	using remove_volatile_t = typename remove_volatile<T>::type;
 
-}   //namespace ciel
+}   // namespace ciel
 
-#endif //TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_REMOVE_CV_H_
+#endif // TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_REMOVE_CV_H_

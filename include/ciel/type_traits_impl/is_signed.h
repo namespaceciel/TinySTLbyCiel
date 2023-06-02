@@ -20,6 +20,6 @@ namespace ciel {
 	template<class T>
 	inline constexpr bool is_signed_v = is_signed<T>::value;
 
-}   //namespace ciel
+}   // namespace ciel
 
-#endif //TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_IS_SIGNED_H_
+#endif // TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_IS_SIGNED_H_

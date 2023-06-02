@@ -23,13 +23,13 @@ namespace ciel {
 		using difference_type = T::difference_type;
 	};
 
-	//不定义公开可访问成员类型 difference_type，但支持减法的类型
+	// 不定义公开可访问成员类型 difference_type，但支持减法的类型
 	template<class T>
 		requires (!requires { typename T::difference_type; }) && requires(const T& a, const T& b) { {a - b} -> ciel::integral; }
 	struct incrementable_traits<T>{
 		using difference_type = ciel::make_signed_t<decltype(ciel::declval<T>() - ciel::declval<T>())>;
 	};
 
-}   //namespace ciel
+}   // namespace ciel
 
-#endif //TINYSTLBYCIEL_INCLUDE_CIEL_ITERATOR_IMPL_INCREMENTABLE_TRAITS_H_
+#endif // TINYSTLBYCIEL_INCLUDE_CIEL_ITERATOR_IMPL_INCREMENTABLE_TRAITS_H_

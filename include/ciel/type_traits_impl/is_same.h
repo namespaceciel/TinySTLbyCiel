@@ -14,6 +14,6 @@ namespace ciel {
 	template<class T, class U>
 	inline constexpr bool is_same_v = is_same<T, U>::value;
 
-}   //namespace ciel
+}   // namespace ciel
 
-#endif //TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_IS_SAME_H_
+#endif // TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_IS_SAME_H_

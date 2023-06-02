@@ -15,6 +15,6 @@ namespace ciel {
 	template<class T>
 	inline constexpr bool is_bounded_array_v = is_bounded_array<T>::value;
 
-}   //namespace ciel
+}   // namespace ciel
 
-#endif //TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_IS_BOUNDED_ARRAY_H_
+#endif // TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_IS_BOUNDED_ARRAY_H_

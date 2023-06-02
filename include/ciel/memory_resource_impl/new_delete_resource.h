@@ -5,11 +5,11 @@
 #include <new>
 
 namespace ciel::pmr {
-	//返回指针 p ，指向导出自 pmr::memory_resource 类型的静态存储期对象，它拥有下列属性：
-	//		其 allocate() 函数用 ::operator new 分配内存；
-	//		其 deallocate() 函数用 ::operator delete 解分配内存；
-	//		对于任何 memory_resource r ， p->is_equal(r) 返回 &r == p.
-	//		每次调用此函数时返回相同值。
+	// 返回指针 p ，指向导出自 pmr::memory_resource 类型的静态存储期对象，它拥有下列属性：
+	// 		其 allocate() 函数用 ::operator new 分配内存；
+	// 		其 deallocate() 函数用 ::operator delete 解分配内存；
+	// 		对于任何 memory_resource r ， p->is_equal(r) 返回 &r == p.
+	// 		每次调用此函数时返回相同值。
 
 	namespace new_delete_resource_details {
 
@@ -34,6 +34,6 @@ namespace ciel::pmr {
 		return &res;
 	}
 
-}   //namespace ciel::pmr
+}   // namespace ciel::pmr
 
-#endif //TINYSTLBYCIEL_INCLUDE_CIEL_MEMORY_RESOURCE_IMPL_NEW_DELETE_RESOURCE_H_
+#endif // TINYSTLBYCIEL_INCLUDE_CIEL_MEMORY_RESOURCE_IMPL_NEW_DELETE_RESOURCE_H_

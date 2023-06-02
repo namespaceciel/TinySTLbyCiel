@@ -14,6 +14,6 @@ namespace ciel {
 	template<class T>
 	inline constexpr bool is_fundamental_v = is_fundamental<T>::value;
 
-}   //namespace ciel
+}   // namespace ciel
 
-#endif //TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_IS_FUNDAMENTAL_H_
+#endif // TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_IS_FUNDAMENTAL_H_

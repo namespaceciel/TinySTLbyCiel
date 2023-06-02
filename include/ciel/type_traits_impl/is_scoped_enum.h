@@ -31,6 +31,6 @@ namespace ciel {
     template<class T>
     inline constexpr bool is_scoped_enum_v = is_scoped_enum<T>::value;
 
-}   //namespace ciel
+}   // namespace ciel
 
-#endif //TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_IS_SCOPED_ENUM_H
+#endif // TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_IS_SCOPED_ENUM_H

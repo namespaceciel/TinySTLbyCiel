@@ -24,6 +24,6 @@ namespace ciel {
 	template<class T>
 	inline constexpr bool is_nothrow_copy_assignable_v = is_nothrow_copy_assignable<T>::value;
 
-}   //namespace ciel
+}   // namespace ciel
 
-#endif //TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_IS_COPY_ASSIGNABLE_H_
+#endif // TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_IS_COPY_ASSIGNABLE_H_

@@ -18,7 +18,7 @@ namespace ciel {
 			using type = Iter::pointer;
 		};
 
-		//对应三种情况
+		// 对应三种情况
 		template<class Iter> struct has_pointer2_helper3 { using type = void; };
 		template<class Iter> struct has_pointer2_helper2 : has_pointer2_helper3<Iter> {};
 		template<class Iter> struct has_pointer2_helper1 : has_pointer2_helper2<Iter> {};
@@ -45,7 +45,7 @@ namespace ciel {
 			using type = Iter::reference;
 		};
 
-		//对应五种情况
+		// 对应五种情况
 		template<class Iter> struct has_iterator_category2_helper5 { using type = ciel::input_iterator_tag; };
 		template<class Iter> struct has_iterator_category2_helper4 : has_iterator_category2_helper5<Iter> {};
 		template<class Iter> struct has_iterator_category2_helper3 : has_iterator_category2_helper4<Iter> {};
@@ -94,7 +94,7 @@ namespace ciel {
 			typename Iter::iterator_category;
 		};
 
-		//三种存在情况
+		// 三种存在情况
 		template<class Iter> struct iterator_traits_helper3 {};
 		template<class Iter> struct iterator_traits_helper2 : iterator_traits_helper3<Iter> {};
 		template<class Iter> struct iterator_traits_helper1 : iterator_traits_helper2<Iter> {};
@@ -126,11 +126,11 @@ namespace ciel {
 			using iterator_category = ciel::output_iterator_tag;
 		};
 
-	}	//namespace iterator_traits_details
+	}	// namespace iterator_traits_details
 
 	template<class Iter>
 	struct iterator_traits : iterator_traits_details::iterator_traits_helper1<Iter> {
-		using primary_template = iterator_traits;	//用于 iter_concept
+		using primary_template = iterator_traits;	// 用于 iter_concept
 	};
 
 	template<class T>
@@ -144,6 +144,6 @@ namespace ciel {
 		using iterator_concept = ciel::contiguous_iterator_tag;
 	};
 
-}   //namespace ciel
+}   // namespace ciel
 
-#endif //TINYSTLBYCIEL_INCLUDE_CIEL_ITERATOR_IMPL_ITERATOR_TRAITS_H_
+#endif // TINYSTLBYCIEL_INCLUDE_CIEL_ITERATOR_IMPL_ITERATOR_TRAITS_H_

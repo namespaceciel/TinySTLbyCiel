@@ -15,6 +15,6 @@ namespace ciel {
 
 	struct contiguous_iterator_tag : random_access_iterator_tag {};
 
-}   //namespace ciel
+}   // namespace ciel
 
-#endif //TINYSTLBYCIEL_INCLUDE_CIEL_ITERATOR_IMPL_ITERATOR_TAG_H_
+#endif // TINYSTLBYCIEL_INCLUDE_CIEL_ITERATOR_IMPL_ITERATOR_TAG_H_

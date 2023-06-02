@@ -15,6 +15,6 @@ namespace ciel {
 		return old_value;
 	}
 
-}   //namespace ciel
+}   // namespace ciel
 
-#endif //TINYSTLBYCIEL_INCLUDE_CIEL_UTILITY_IMPL_EXCHANGE_H_
+#endif // TINYSTLBYCIEL_INCLUDE_CIEL_UTILITY_IMPL_EXCHANGE_H_

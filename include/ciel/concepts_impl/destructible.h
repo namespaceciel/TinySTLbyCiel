@@ -8,6 +8,6 @@ namespace ciel {
 	template<class T>
 	concept destructible = ciel::is_nothrow_destructible_v<T>;
 
-}   //namespace ciel
+}   // namespace ciel
 
-#endif //TINYSTLBYCIEL_INCLUDE_CIEL_CONCEPTS_IMPL_DESTRUCTIBLE_H_
+#endif // TINYSTLBYCIEL_INCLUDE_CIEL_CONCEPTS_IMPL_DESTRUCTIBLE_H_

@@ -50,9 +50,9 @@ namespace ciel {
 
 		constexpr ~allocator() = default;
 
-		//没看懂 allocate 和 deallocate 这里的标准库实现。。。目前来看像是为了标准里的这一要求：
-		//				  在常量表达式的求值中，此函数必须解分配在同一表达式的求值内分配的存储。
-		//TODO: 搞懂过对齐对象用对齐版本的 ::operator new 的必要性
+		// 没看懂 allocate 和 deallocate 这里的标准库实现。。。目前来看像是为了标准里的这一要求：
+		// 				  在常量表达式的求值中，此函数必须解分配在同一表达式的求值内分配的存储。
+		// TODO: 搞懂过对齐对象用对齐版本的 ::operator new 的必要性
 		[[nodiscard]] constexpr T* allocate(size_t n) {
 			if (ciel::numeric_limits<size_t>::max() / sizeof(T) < n) {
 				throw std::bad_array_new_length();
@@ -76,13 +76,13 @@ namespace ciel {
 			}
 		}
 
-	};  //class allocator
+	};  // class allocator
 
 	template<class T1, class T2>
 	constexpr bool operator==(const allocator<T1>&, const allocator<T2>&) noexcept {
 		return true;
 	}
 
-}   //namespace ciel
+}   // namespace ciel
 
-#endif //TINYSTLBYCIEL_INCLUDE_CIEL_MEMORY_IMPL_ALLOCATOR_H_
+#endif // TINYSTLBYCIEL_INCLUDE_CIEL_MEMORY_IMPL_ALLOCATOR_H_

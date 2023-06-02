@@ -11,6 +11,6 @@ namespace ciel {
 	template<class T>
 	inline constexpr bool is_abstract_v = is_abstract<T>::value;
 
-}   //namespace ciel
+}   // namespace ciel
 
-#endif //TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_IS_ABSTRACT_H_
+#endif // TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_IS_ABSTRACT_H_

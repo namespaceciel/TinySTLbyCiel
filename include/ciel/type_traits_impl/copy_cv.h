@@ -1,7 +1,7 @@
 #ifndef TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_COPY_CV_H_
 #define TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_COPY_CV_H_
 
-//Not C++ standard
+// Not C++ standard
 
 #include <ciel/type_traits_impl/add_cv.h>
 
@@ -30,6 +30,6 @@ namespace ciel {
 	template<class From, class To>
 	using copy_cv_t = typename copy_cv<From, To>::type;
 
-}   //namespace ciel
+}   // namespace ciel
 
-#endif //TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_COPY_CV_H_
+#endif // TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_COPY_CV_H_

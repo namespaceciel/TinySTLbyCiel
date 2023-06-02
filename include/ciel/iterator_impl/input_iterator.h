@@ -13,6 +13,6 @@ namespace ciel {
 		&& requires { typename ciel::iter_concept<I>; }
 		&& ciel::derived_from<ciel::iter_concept<I>, ciel::input_iterator_tag>;
 
-}   //namespace ciel
+}   // namespace ciel
 
-#endif //TINYSTLBYCIEL_INCLUDE_CIEL_ITERATOR_IMPL_INPUT_ITERATOR_H_
+#endif // TINYSTLBYCIEL_INCLUDE_CIEL_ITERATOR_IMPL_INPUT_ITERATOR_H_

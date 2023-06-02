@@ -7,10 +7,10 @@
 
 namespace ciel {
 
-	//若 T 拥有：
-	//1）内嵌定义类型 allocator_type ，并且该类型能从 Alloc 转换
-	//TODO: 2）或者该类型是 std::experimental::erased_type 的别名 (库基础 TS)
-	//则成员常量 value 为 true 。否则 value 为 false
+	// 若 T 拥有：
+	// 1）内嵌定义类型 allocator_type ，并且该类型能从 Alloc 转换
+	// TODO: 2）或者该类型是 std::experimental::erased_type 的别名 (库基础 TS)
+	// 则成员常量 value 为 true 。否则 value 为 false
 
 	template<class T, class Alloc>
 	struct uses_allocator : false_type {};
@@ -22,12 +22,12 @@ namespace ciel {
 	template<class T, class Alloc>
 	inline constexpr bool uses_allocator_v = uses_allocator<T, Alloc>::value;
 
-	//传递分配器 alloc 给某类型 T 的构造函数有三种约定：
-	//1、若 T 不使用兼容的分配器（ uses_allocator_v<T, Alloc> 为 false ），则忽略 alloc 。
-	//否则 uses_allocator_v<T, Alloc> 为 true ，而
-	//		2、若 T 使用前导分配器约定（可用 T(allocator_arg, alloc, args...) 调用），则使用分配器构造使用此形式
-	//		3、若 T 使用尾随分配器约定（可用 T(args..., alloc) 调用），则使用分配器构造使用此形式
-	//否则，程序为谬构（这表示 uses_allocator_v<T, Alloc> 为 true ，但类型不遵守二种允许的约定之一）
+	// 传递分配器 alloc 给某类型 T 的构造函数有三种约定：
+	// 1、若 T 不使用兼容的分配器（ uses_allocator_v<T, Alloc> 为 false ），则忽略 alloc 。
+	// 否则 uses_allocator_v<T, Alloc> 为 true ，而
+	// 		2、若 T 使用前导分配器约定（可用 T(allocator_arg, alloc, args...) 调用），则使用分配器构造使用此形式
+	// 		3、若 T 使用尾随分配器约定（可用 T(args..., alloc) 调用），则使用分配器构造使用此形式
+	// 否则，程序为谬构（这表示 uses_allocator_v<T, Alloc> 为 true ，但类型不遵守二种允许的约定之一）
 
 	template<class T, class Alloc, class... Args>
 	struct uses_alloc_ctor_impl {
@@ -54,6 +54,6 @@ namespace ciel {
 		new(storage) T(ciel::forward<Args>(args)..., a);
 	}
 
-}   //namespace ciel
+}   // namespace ciel
 
-#endif //TINYSTLBYCIEL_INCLUDE_CIEL_MEMORY_IMPL_USES_ALLOCATOR_H_
+#endif // TINYSTLBYCIEL_INCLUDE_CIEL_MEMORY_IMPL_USES_ALLOCATOR_H_

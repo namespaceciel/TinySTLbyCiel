@@ -11,6 +11,6 @@ namespace ciel {
 		return first;
 	}
 
-}   //namespace ciel
+}   // namespace ciel
 
-#endif //TINYSTLBYCIEL_INCLUDE_CIEL_ALGORITHM_IMPL_GENERATE_N_H_
+#endif // TINYSTLBYCIEL_INCLUDE_CIEL_ALGORITHM_IMPL_GENERATE_N_H_

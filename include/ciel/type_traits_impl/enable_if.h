@@ -14,6 +14,6 @@ namespace ciel {
 	template<bool B, class T = void>
 	using enable_if_t = typename enable_if<B, T>::type;
 
-}   //namespace ciel
+}   // namespace ciel
 
-#endif //TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_ENABLE_IF_H_
+#endif // TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_ENABLE_IF_H_

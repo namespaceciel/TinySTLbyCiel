@@ -1,7 +1,7 @@
 #ifndef TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_IS_IMPLICITLY_DEFAULT_CONSTRUCTIBLE_H_
 #define TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_IS_IMPLICITLY_DEFAULT_CONSTRUCTIBLE_H_
 
-//Not C++ standard
+// Not C++ standard
 
 #include <ciel/type_traits_impl/is_default_constructible.h>
 
@@ -24,6 +24,6 @@ namespace ciel {
 	template<class T>
 	inline constexpr bool is_implicitly_default_constructible_v = is_implicitly_default_constructible<T>::value;
 
-}   //namespace ciel
+}   // namespace ciel
 
-#endif //TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_IS_IMPLICITLY_DEFAULT_CONSTRUCTIBLE_H_
+#endif // TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_IS_IMPLICITLY_DEFAULT_CONSTRUCTIBLE_H_

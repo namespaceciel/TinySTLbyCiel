@@ -13,6 +13,6 @@ namespace ciel {
 		const_cast<const ciel::iter_reference_t<Out>&&>(*ciel::forward<Out>(o)) = ciel::forward<T>(t);
 	};
 
-}   //namespace ciel
+}   // namespace ciel
 
-#endif //TINYSTLBYCIEL_INCLUDE_CIEL_ITERATOR_IMPL_INDIRECTLY_WRITABLE_H_
+#endif // TINYSTLBYCIEL_INCLUDE_CIEL_ITERATOR_IMPL_INDIRECTLY_WRITABLE_H_

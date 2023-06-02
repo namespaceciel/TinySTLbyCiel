@@ -26,6 +26,6 @@ namespace ciel {
 									&& ciel::equality_comparable<ciel::common_reference_t<const ciel::remove_reference_t<T>&, const ciel::remove_reference_t<U>&>>
 									&& equality_comparable_details::weakly_equality_comparable_with<T, U>;
 
-}   //namespace ciel
+}   // namespace ciel
 
-#endif //TINYSTLBYCIEL_INCLUDE_CIEL_CONCEPTS_IMPL_EQUALITY_COMPARABLE_H_
+#endif // TINYSTLBYCIEL_INCLUDE_CIEL_CONCEPTS_IMPL_EQUALITY_COMPARABLE_H_

@@ -13,6 +13,6 @@ namespace ciel {
 	template<class T>
 	inline constexpr bool has_unique_object_representations_v = has_unique_object_representations<T>::value;
 
-}   //namespace ciel
+}   // namespace ciel
 
-#endif //TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_HAS_UNIQUE_OBJECT_REPRESENTATIONS_H_
+#endif // TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_HAS_UNIQUE_OBJECT_REPRESENTATIONS_H_

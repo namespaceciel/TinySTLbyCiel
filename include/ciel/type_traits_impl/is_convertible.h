@@ -3,24 +3,24 @@
 
 #include <ciel/type_traits_impl/integral_constant.h>
 #include <ciel/type_traits_impl/../utility_impl/declval.h>
-//#include <ciel/type_traits_impl/conjunction.h>
+// #include <ciel/type_traits_impl/conjunction.h>
 #include <ciel/type_traits_impl/is_void.h>
 
 namespace ciel {
 /*
 	namespace is_convertible_details {
-		//逗号表达式: 挨个求值并返回最后一个值，以此实现 SFINAE
+		// 逗号表达式: 挨个求值并返回最后一个值，以此实现 SFINAE
 
-		//将 nullptr 强转为返回值为 To 的函数指针，以测试 returnable
-		//再强转为 void 以避免潜在的对逗号的运算符重载，下同
+		// 将 nullptr 强转为返回值为 To 的函数指针，以测试 returnable
+		// 再强转为 void 以避免潜在的对逗号的运算符重载，下同
 		template<class To>
 		auto test_returnable(int) -> decltype(void(static_cast<To(*)()>(nullptr)), ciel::true_type{});
 
 		template<class>
 		ciel::false_type test_returnable(...);
 
-		//生成一个 From 的右值引用看其能否被接受 To 形参的函数接受（隐式转换）
-		//目前来看 static_cast<void(*)(To)>(nullptr) 与 declval<void(&)(To)>() 貌似效果一样。。
+		// 生成一个 From 的右值引用看其能否被接受 To 形参的函数接受（隐式转换）
+		// 目前来看 static_cast<void(*)(To)>(nullptr) 与 declval<void(&)(To)>() 貌似效果一样。。
 		template<class From, class To>
 		auto test_implicitly_convertible(int) -> decltype(void(ciel::declval<void(&)(To)>()(ciel::declval<From>())), ciel::true_type{});
 
@@ -75,6 +75,6 @@ namespace ciel {
 	template<class From, class To>
 	inline constexpr bool is_nothrow_convertible_v = is_nothrow_convertible<From, To>::value;
 
-}   //namespace ciel
+}   // namespace ciel
 
-#endif //TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_IS_CONVERTIBLE_H_
+#endif // TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_IS_CONVERTIBLE_H_

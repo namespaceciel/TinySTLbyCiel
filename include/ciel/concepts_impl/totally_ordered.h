@@ -29,6 +29,6 @@ namespace ciel {
 								&& ciel::totally_ordered<ciel::common_reference_t<const ciel::remove_reference_t<T>&, const ciel::remove_reference_t<U>&>>
 								&& totally_ordered_details::partially_ordered_with<T, U>;
 
-}   //namespace ciel
+}   // namespace ciel
 
-#endif //TINYSTLBYCIEL_INCLUDE_CIEL_CONCEPTS_IMPL_TOTALLY_ORDERED_H_
+#endif // TINYSTLBYCIEL_INCLUDE_CIEL_CONCEPTS_IMPL_TOTALLY_ORDERED_H_

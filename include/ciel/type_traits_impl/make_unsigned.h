@@ -79,6 +79,6 @@ namespace ciel {
 	template<class T>
 	using make_unsigned_t = typename make_unsigned<T>::type;
 
-}   //namespace ciel
+}   // namespace ciel
 
-#endif //TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_MAKE_UNSIGNED_H_
+#endif // TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_MAKE_UNSIGNED_H_

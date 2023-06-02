@@ -1,11 +1,11 @@
 #ifndef TINYSTLBYCIEL_INCLUDE_CIEL_ALGORITHM_H_
 #define TINYSTLBYCIEL_INCLUDE_CIEL_ALGORITHM_H_
 
-//TODO 概念与约束
+// TODO 概念与约束
 
-//不修改序列的操作
+// 不修改序列的操作
 
-//修改序列的操作
+// 修改序列的操作
 #include <ciel/algorithm_impl/copy.h>
 #include <ciel/algorithm_impl/copy_if.h>
 #include <ciel/algorithm_impl/copy_n.h>
@@ -24,23 +24,23 @@
 #include <ciel/algorithm_impl/swap_ranges.h>
 #include <ciel/algorithm_impl/iter_swap.h>
 
-//划分操作
+// 划分操作
 
-//排序操作
+// 排序操作
 
-//（已排序范围上的）二分搜索操作
+// （已排序范围上的）二分搜索操作
 
-//其他已排序范围上的操作
+// 其他已排序范围上的操作
 
-//（已排序范围上的）集合操作
+// （已排序范围上的）集合操作
 
-//堆操作
+// 堆操作
 
-//最小/最大操作
+// 最小/最大操作
 
-//比较操作
+// 比较操作
 #include <ciel/algorithm_impl/equal.h>
 
-//排列操作
+// 排列操作
 
-#endif //TINYSTLBYCIEL_INCLUDE_CIEL_ALGORITHM_H_
+#endif // TINYSTLBYCIEL_INCLUDE_CIEL_ALGORITHM_H_

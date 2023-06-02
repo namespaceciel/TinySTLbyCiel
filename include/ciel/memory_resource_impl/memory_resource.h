@@ -23,15 +23,15 @@ namespace ciel::pmr {
 
 		virtual void do_deallocate(void* p, size_t bytes, size_t alignment) = 0;
 
-		//二个 memory_resource 比较相等，当且仅当从一个 memory_resource 分配的内存能从另一个解分配，反之亦然
+		// 二个 memory_resource 比较相等，当且仅当从一个 memory_resource 分配的内存能从另一个解分配，反之亦然
 		virtual bool do_is_equal(const memory_resource& other) const noexcept = 0;
 
-	};    //class memory_resource
+	};    // class memory_resource
 
 	bool operator==(const memory_resource& a, const memory_resource& b) noexcept {
 		return &a == &b || a.is_equal(b);
 	}
 
-}   //namespace ciel::pmr
+}   // namespace ciel::pmr
 
-#endif //TINYSTLBYCIEL_INCLUDE_CIEL_MEMORY_RESOURCE_IMPL_MEMORY_RESOURCE_H_
+#endif // TINYSTLBYCIEL_INCLUDE_CIEL_MEMORY_RESOURCE_IMPL_MEMORY_RESOURCE_H_

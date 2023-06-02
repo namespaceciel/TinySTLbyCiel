@@ -11,6 +11,6 @@ namespace ciel {
 	    				 	  && ciel::common_reference_with<const ciel::remove_reference_t<LHS>&, const ciel::remove_reference_t<RHS>&>
 	                          && requires (LHS lhs, RHS&& rhs) { { lhs = ciel::forward<RHS>(rhs) } -> ciel::same_as<LHS>; };
 
-}   //namespace ciel
+}   // namespace ciel
 
-#endif //TINYSTLBYCIEL_INCLUDE_CIEL_CONCEPTS_IMPL_ASSIGNABLE_FROM_H_
+#endif // TINYSTLBYCIEL_INCLUDE_CIEL_CONCEPTS_IMPL_ASSIGNABLE_FROM_H_

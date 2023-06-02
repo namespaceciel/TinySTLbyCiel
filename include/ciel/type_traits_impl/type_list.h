@@ -1,7 +1,7 @@
 #ifndef TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_TYPE_LIST_H_
 #define TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_TYPE_LIST_H_
 
-//Not C++ standard
+// Not C++ standard
 
 #include <cstddef>
 
@@ -26,6 +26,6 @@ namespace ciel {
 		using type = typename find_first<T, size>::type;
 	};
 
-}   //namespace ciel
+}   // namespace ciel
 
-#endif //TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_TYPE_LIST_H_
+#endif // TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_TYPE_LIST_H_

@@ -19,6 +19,6 @@ namespace ciel {
 									 requires ciel::signed_integral<typename ciel::incrementable_traits<I>::difference_type>;
 								 };
 
-}   //namespace ciel
+}   // namespace ciel
 
-#endif //TINYSTLBYCIEL_INCLUDE_CIEL_ITERATOR_IMPL_LEGACY_INPUT_ITERATOR_H_
+#endif // TINYSTLBYCIEL_INCLUDE_CIEL_ITERATOR_IMPL_LEGACY_INPUT_ITERATOR_H_

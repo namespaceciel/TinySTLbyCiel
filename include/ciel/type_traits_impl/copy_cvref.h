@@ -1,7 +1,7 @@
 #ifndef TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_COPY_CVREF_H_
 #define TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_COPY_CVREF_H_
 
-//Not C++ standard
+// Not C++ standard
 
 #include <ciel/type_traits_impl/copy_cv.h>
 #include <ciel/type_traits_impl/add_lvalue_reference.h>
@@ -27,6 +27,6 @@ namespace ciel {
 	template<class From, class To>
 	using copy_cvref_t = typename copy_cvref<From, To>::type;
 
-}   //namespace ciel
+}   // namespace ciel
 
-#endif //TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_COPY_CVREF_H_
+#endif // TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_COPY_CVREF_H_

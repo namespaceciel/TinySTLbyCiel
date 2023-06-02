@@ -15,6 +15,6 @@ namespace ciel {
 									      { *i++ } -> ciel::same_as<ciel::iter_reference_t<I>>;
 								      };
 
-}   //namespace ciel
+}   // namespace ciel
 
-#endif //TINYSTLBYCIEL_INCLUDE_CIEL_ITERATOR_IMPL_LEGACY_FORWARD_ITERATOR_H_
+#endif // TINYSTLBYCIEL_INCLUDE_CIEL_ITERATOR_IMPL_LEGACY_FORWARD_ITERATOR_H_

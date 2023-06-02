@@ -5,7 +5,7 @@
 #include <ciel/type_traits_impl/remove_cv.h>
 
 namespace ciel {
-	//nullptr_t 不是指针类型，但是可以隐式转换为任何指针类型
+	// nullptr_t 不是指针类型，但是可以隐式转换为任何指针类型
 	namespace is_pointer_details {
 
 		template<class T>
@@ -21,6 +21,6 @@ namespace ciel {
 	template<class T>
 	inline constexpr bool is_pointer_v = is_pointer<T>::value;
 
-}   //namespace ciel
+}   // namespace ciel
 
-#endif //TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_IS_POINTER_H_
+#endif // TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_IS_POINTER_H_

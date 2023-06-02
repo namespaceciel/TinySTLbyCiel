@@ -18,6 +18,6 @@ namespace ciel {
 	template<class... B>
 	inline constexpr bool disjunction_v = disjunction<B...>::value;
 
-}   //namespace ciel
+}   // namespace ciel
 
-#endif //TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_DISJUNCTION_H_
+#endif // TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_DISJUNCTION_H_

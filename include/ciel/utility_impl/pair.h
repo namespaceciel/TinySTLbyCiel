@@ -24,37 +24,37 @@ namespace ciel {
 		constexpr explicit(!ciel::is_convertible_v<const T1&, T1> || !ciel::is_convertible_v<const T2&, T2>)
 		pair(const T1& x, const T2& y) requires ciel::is_copy_constructible_v<T1> && ciel::is_copy_constructible_v<T2>: first(x), second(y) {}
 
-		//TODO: 如果 first 或 second 的初始化会绑定引用到临时对象，那么此构造函数会定义为被弃置。(C++23 起)
+		// TODO: 如果 first 或 second 的初始化会绑定引用到临时对象，那么此构造函数会定义为被弃置。(C++23 起)
 		template<class U1 = T1, class U2 = T2, class = ciel::enable_if_t<ciel::is_constructible_v<T1, U1> && ciel::is_constructible_v<T2, U2>>>
 		constexpr explicit(!ciel::is_convertible_v<U1, T1> || !ciel::is_convertible_v<U2, T2>)
 		pair(U1&& x, U2&& y) : first(ciel::forward<U1>(x)), second(ciel::forward<U2>(y)) {}
 
-		//TODO: 如果 first 或 second 的初始化会绑定引用到临时对象，那么此构造函数会定义为被弃置。(C++23 起)
+		// TODO: 如果 first 或 second 的初始化会绑定引用到临时对象，那么此构造函数会定义为被弃置。(C++23 起)
 		template<class U1, class U2, class = ciel::enable_if_t<ciel::is_constructible_v<T1, U1&> && ciel::is_constructible_v<T2, U2&>>>
 		constexpr explicit(!ciel::is_convertible_v<U1&, T1> || !ciel::is_convertible_v<U2&, T2>)
 		pair(pair<U1, U2>& p) : first(p.first), second(p.second) {}
 
-		//TODO: 如果 first 或 second 的初始化会绑定引用到临时对象，那么此构造函数会定义为被弃置。(C++23 起)
+		// TODO: 如果 first 或 second 的初始化会绑定引用到临时对象，那么此构造函数会定义为被弃置。(C++23 起)
 		template<class U1, class U2, class = ciel::enable_if_t<ciel::is_constructible_v<T1, const U1&> && ciel::is_constructible_v<T2, const U2&>>>
 		constexpr explicit(!ciel::is_convertible_v<const U1&, T1> || !ciel::is_convertible_v<const U2&, T2>)
 		pair(const pair<U1, U2>& p) : first(p.first), second(p.second) {}
 
-		//TODO: 如果 first 或 second 的初始化会绑定引用到临时对象，那么此构造函数会定义为被弃置。(C++23 起)
+		// TODO: 如果 first 或 second 的初始化会绑定引用到临时对象，那么此构造函数会定义为被弃置。(C++23 起)
 		template<class U1, class U2, class = ciel::enable_if_t<ciel::is_constructible_v<T1, U1> && ciel::is_constructible_v<T2, U2>>>
 		constexpr explicit(!ciel::is_convertible_v<U1, T1> || !ciel::is_convertible_v<U2, T2>)
 		pair(pair<U1, U2>&& p) : first(ciel::forward<U1>(p.first)), second(ciel::forward<U2>(p.second)) {}
 
-		//TODO: 如果 first 或 second 的初始化会绑定引用到临时对象，那么此构造函数会定义为被弃置。(C++23 起)
+		// TODO: 如果 first 或 second 的初始化会绑定引用到临时对象，那么此构造函数会定义为被弃置。(C++23 起)
 		template<class U1, class U2, class = ciel::enable_if_t<ciel::is_constructible_v<T1, const U1> && ciel::is_constructible_v<T2, const U2>>>
 		constexpr explicit(!ciel::is_convertible_v<const U1, T1> || !ciel::is_convertible_v<const U2, T2>)
 		pair(const pair<U1, U2>&& p) : first(ciel::forward<const U1>(p.first)), second(ciel::forward<const U2>(p.second)) {}
 
-		//TODO: 如果 first 或 second 的初始化会绑定引用到临时对象，那么此构造函数会定义为被弃置。(C++23 起)
-//		template<pair-like P>
-//		constexpr pair(P&& u);
+		// TODO: 如果 first 或 second 的初始化会绑定引用到临时对象，那么此构造函数会定义为被弃置。(C++23 起)
+// 		template<pair-like P>
+// 		constexpr pair(P&& u);
 
-//		template<class... Args1, class... Args2>
-//		constexpr pair(std::piecewise_construct_t, std::tuple<Args1...> first_args, std::tuple<Args2...> second_args);
+// 		template<class... Args1, class... Args2>
+// 		constexpr pair(std::piecewise_construct_t, std::tuple<Args1...> first_args, std::tuple<Args2...> second_args);
 
 		constexpr pair(const pair& p) = default;
 
@@ -66,7 +66,7 @@ namespace ciel {
 			return *this;
 		}
 
-		//当 const T1 与 const T2 可以拷贝赋值时，此函数才会启用。比如 T1 与 T2 是空对象或者所有成员变量皆为 mutable 时，pair<T1, T2> 即可在 const 限定下进行拷贝赋值
+		// 当 const T1 与 const T2 可以拷贝赋值时，此函数才会启用。比如 T1 与 T2 是空对象或者所有成员变量皆为 mutable 时，pair<T1, T2> 即可在 const 限定下进行拷贝赋值
 		constexpr const pair& operator=(const pair& other) const requires ciel::is_copy_assignable_v<const T1> && ciel::is_copy_assignable_v<const T2> {
 			first = other.first;
 			second = other.second;
@@ -113,11 +113,11 @@ namespace ciel {
 			return *this;
 		}
 
-//		template<pair-like P>
-//		constexpr pair& operator=(P&& u);
+// 		template<pair-like P>
+// 		constexpr pair& operator=(P&& u);
 
-//		template<pair-like P>
-//		constexpr const pair& operator=(P&& u) const;
+// 		template<pair-like P>
+// 		constexpr const pair& operator=(P&& u) const;
 
 
 		constexpr void swap(pair& other) noexcept(ciel::is_nothrow_swappable_v<T1> && ciel::is_nothrow_swappable_v<T2>) requires ciel::is_swappable_v<T1> && ciel::is_swappable_v<T2> {
@@ -132,7 +132,7 @@ namespace ciel {
 			swap(second, other.second);
 		}
 
-	};    //struct pair
+	};    // struct pair
 
 	template<class T1, class T2>
 	constexpr pair<std::unwrap_ref_decay_t<T1>, std::unwrap_ref_decay_t<T2>> make_pair(T1&& t, T2&& u) {
@@ -168,6 +168,6 @@ namespace ciel {
 	template<class T1, class T2>
 	pair(T1, T2) -> pair<T1, T2>;
 
-}   //namespace ciel
+}   // namespace ciel
 
-#endif //TINYSTLBYCIEL_INCLUDE_CIEL_UTILITY_IMPL_PAIR_H_
+#endif // TINYSTLBYCIEL_INCLUDE_CIEL_UTILITY_IMPL_PAIR_H_

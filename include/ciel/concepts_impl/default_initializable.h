@@ -10,6 +10,6 @@ namespace ciel {
 									&& requires { T{}; }
 									&& requires { ::new (static_cast<void*>(nullptr)) T; };
 
-}   //namespace ciel
+}   // namespace ciel
 
-#endif //TINYSTLBYCIEL_INCLUDE_CIEL_CONCEPTS_IMPL_DEFAULT_INITIALIZABLE_H_
+#endif // TINYSTLBYCIEL_INCLUDE_CIEL_CONCEPTS_IMPL_DEFAULT_INITIALIZABLE_H_

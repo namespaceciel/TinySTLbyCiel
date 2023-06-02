@@ -11,6 +11,6 @@ namespace ciel {
 	template<class T>
 	inline constexpr bool is_union_v = is_union<T>::value;
 
-}   //namespace ciel
+}   // namespace ciel
 
-#endif //TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_IS_UNION_H_
+#endif // TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_IS_UNION_H_

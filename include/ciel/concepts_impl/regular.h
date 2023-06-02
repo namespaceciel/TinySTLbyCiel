@@ -9,6 +9,6 @@ namespace ciel {
 	template<class T>
 	concept regular = ciel::semiregular<T> && ciel::equality_comparable<T>;
 
-}   //namespace ciel
+}   // namespace ciel
 
-#endif //TINYSTLBYCIEL_INCLUDE_CIEL_CONCEPTS_IMPL_REGULAR_H_
+#endif // TINYSTLBYCIEL_INCLUDE_CIEL_CONCEPTS_IMPL_REGULAR_H_

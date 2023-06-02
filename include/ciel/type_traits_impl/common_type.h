@@ -21,38 +21,38 @@ namespace ciel {
 		template<>
 		struct common_type_helper<> {};
 
-		//若 sizeof...(T) 为 1，则成员 type 指名与 common_type<T, T>::type 相同的类型
+		// 若 sizeof...(T) 为 1，则成员 type 指名与 common_type<T, T>::type 相同的类型
 		template<class T>
 		struct common_type_helper<T> : common_type<T, T> {};
 
-		//替补关系，如果本身存在 type，那么继承到的 type 就会被覆盖。以此对应以下四种存在情况
+		// 替补关系，如果本身存在 type，那么继承到的 type 就会被覆盖。以此对应以下四种存在情况
 		template<class T1, class T2> struct common_type_sub_bullet4 {};
 		template<class T1, class T2> struct common_type_sub_bullet3 : common_type_sub_bullet4<T1, T2> {};
 		template<class T1, class T2> struct common_type_sub_bullet2 : common_type_sub_bullet3<T1, T2> {};
 		template<class T1, class T2> struct common_type_sub_bullet1 : common_type_sub_bullet2<T1, T2> {};
 
-		//一、若应用 decay 到 T1 与 T2 中至少一个产生相异类型，则成员 type 指名与 common_type_t<decay_t<T1>, decay_t<T2>> 相同的类型，若它存在
+		// 一、若应用 decay 到 T1 与 T2 中至少一个产生相异类型，则成员 type 指名与 common_type_t<decay_t<T1>, decay_t<T2>> 相同的类型，若它存在
 		template<class T1, class T2>
 			requires (!ciel::is_same_v<T1, ciel::decay_t<T1>> || !ciel::is_same_v<T2, ciel::decay_t<T2>>) && requires { typename common_type<ciel::decay_t<T1>, ciel::decay_t<T2>>::type; }
 		struct common_type_sub_bullet1<T1, T2> {
 			using type = typename common_type<ciel::decay_t<T1>, ciel::decay_t<T2>>::type;
 		};
 
-		//二、否则，若有对 common_type<T1, T2> 的用户定义特化，则使用该特化
+		// 二、否则，若有对 common_type<T1, T2> 的用户定义特化，则使用该特化
 		template<class T1, class T2>
 			requires requires { typename common_type<T1, T2>::type; }
 		struct common_type_sub_bullet2<T1, T2> {
 			using type = typename common_type<T1, T2>::type;
 		};
 
-		//三、否则，若 decay_t<decltype(true ? declval<T1>() : declval<T2>())> 是合法类型，则成员 type 代表该类型
+		// 三、否则，若 decay_t<decltype(true ? declval<T1>() : declval<T2>())> 是合法类型，则成员 type 代表该类型
 		template<class T1, class T2>
 			requires requires { typename ciel::decay_t<common_type_alias<T1, T2>>; }
 		struct common_type_sub_bullet3<T1, T2> {
 			using type = ciel::decay_t<common_type_alias<T1, T2>>;
 		};
 
-		//四、否则，若 decay_t<decltype(true ? declval<CR1>() : declval<CR2>())> 为合法类型，其中 CR1 与 CR2 分别为 const remove_reference_t<T1>& 与 const remove_reference_t<T2>&，则成员 type 代表该类型
+		// 四、否则，若 decay_t<decltype(true ? declval<CR1>() : declval<CR2>())> 为合法类型，其中 CR1 与 CR2 分别为 const remove_reference_t<T1>& 与 const remove_reference_t<T2>&，则成员 type 代表该类型
 		template<class T1, class T2>
 			requires requires { typename ciel::decay_t<common_type_alias<const ciel::remove_reference_t<T1>&, const ciel::remove_reference_t<T2>&>>; }
 		struct common_type_sub_bullet4<T1, T2> {
@@ -65,7 +65,7 @@ namespace ciel {
 		template<class T1, class T2, class... Rest>
 		struct common_type_helper<T1, T2, Rest...> : common_type_helper<typename common_type_helper<T1, T2>::type, Rest...> {};
 
-	}	//namespace common_type_details
+	}	// namespace common_type_details
 
 	template<class... T>
 	struct common_type : common_type_details::common_type_helper<T...> {};
@@ -83,7 +83,7 @@ namespace ciel {
 	common_type<int, int>
 	common_type_helper<int, int>
 	common_type_sub_bullet1<int, int>
-	common_type_sub_bullet2<int, int> //在此（43 行）用约束检查了 common_type<T1, T2> 是否定义了 type 成员
+	common_type_sub_bullet2<int, int> // 在此（43 行）用约束检查了 common_type<T1, T2> 是否定义了 type 成员
 	common_type_sub_bullet3<int, int>
 	common_type_sub_bullet4<int, int>
 
@@ -94,6 +94,6 @@ namespace ciel {
 	这时候在 43 行需要检查 common_type<int, int> 的时候，由于其还未实例化，需要实例化它，而它紧接着又要继承 common_type_helper<int, int>，
  	而其这时候是一个 incomplete type（因为它本身实例化了但是基类在那时还没实例化完），报错
 */
-}   //namespace ciel
+}   // namespace ciel
 
-#endif //TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_COMMON_TYPE_H_
+#endif // TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_COMMON_TYPE_H_

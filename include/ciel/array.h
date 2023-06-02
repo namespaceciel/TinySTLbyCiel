@@ -143,7 +143,7 @@ namespace ciel {
 			ciel::swap_ranges(m_data, m_data + N, other.m_data);
 		}
 
-	};  //class array
+	};  // class array
 
 	template<class T, size_t N>
 	constexpr bool operator==(array<T, N>& lhs, array<T, N>& rhs) {
@@ -217,6 +217,6 @@ namespace ciel {
 	template<class T, class... U, class = ciel::enable_if_t<(ciel::is_same_v<T, U> && ...)>>
 	array(T, U...) -> array<T, 1 + sizeof...(U)>;
 
-}   //namespace ciel
+}   // namespace ciel
 
-#endif //TINYSTLBYCIEL_INCLUDE_CIEL_ARRAY_H_
+#endif // TINYSTLBYCIEL_INCLUDE_CIEL_ARRAY_H_

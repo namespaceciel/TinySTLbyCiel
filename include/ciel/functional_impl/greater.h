@@ -20,6 +20,6 @@ namespace ciel {
 		}
 	};
 
-}   //namespace ciel
+}   // namespace ciel
 
-#endif //TINYSTLBYCIEL_INCLUDE_CIEL_FUNCTIONAL_IMPL_GREATER_H_
+#endif // TINYSTLBYCIEL_INCLUDE_CIEL_FUNCTIONAL_IMPL_GREATER_H_

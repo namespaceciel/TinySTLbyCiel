@@ -13,6 +13,6 @@ namespace ciel {
 		return first2;
 	}
 
-}   //namespace ciel
+}   // namespace ciel
 
-#endif //TINYSTLBYCIEL_INCLUDE_CIEL_ALGORITHM_IMPL_SWAP_RANGES_H_
+#endif // TINYSTLBYCIEL_INCLUDE_CIEL_ALGORITHM_IMPL_SWAP_RANGES_H_

@@ -17,6 +17,6 @@ namespace ciel {
 								ciel::ranges::swap(ciel::forward<U>(u), ciel::forward<T>(t));
 							};
 
-}   //namespace ciel
+}   // namespace ciel
 
-#endif //TINYSTLBYCIEL_INCLUDE_CIEL_CONCEPTS_IMPL_SWAPPABLE_H_
+#endif // TINYSTLBYCIEL_INCLUDE_CIEL_CONCEPTS_IMPL_SWAPPABLE_H_

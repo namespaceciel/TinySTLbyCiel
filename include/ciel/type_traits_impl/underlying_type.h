@@ -22,6 +22,6 @@ namespace ciel {
     template<class T>
     using underlying_type_t = typename underlying_type<T>::type;
 
-}   //namespace ciel
+}   // namespace ciel
 
-#endif //TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_UNDERLYING_TYPE_H
+#endif // TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_UNDERLYING_TYPE_H

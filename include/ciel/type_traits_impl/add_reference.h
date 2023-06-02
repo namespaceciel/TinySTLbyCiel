@@ -1,7 +1,7 @@
 #ifndef TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_ADD_REFERENCE_H_
 #define TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_ADD_REFERENCE_H_
 
-//Not C++ standard
+// Not C++ standard
 
 namespace ciel {
 
@@ -29,6 +29,6 @@ namespace ciel {
 	template<class T>
 	using add_reference_t = typename add_reference<T>::type;
 
-}   //namespace ciel
+}   // namespace ciel
 
-#endif //TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_ADD_REFERENCE_H_
+#endif // TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_ADD_REFERENCE_H_

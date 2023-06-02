@@ -23,6 +23,6 @@ namespace ciel {
 	template<class T>
 	using remove_all_extents_t = typename remove_all_extents<T>::type;
 
-}   //namespace ciel
+}   // namespace ciel
 
-#endif //TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_REMOVE_ALL_EXTENTS_H_
+#endif // TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_REMOVE_ALL_EXTENTS_H_

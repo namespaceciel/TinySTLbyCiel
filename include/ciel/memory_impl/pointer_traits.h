@@ -22,7 +22,7 @@ namespace ciel {
 			using type = typename Ptr::element_type;
 		};
 
-		//令 Ptr 为 S<T, Args...>
+		// 令 Ptr 为 S<T, Args...>
 		template<template<class, class...> class S, class T, class... Args>
 		struct element_type_of<S<T, Args...>, true> {
 			using type = typename S<T, Args...>::element_type;
@@ -91,7 +91,7 @@ namespace ciel {
 			return pointer::pointer_to(r);
 		}
 
-	};    //struct pointer_traits
+	};    // struct pointer_traits
 
 	template<class T>
 	struct pointer_traits<T*> {
@@ -107,8 +107,8 @@ namespace ciel {
 			return ciel::addressof(r);
 		}
 
-	};    //struct pointer_traits<T*>
+	};    // struct pointer_traits<T*>
 
-}   //namespace ciel
+}   // namespace ciel
 
-#endif //TINYSTLBYCIEL_INCLUDE_CIEL_MEMORY_IMPL_POINTER_TRAITS_H_
+#endif // TINYSTLBYCIEL_INCLUDE_CIEL_MEMORY_IMPL_POINTER_TRAITS_H_

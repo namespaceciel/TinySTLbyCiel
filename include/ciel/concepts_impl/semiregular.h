@@ -9,6 +9,6 @@ namespace ciel {
 	template<class T>
 	concept semiregular = ciel::copyable<T> && ciel::default_initializable<T>;
 
-}   //namespace ciel
+}   // namespace ciel
 
-#endif //TINYSTLBYCIEL_INCLUDE_CIEL_CONCEPTS_IMPL_SEMIREGULAR_H_
+#endif // TINYSTLBYCIEL_INCLUDE_CIEL_CONCEPTS_IMPL_SEMIREGULAR_H_

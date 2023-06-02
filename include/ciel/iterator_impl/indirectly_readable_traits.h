@@ -56,6 +56,6 @@ namespace ciel {
 		using value_type = ciel::remove_cv_t<typename T::value_type>;
 	};
 
-}   //namespace ciel
+}   // namespace ciel
 
-#endif //TINYSTLBYCIEL_INCLUDE_CIEL_ITERATOR_IMPL_INDIRECTLY_READABLE_TRAITS_H_
+#endif // TINYSTLBYCIEL_INCLUDE_CIEL_ITERATOR_IMPL_INDIRECTLY_READABLE_TRAITS_H_

@@ -8,6 +8,6 @@ namespace ciel {
 	template<class T, class... Args>
 	concept constructible_from = ciel::destructible<T> && ciel::is_constructible_v<T, Args...>;
 
-}   //namespace ciel
+}   // namespace ciel
 
-#endif //TINYSTLBYCIEL_INCLUDE_CIEL_CONCEPTS_IMPL_CONSTRUCTIBLE_FROM_H_
+#endif // TINYSTLBYCIEL_INCLUDE_CIEL_CONCEPTS_IMPL_CONSTRUCTIBLE_FROM_H_

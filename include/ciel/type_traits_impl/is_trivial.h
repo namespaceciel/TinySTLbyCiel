@@ -12,6 +12,6 @@ namespace ciel {
 	template<class T>
 	inline constexpr bool is_trivial_v = is_trivial<T>::value;
 
-}   //namespace ciel
+}   // namespace ciel
 
-#endif //TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_IS_TRIVIAL_H_
+#endif // TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_IS_TRIVIAL_H_

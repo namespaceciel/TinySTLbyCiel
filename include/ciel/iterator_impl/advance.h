@@ -18,7 +18,7 @@ namespace ciel {
 				--dist;
 				++it;
 			}
-			if constexpr (ciel::is_base_of_v<ciel::bidirectional_iterator_tag, category>) {    //n < 0 时
+			if constexpr (ciel::is_base_of_v<ciel::bidirectional_iterator_tag, category>) {    // n < 0 时
 				while (dist < 0) {
 					++dist;
 					--it;
@@ -27,6 +27,6 @@ namespace ciel {
 		}
 	}
 
-}   //namespace ciel
+}   // namespace ciel
 
-#endif //TINYSTLBYCIEL_INCLUDE_CIEL_ITERATOR_IMPL_ADVANCE_H_
+#endif // TINYSTLBYCIEL_INCLUDE_CIEL_ITERATOR_IMPL_ADVANCE_H_

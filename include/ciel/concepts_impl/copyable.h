@@ -13,6 +13,6 @@ namespace ciel {
 					&& ciel::assignable_from<T&, const T&>
 					&& ciel::assignable_from<T&, const T>;
 
-}   //namespace ciel
+}   // namespace ciel
 
-#endif //TINYSTLBYCIEL_INCLUDE_CIEL_CONCEPTS_IMPL_COPYABLE_H_
+#endif // TINYSTLBYCIEL_INCLUDE_CIEL_CONCEPTS_IMPL_COPYABLE_H_

@@ -14,6 +14,6 @@ namespace ciel {
 						 	  && ciel::constructible_from<T, const T>
 							  && ciel::convertible_to<const T, T>;
 
-}   //namespace ciel
+}   // namespace ciel
 
-#endif //TINYSTLBYCIEL_INCLUDE_CIEL_CONCEPTS_IMPL_COPY_CONSTRUCTIBLE_H_
+#endif // TINYSTLBYCIEL_INCLUDE_CIEL_CONCEPTS_IMPL_COPY_CONSTRUCTIBLE_H_

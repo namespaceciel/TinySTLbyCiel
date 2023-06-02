@@ -97,13 +97,13 @@ namespace ciel::pmr {
 			return *lhs.resource() == *rhs.resource();
 		}
 
-	};    //class polymorphic_allocator
+	};    // class polymorphic_allocator
 
 	template<class T1, class T2>
 	bool operator==(const polymorphic_allocator<T1>& lhs, const polymorphic_allocator<T2>& rhs) noexcept {
 		return *lhs.resource() == *rhs.resource();
 	}
 
-}   //namespace ciel::pmr
+}   // namespace ciel::pmr
 
-#endif //TINYSTLBYCIEL_INCLUDE_CIEL_MEMORY_RESOURCE_IMPL_POLYMORPHIC_ALLOCATOR_H_
+#endif // TINYSTLBYCIEL_INCLUDE_CIEL_MEMORY_RESOURCE_IMPL_POLYMORPHIC_ALLOCATOR_H_

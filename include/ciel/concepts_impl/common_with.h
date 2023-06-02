@@ -16,6 +16,6 @@ namespace ciel {
 													     ciel::common_reference_t<ciel::add_lvalue_reference_t<const T>,
 														                          ciel::add_lvalue_reference_t<const U>>>;
 
-}   //namespace ciel
+}   // namespace ciel
 
-#endif //TINYSTLBYCIEL_INCLUDE_CIEL_CONCEPTS_IMPL_COMMON_WITH_H_
+#endif // TINYSTLBYCIEL_INCLUDE_CIEL_CONCEPTS_IMPL_COMMON_WITH_H_

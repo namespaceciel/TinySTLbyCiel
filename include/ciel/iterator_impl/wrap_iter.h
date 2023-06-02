@@ -6,7 +6,7 @@
 
 namespace ciel {
 
-	//TODO: 添加边界检查
+	// TODO: 添加边界检查
 
 	template<class Iter>
 	class wrap_iter {
@@ -22,15 +22,14 @@ namespace ciel {
 	private:
 		iterator_type it;
 
-		//我暂时不知道这是干嘛的
-		constexpr explicit wrap_iter(const void*, iterator_type other) noexcept: it(other) {}
-
 	public:
+		constexpr explicit wrap_iter(iterator_type other) noexcept: it(other) {}
+
 		constexpr wrap_iter() noexcept: it() {}
 
 		template<class U>
-			requires ciel::is_convertible_v<U, iterator_type>
-		constexpr wrap_iter(const wrap_iter<U>& other) noexcept:it(other.base()) {}
+		requires ciel::is_convertible_v<U, iterator_type>
+		constexpr wrap_iter(const wrap_iter<U>& other) noexcept : it(other.base()) {}
 
 		constexpr reference operator*() const noexcept {
 			return *it;
@@ -90,7 +89,7 @@ namespace ciel {
 			return it;
 		}
 
-	};    //class wrap_iter
+	};    // class wrap_iter
 
 	template<class Iter1, class Iter2>
 	constexpr bool operator==(const wrap_iter<Iter1>& lhs, const wrap_iter<Iter2>& rhs) {
@@ -144,6 +143,6 @@ namespace ciel {
 		}
 	};
 
-}   //namespace ciel
+}   // namespace ciel
 
-#endif //TINYSTLBYCIEL_INCLUDE_CIEL_ITERATOR_IMPL_WRAP_ITER_H_
+#endif // TINYSTLBYCIEL_INCLUDE_CIEL_ITERATOR_IMPL_WRAP_ITER_H_

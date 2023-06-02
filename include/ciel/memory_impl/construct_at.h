@@ -15,6 +15,6 @@ namespace ciel {
 		return ::new(const_cast<void*>(static_cast<const volatile void*>(p))) T(ciel::forward<Args>(args)...);
 	}
 
-}   //namespace ciel
+}   // namespace ciel
 
-#endif //TINYSTLBYCIEL_INCLUDE_CIEL_MEMORY_IMPL_CONSTRUCT_AT_H_
+#endif // TINYSTLBYCIEL_INCLUDE_CIEL_MEMORY_IMPL_CONSTRUCT_AT_H_

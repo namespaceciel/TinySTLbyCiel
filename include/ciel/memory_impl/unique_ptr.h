@@ -31,7 +31,7 @@ namespace ciel {
 	public:
 		using element_type = T;
 		using deleter_type = Deleter;
-		using pointer = allocator_traits_details::has_pointer<element_type, deleter_type>::type;    //pointer 可以为智能指针，但必须满足可空指针 (NullablePointer)
+		using pointer = allocator_traits_details::has_pointer<element_type, deleter_type>::type;    // pointer 可以为智能指针，但必须满足可空指针 (NullablePointer)
 
 	private:
 		pointer ptr;
@@ -44,7 +44,7 @@ namespace ciel {
 
 		constexpr explicit unique_ptr(pointer p) noexcept requires (ciel::is_default_constructible_v<deleter_type> && !ciel::is_pointer_v<deleter_type>): ptr(p), dlt() {}
 
-		//第一组情况
+		// 第一组情况
 		template<class D = deleter_type, class = ciel::enable_if_t<unique_ptr_details::unique_ptr_constructor_helper<D>::tag == 0>>
 			requires ciel::is_nothrow_copy_constructible_v<D>
 		unique_ptr(pointer p, const D& d) noexcept requires ciel::is_constructible_v<D, decltype(d)>: ptr(p), dlt(ciel::forward<decltype(d)>(d)) {}
@@ -53,21 +53,21 @@ namespace ciel {
 			requires ciel::is_nothrow_move_constructible_v<D>
 		unique_ptr(pointer p, D&& d) noexcept requires ciel::is_constructible_v<D, decltype(d)>: ptr(p), dlt(ciel::forward<decltype(d)>(d)) {}
 
-		//第二组情况
+		// 第二组情况
 		template<class D = deleter_type, class = ciel::enable_if_t<unique_ptr_details::unique_ptr_constructor_helper<D>::tag == 1>>
 		unique_ptr(pointer p, D& d) noexcept requires ciel::is_constructible_v<D, decltype(d)>: ptr(p), dlt(ciel::forward<decltype(d)>(d)) {}
 
 		template<class D = deleter_type, class = ciel::enable_if_t<unique_ptr_details::unique_ptr_constructor_helper<D>::tag == 1>>
 		unique_ptr(pointer p, D&& d) = delete;
 
-		//第三组情况
+		// 第三组情况
 		template<class D = deleter_type, class = ciel::enable_if_t<unique_ptr_details::unique_ptr_constructor_helper<D>::tag == 2>>
 		unique_ptr(pointer p, const D& d) noexcept requires ciel::is_constructible_v<D, decltype(d)>: ptr(p), dlt(ciel::forward<decltype(d)>(d)) {}
 
 		template<class D = deleter_type, class = ciel::enable_if_t<unique_ptr_details::unique_ptr_constructor_helper<D>::tag == 2>>
 		unique_ptr(pointer p, const D&& d) = delete;
 
-		//TODO: 若 Deleter 不是引用类型，则要求它为不抛出可移动构造 (MoveConstructible) （若 Deleter 是引用，则 get_deleter() 和 u.get_deleter() 在移动构造后引用相同值）
+		// TODO: 若 Deleter 不是引用类型，则要求它为不抛出可移动构造 (MoveConstructible) （若 Deleter 是引用，则 get_deleter() 和 u.get_deleter() 在移动构造后引用相同值）
 		constexpr unique_ptr(unique_ptr&& u) noexcept requires ciel::is_move_constructible_v<deleter_type>: ptr(u.release()), dlt(ciel::forward<deleter_type>(u.get_deleter())) {}
 
 		template<class U, class E>
@@ -78,9 +78,9 @@ namespace ciel {
 			reset();
 		}
 
-		//TODO:
-		//若 Deleter 不是引用类型，则要求它为不抛出可移动赋值 (MoveAssignable)
-		//若 Deleter 是引用类型，则要求 remove_reference<Deleter>::type 为不抛出可复制赋值 (CopyAssignable)
+		// TODO:
+		// 若 Deleter 不是引用类型，则要求它为不抛出可移动赋值 (MoveAssignable)
+		// 若 Deleter 是引用类型，则要求 remove_reference<Deleter>::type 为不抛出可复制赋值 (CopyAssignable)
 		unique_ptr& operator=(unique_ptr&& r) noexcept requires ciel::is_move_assignable_v<deleter_type> {
 			reset(r.release());
 			dlt = ciel::forward<deleter_type>(r.get_deleter());
@@ -106,9 +106,9 @@ namespace ciel {
 			return res;
 		}
 
-		//关于这里为什么是三步：如果 pointer 是智能指针类型，在前两步拷贝构造与赋值中如果抛出异常，ptr 仍然能保有指针的所有权（当然这也需要 pointer 类自身满足异常安全）
-		//所以如果在 try 块中执行 old.reset(new); 抛出异常的话，old 依然是完整的，new 则需要在 catch 块中由调用方处理
-		//并且，如果 ptr 指向的是拥有自身的对象，以常规想法的先销毁后赋值会使得销毁时调用析构函数而析构函数又调用 reset 陷入死循环（见 memory_test）
+		// 关于这里为什么是三步：如果 pointer 是智能指针类型，在前两步拷贝构造与赋值中如果抛出异常，ptr 仍然能保有指针的所有权（当然这也需要 pointer 类自身满足异常安全）
+		// 所以如果在 try 块中执行 old.reset(new); 抛出异常的话，old 依然是完整的，new 则需要在 catch 块中由调用方处理
+		// 并且，如果 ptr 指向的是拥有自身的对象，以常规想法的先销毁后赋值会使得销毁时调用析构函数而析构函数又调用 reset 陷入死循环（见 memory_test）
 		void reset(pointer p = pointer()) noexcept {
 			pointer tmp = ptr;
 			ptr = p;
@@ -146,14 +146,14 @@ namespace ciel {
 			return get();
 		}
 
-	};    //class unique_ptr
+	};    // class unique_ptr
 
 	template<class T, class Deleter>
 	class unique_ptr<T[], Deleter> {
 	public:
 		using element_type = T;
 		using deleter_type = Deleter;
-		using pointer = allocator_traits_details::has_pointer<element_type, deleter_type>::type;    //pointer 可以为智能指针，但必须满足可空指针 (NullablePointer)，即需要实现 operator bool()
+		using pointer = allocator_traits_details::has_pointer<element_type, deleter_type>::type;    // pointer 可以为智能指针，但必须满足可空指针 (NullablePointer)，即需要实现 operator bool()
 
 	private:
 		pointer ptr;
@@ -167,7 +167,7 @@ namespace ciel {
 		template<class U>
 		explicit unique_ptr(U p) noexcept requires (ciel::is_default_constructible_v<deleter_type> && !ciel::is_pointer_v<deleter_type>): ptr(p), dlt() {}
 
-		//第一组情况
+		// 第一组情况
 		template<class U, class D = deleter_type, class = ciel::enable_if_t<unique_ptr_details::unique_ptr_constructor_helper<D>::tag == 0>>
 			requires ciel::is_nothrow_copy_constructible_v<deleter_type>
 		unique_ptr(U p, const deleter_type& d) noexcept requires ciel::is_constructible_v<deleter_type, decltype(d)>: ptr(p), dlt(ciel::forward<decltype(d)>(d)) {}
@@ -176,21 +176,21 @@ namespace ciel {
 			requires ciel::is_nothrow_move_constructible_v<deleter_type>
 		unique_ptr(U p, deleter_type&& d) noexcept requires ciel::is_constructible_v<deleter_type, decltype(d)>: ptr(p), dlt(ciel::forward<decltype(d)>(d)) {}
 
-		//第二组情况
+		// 第二组情况
 		template<class U, class D = deleter_type, class = ciel::enable_if_t<unique_ptr_details::unique_ptr_constructor_helper<D>::tag == 1>>
 		unique_ptr(U p, deleter_type& d) noexcept requires ciel::is_constructible_v<deleter_type, decltype(d)>: ptr(p), dlt(ciel::forward<decltype(d)>(d)) {}
 
 		template<class U, class D = deleter_type, class = ciel::enable_if_t<unique_ptr_details::unique_ptr_constructor_helper<D>::tag == 1>>
 		unique_ptr(U p, deleter_type&& d) = delete;
 
-		//第三组情况
+		// 第三组情况
 		template<class U, class D = deleter_type, class = ciel::enable_if_t<unique_ptr_details::unique_ptr_constructor_helper<D>::tag == 2>>
 		unique_ptr(U p, const deleter_type& d) noexcept requires ciel::is_constructible_v<deleter_type, decltype(d)>: ptr(p), dlt(ciel::forward<decltype(d)>(d)) {}
 
 		template<class U, class D = deleter_type, class = ciel::enable_if_t<unique_ptr_details::unique_ptr_constructor_helper<D>::tag == 2>>
 		unique_ptr(U p, const deleter_type&& d) = delete;
 
-		//TODO: 若 Deleter 不是引用类型，则要求它为不抛出可移动构造 (MoveConstructible) （若 Deleter 是引用，则 get_deleter() 和 u.get_deleter() 在移动构造后引用相同值）
+		// TODO: 若 Deleter 不是引用类型，则要求它为不抛出可移动构造 (MoveConstructible) （若 Deleter 是引用，则 get_deleter() 和 u.get_deleter() 在移动构造后引用相同值）
 		constexpr unique_ptr(unique_ptr&& u) noexcept requires ciel::is_move_constructible_v<deleter_type>: ptr(u.release()), dlt(ciel::forward<deleter_type>(u.get_deleter())) {}
 
 		template<class U, class E>
@@ -205,9 +205,9 @@ namespace ciel {
 			reset();
 		}
 
-		//TODO:
-		//若 Deleter 不是引用类型，则要求它为不抛出可移动赋值 (MoveAssignable)
-		//若 Deleter 是引用类型，则要求 remove_reference<Deleter>::type 为不抛出可复制赋值 (CopyAssignable)
+		// TODO:
+		// 若 Deleter 不是引用类型，则要求它为不抛出可移动赋值 (MoveAssignable)
+		// 若 Deleter 是引用类型，则要求 remove_reference<Deleter>::type 为不抛出可复制赋值 (CopyAssignable)
 		unique_ptr& operator=(unique_ptr&& r) noexcept requires ciel::is_move_assignable_v<deleter_type> {
 			reset(r.release());
 			dlt = ciel::forward<deleter_type>(r.get_deleter());
@@ -276,7 +276,7 @@ namespace ciel {
 			return get()[i];
 		}
 
-	};    //class unique_ptr<T[], Deleter>
+	};    // class unique_ptr<T[], Deleter>
 
 	template<class T1, class D1, class T2, class D2>
 	bool operator==(const unique_ptr<T1, D1>& x, const unique_ptr<T2, D2>& y) {
@@ -366,8 +366,8 @@ namespace ciel {
 		lhs.swap(rhs);
 	}
 
-	//make_unique 不允许构造已知边界的数组，原因大概是 unique_ptr 本身只需要有未知数组版本就足够使用了
-	//	而如果 make_unique 允许构造已知边界数组，返回值将为 unique_ptr<T[N]>，毫无疑问会重载到通常版本，这显然是很蠢的
+	// make_unique 不允许构造已知边界的数组，原因大概是 unique_ptr 本身只需要有未知数组版本就足够使用了
+	// 	而如果 make_unique 允许构造已知边界数组，返回值将为 unique_ptr<T[N]>，毫无疑问会重载到通常版本，这显然是很蠢的
 	template<class T, class... Args>
 		requires (!ciel::is_array_v<T>)
 	unique_ptr<T> make_unique(Args&&... args) {
@@ -399,6 +399,6 @@ namespace ciel {
 	template<class T, class... Args>
 	auto make_unique_for_overwrite(Args&&... args) = delete;
 
-}   //namespace ciel
+}   // namespace ciel
 
-#endif //TINYSTLBYCIEL_INCLUDE_CIEL_MEMORY_IMPL_UNIQUE_PTR_H_
+#endif // TINYSTLBYCIEL_INCLUDE_CIEL_MEMORY_IMPL_UNIQUE_PTR_H_

@@ -1,7 +1,7 @@
 #ifndef TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_APPLY_CV_H_
 #define TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_APPLY_CV_H_
 
-//Not C++ standard
+// Not C++ standard
 
 #include <ciel/type_traits_impl/is_const.h>
 #include <ciel/type_traits_impl/is_volatile.h>
@@ -52,6 +52,6 @@ namespace ciel {
 	template<class T, class U>
 	using apply_cv_t = typename apply_cv<T, U>::type;
 
-}   //namespace ciel
+}   // namespace ciel
 
-#endif //TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_APPLY_CV_H_
+#endif // TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_APPLY_CV_H_

@@ -19,9 +19,9 @@ namespace ciel {
 	template<class T>
 	void g(T, type_identity_t<T>);
 
-	f(4.2, 0); // 错误：对 'T' 推导出冲突的类型
-	g(4.2, 0); // OK ：调用 g<double>
+	f(4.2, 0); //  错误：对 'T' 推导出冲突的类型
+	g(4.2, 0); //  OK ：调用 g<double>
 */
-}   //namespace ciel
+}   // namespace ciel
 
-#endif //TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_TYPE_IDENTITY_H_
+#endif // TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_TYPE_IDENTITY_H_

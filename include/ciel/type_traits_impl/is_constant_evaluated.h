@@ -7,6 +7,6 @@ namespace ciel {
 		return __builtin_is_constant_evaluated();
 	}
 
-}   //namespace ciel
+}   // namespace ciel
 
-#endif //TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_IS_CONSTANT_EVALUATED_H_
+#endif // TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_IS_CONSTANT_EVALUATED_H_

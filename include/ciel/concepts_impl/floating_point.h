@@ -8,6 +8,6 @@ namespace ciel {
 	template<class T>
 	concept floating_point = ciel::is_floating_point_v<T>;
 
-}   //namespace ciel
+}   // namespace ciel
 
-#endif //TINYSTLBYCIEL_INCLUDE_CIEL_CONCEPTS_IMPL_FLOATING_POINT_H_
+#endif // TINYSTLBYCIEL_INCLUDE_CIEL_CONCEPTS_IMPL_FLOATING_POINT_H_

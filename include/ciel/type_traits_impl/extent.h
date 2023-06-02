@@ -24,6 +24,6 @@ namespace ciel {
 	template<class T, unsigned N = 0>
 	inline constexpr size_t extent_v = extent<T, N>::value;
 
-}   //namespace ciel
+}   // namespace ciel
 
-#endif //TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_EXTENT_H_
+#endif // TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_EXTENT_H_

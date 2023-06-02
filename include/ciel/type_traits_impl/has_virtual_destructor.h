@@ -11,6 +11,6 @@ namespace ciel {
 	template<class T>
 	inline constexpr bool has_virtual_destructor_v = has_virtual_destructor<T>::value;
 
-}   //namespace ciel
+}   // namespace ciel
 
-#endif //TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_HAS_VIRTUAL_DESTRUCTOR_H_
+#endif // TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_HAS_VIRTUAL_DESTRUCTOR_H_

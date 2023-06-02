@@ -9,6 +9,6 @@ namespace ciel {
 	template<class T>
 	concept move_constructible = ciel::constructible_from<T, T> && ciel::convertible_to<T, T>;
 
-}   //namespace ciel
+}   // namespace ciel
 
-#endif //TINYSTLBYCIEL_INCLUDE_CIEL_CONCEPTS_IMPL_MOVE_CONSTRUCTIBLE_H_
+#endif // TINYSTLBYCIEL_INCLUDE_CIEL_CONCEPTS_IMPL_MOVE_CONSTRUCTIBLE_H_

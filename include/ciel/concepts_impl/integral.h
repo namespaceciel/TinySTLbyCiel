@@ -8,6 +8,6 @@ namespace ciel {
 	template<class T>
 	concept integral = ciel::is_integral_v<T>;
 
-}   //namespace ciel
+}   // namespace ciel
 
-#endif //TINYSTLBYCIEL_INCLUDE_CIEL_CONCEPTS_IMPL_INTEGRAL_H_
+#endif // TINYSTLBYCIEL_INCLUDE_CIEL_CONCEPTS_IMPL_INTEGRAL_H_

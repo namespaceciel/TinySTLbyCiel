@@ -11,6 +11,6 @@ namespace ciel {
 	template<class T>
 	inline constexpr bool is_aggregate_v = is_aggregate<T>::value;
 
-}   //namespace ciel
+}   // namespace ciel
 
-#endif //TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_IS_AGGREGATE_H_
+#endif // TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_IS_AGGREGATE_H_

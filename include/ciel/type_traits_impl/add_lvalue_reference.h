@@ -10,7 +10,7 @@ namespace ciel {
 		template<class T>
 		ciel::type_identity<T&> add_lvalue_reference_helper(int);
 
-		//SFINAE: 防止 void 到 void& 的编译错误，这时丢弃上述特化，而采用以下版本
+		// SFINAE: 防止 void 到 void& 的编译错误，这时丢弃上述特化，而采用以下版本
 		template<class T>
 		ciel::type_identity<T> add_lvalue_reference_helper(...);
 	}
@@ -21,6 +21,6 @@ namespace ciel {
 	template<class T>
 	using add_lvalue_reference_t = typename add_lvalue_reference<T>::type;
 
-}   //namespace ciel
+}   // namespace ciel
 
-#endif //TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_ADD_LVALUE_REFERENCE_H_
+#endif // TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_ADD_LVALUE_REFERENCE_H_

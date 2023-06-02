@@ -9,4 +9,4 @@
 #include <ciel/utility_impl/pair.h>
 #include <ciel/utility_impl/exchange.h>
 
-#endif //TINYSTLBYCIEL_INCLUDE_CIEL_UTILITY_H_
+#endif // TINYSTLBYCIEL_INCLUDE_CIEL_UTILITY_H_

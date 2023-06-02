@@ -11,7 +11,7 @@
 
 namespace ciel {
 
-	//对类型 T 应用左值到右值、数组到指针及函数到函数指针的隐式转换，移除 cv 限定符
+	// 对类型 T 应用左值到右值、数组到指针及函数到函数指针的隐式转换，移除 cv 限定符
 	template<class T>
 	class decay {
 	private:
@@ -28,6 +28,6 @@ namespace ciel {
 	template<class T>
 	using decay_t = typename decay<T>::type;
 
-}   //namespace ciel
+}   // namespace ciel
 
-#endif //TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_DECAY_H_
+#endif // TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_DECAY_H_

@@ -11,6 +11,6 @@ namespace ciel {
 		&& ciel::indirectly_writable<I, T>
 		&& requires(I i, T&& t) { *i++ = ciel::forward<T>(t); };
 
-}   //namespace ciel
+}   // namespace ciel
 
-#endif //TINYSTLBYCIEL_INCLUDE_CIEL_ITERATOR_IMPL_OUTPUT_ITERATOR_H_
+#endif // TINYSTLBYCIEL_INCLUDE_CIEL_ITERATOR_IMPL_OUTPUT_ITERATOR_H_

@@ -23,6 +23,6 @@ namespace ciel {
 	template<class T, class U>
 	inline constexpr bool is_nothrow_assignable_v = is_nothrow_assignable<T, U>::value;
 
-}   //namespace ciel
+}   // namespace ciel
 
-#endif //TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_IS_ASSIGNABLE_H_
+#endif // TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_IS_ASSIGNABLE_H_

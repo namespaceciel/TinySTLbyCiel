@@ -9,6 +9,6 @@ namespace ciel::pmr {
 		return ciel::pmr::new_delete_resource();
 	}
 
-}   //namespace ciel::pmr
+}   // namespace ciel::pmr
 
-#endif //TINYSTLBYCIEL_INCLUDE_CIEL_MEMORY_RESOURCE_IMPL_GET_DEFAULT_RESOURCE_H_
+#endif // TINYSTLBYCIEL_INCLUDE_CIEL_MEMORY_RESOURCE_IMPL_GET_DEFAULT_RESOURCE_H_

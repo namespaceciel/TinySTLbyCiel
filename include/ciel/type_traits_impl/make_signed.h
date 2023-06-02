@@ -79,6 +79,6 @@ namespace ciel {
 	template<class T>
 	using make_signed_t = typename make_signed<T>::type;
 
-}   //namespace ciel
+}   // namespace ciel
 
-#endif //TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_MAKE_SIGNED_H_
+#endif // TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_MAKE_SIGNED_H_

@@ -39,7 +39,7 @@ namespace ciel {
 				return is_signed ? type(1) << digits : type(0);
 			}
 			static constexpr type max() noexcept {
-				//标准库实现中用的是 type(~0)，这里 ~0 首先作为 int，所有位为 1 翻译为 -1，再被各 type 初始化接收变为各自的 -1 表达
+				// 标准库实现中用的是 type(~0)，这里 ~0 首先作为 int，所有位为 1 翻译为 -1，再被各 type 初始化接收变为各自的 -1 表达
 				return is_signed ? type(-1) ^ min() : type(-1);
 			}
 		};
@@ -137,6 +137,6 @@ namespace ciel {
 		}
 	};
 
-}   //namespace ciel
+}   // namespace ciel
 
-#endif //TINYSTLBYCIEL_INCLUDE_CIEL_LIMITS_H_
+#endif // TINYSTLBYCIEL_INCLUDE_CIEL_LIMITS_H_

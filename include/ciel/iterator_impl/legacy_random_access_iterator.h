@@ -18,6 +18,6 @@ namespace ciel {
 											    { i[n] } -> ciel::convertible_to<ciel::iter_reference_t<I>>;
 										    };
 
-}   //namespace ciel
+}   // namespace ciel
 
-#endif //TINYSTLBYCIEL_INCLUDE_CIEL_ITERATOR_IMPL_LEGACY_RANDOM_ACCESS_ITERATOR_H_
+#endif // TINYSTLBYCIEL_INCLUDE_CIEL_ITERATOR_IMPL_LEGACY_RANDOM_ACCESS_ITERATOR_H_

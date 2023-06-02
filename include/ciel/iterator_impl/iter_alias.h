@@ -2,7 +2,7 @@
 #define TINYSTLBYCIEL_INCLUDE_CIEL_ITERATOR_IMPL_ITER_ALIAS_H_
 
 #include <ciel/concepts.h>
-#include <ciel/iterator_impl/referenceable.h>    //iter_reference_t
+#include <ciel/iterator_impl/referenceable.h>    // iter_reference_t
 #include <ciel/iterator_impl/indirectly_readable_traits.h>
 #include <ciel/iterator_impl/iterator_traits.h>
 #include <ciel/iterator_impl/ranges::iter_move.h>
@@ -41,6 +41,6 @@ namespace ciel {
 		requires requires {{ ciel::ranges::iter_move(ciel::declval<T&>()) } -> can_reference; }
 	using iter_rvalue_reference_t = decltype(ciel::ranges::iter_move(ciel::declval<T&>()));
 
-}   //namespace ciel
+}   // namespace ciel
 
-#endif //TINYSTLBYCIEL_INCLUDE_CIEL_ITERATOR_IMPL_ITER_ALIAS_H_
+#endif // TINYSTLBYCIEL_INCLUDE_CIEL_ITERATOR_IMPL_ITER_ALIAS_H_

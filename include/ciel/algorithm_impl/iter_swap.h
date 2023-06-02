@@ -11,6 +11,6 @@ namespace ciel {
 		swap(*a, *b);
 	}
 
-}   //namespace ciel
+}   // namespace ciel
 
-#endif //TINYSTLBYCIEL_INCLUDE_CIEL_ALGORITHM_IMPL_ITER_SWAP_H_
+#endif // TINYSTLBYCIEL_INCLUDE_CIEL_ALGORITHM_IMPL_ITER_SWAP_H_

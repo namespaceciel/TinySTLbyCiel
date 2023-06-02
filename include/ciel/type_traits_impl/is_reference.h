@@ -17,6 +17,6 @@ namespace ciel {
 	template<class T>
 	inline constexpr bool is_reference_v = is_reference<T>::value;
 
-}   //namespace ciel
+}   // namespace ciel
 
-#endif //TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_IS_REFERENCE_H_
+#endif // TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_IS_REFERENCE_H_

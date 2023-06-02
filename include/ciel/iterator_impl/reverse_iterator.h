@@ -126,7 +126,7 @@ namespace ciel {
 			return ciel::ranges::iter_move(--tmp);
 		}
 
-	};    //class reverse_iterator
+	};    // class reverse_iterator
 
 	template<class Iter>
 	constexpr reverse_iterator<Iter> make_reverse_iterator(Iter i) {
@@ -178,6 +178,6 @@ namespace ciel {
 		return rhs.base() - lhs.base();
 	}
 
-}   //namespace ciel
+}   // namespace ciel
 
-#endif //TINYSTLBYCIEL_INCLUDE_CIEL_ITERATOR_IMPL_REVERSE_ITERATOR_H_
+#endif // TINYSTLBYCIEL_INCLUDE_CIEL_ITERATOR_IMPL_REVERSE_ITERATOR_H_

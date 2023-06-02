@@ -13,6 +13,6 @@ namespace ciel {
 	template<class T>
 	void as_const(const T&&) = delete;
 
-}   //namespace ciel
+}   // namespace ciel
 
-#endif //TINYSTLBYCIEL_INCLUDE_CIEL_UTILITY_IMPL_AS_CONST_H_
+#endif // TINYSTLBYCIEL_INCLUDE_CIEL_UTILITY_IMPL_AS_CONST_H_

@@ -13,6 +13,6 @@ namespace ciel {
 	template<class T>
 	inline constexpr bool is_arithmetic_v = is_arithmetic<T>::value;
 
-}   //namespace ciel
+}   // namespace ciel
 
-#endif //TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_IS_ARITHMETIC_H_
+#endif // TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_IS_ARITHMETIC_H_

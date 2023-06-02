@@ -8,6 +8,6 @@ namespace ciel {
 	template<class T>
 	concept unsigned_integral = ciel::integral<T> && !ciel::signed_integral<T>;
 
-}   //namespace ciel
+}   // namespace ciel
 
-#endif //TINYSTLBYCIEL_INCLUDE_CIEL_CONCEPTS_IMPL_UNSIGNED_INTEGRAL_H_
+#endif // TINYSTLBYCIEL_INCLUDE_CIEL_CONCEPTS_IMPL_UNSIGNED_INTEGRAL_H_

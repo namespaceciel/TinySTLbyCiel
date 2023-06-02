@@ -1,7 +1,7 @@
 #ifndef TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_IS_TYPE_IN_PACK_H_
 #define TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_IS_TYPE_IN_PACK_H_
 
-//Not C++ standard
+// Not C++ standard
 
 #include <ciel/concepts_impl/same_as.h>
 
@@ -24,6 +24,6 @@ namespace ciel {
 	template<class Target, class... T>
 	inline constexpr bool is_type_in_pack_v = is_type_in_pack<Target, T...>::value;
 
-}   //namespace ciel
+}   // namespace ciel
 
-#endif //TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_IS_TYPE_IN_PACK_H_
+#endif // TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_IS_TYPE_IN_PACK_H_

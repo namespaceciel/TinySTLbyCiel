@@ -11,6 +11,6 @@ namespace ciel {
 	}
 		&& ciel::weakly_incrementable<I>;
 
-}   //namespace ciel
+}   // namespace ciel
 
-#endif //TINYSTLBYCIEL_INCLUDE_CIEL_ITERATOR_IMPL_INPUT_OR_OUTPUT_ITERATOR_H_
+#endif // TINYSTLBYCIEL_INCLUDE_CIEL_ITERATOR_IMPL_INPUT_OR_OUTPUT_ITERATOR_H_

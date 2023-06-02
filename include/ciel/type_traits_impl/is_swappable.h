@@ -68,6 +68,6 @@ namespace ciel {
 	template<class T>
 	inline constexpr bool is_nothrow_swappable_v = is_nothrow_swappable<T>::value;
 
-}   //namespace ciel
+}   // namespace ciel
 
-#endif //TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_IS_SWAPPABLE_H_
+#endif // TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_IS_SWAPPABLE_H_

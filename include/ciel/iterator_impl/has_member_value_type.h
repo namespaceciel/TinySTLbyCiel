@@ -6,6 +6,6 @@ namespace ciel {
 	template<class T>
 	concept has_member_value_type = requires { typename T::value_type; };
 
-}   //namespace ciel
+}   // namespace ciel
 
-#endif //TINYSTLBYCIEL_INCLUDE_CIEL_ITERATOR_IMPL_HAS_MEMBER_VALUE_TYPE_H_
+#endif // TINYSTLBYCIEL_INCLUDE_CIEL_ITERATOR_IMPL_HAS_MEMBER_VALUE_TYPE_H_
