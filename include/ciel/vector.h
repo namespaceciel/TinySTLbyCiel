@@ -145,21 +145,30 @@ namespace ciel {
 		         -  -
 		    移动赋值 placement new
 		*/
-		template<class... Args>
-		constexpr iterator insert_n(iterator pos, size_type count, Args&& ... args) {
+		template<class Args>
+		constexpr iterator insert_n(iterator pos, size_type count, Args&& args) {
 			size_type new_size = size() + count;
 			if (new_size > capacity()) {
 				size_type new_cap = capacity() ? capacity() * 2 : 1;
 				while (new_size > new_cap) {
 					new_cap *= 2;
 				}
+				size_type idx = pos - begin();
 				reserve(new_cap);
+				pos = begin() + idx;
 			}
+
 			pointer boundary = finish;
 			finish = alloc_range_nothrow_move_backward(allocator, finish + count, pos.base(), finish);
-			//TODO:
-			pointer res = alloc_range_construct_n(allocator, boundary, count, ciel::forward<Args>(args)...);
-			return iterator(res);
+			auto left_movement = boundary - pos.base();
+			auto loop_break = left_movement < count ? left_movement : count;
+			for (size_type i = 0; i < loop_break; ++i) {    // 全部都是赋值
+				*(pos++) = ciel::forward<Args>(args);
+			}
+			if (left_movement < count) {    // 赋值完还有一部分需要构造
+				pos = iterator(alloc_range_construct_n(allocator, boundary, count - left_movement, ciel::forward<Args>(args)) - 1);
+			}
+			return pos;
 		}
 
 	public:
@@ -173,11 +182,7 @@ namespace ciel {
 			end_cap = finish;
 		}
 
-		constexpr explicit vector(size_type count, const allocator_type& alloc = allocator_type()) : allocator(alloc) {
-			start = alloc_traits::allocate(allocator, count);
-			finish = alloc_range_construct_n(allocator, start, count, value_type{});
-			end_cap = finish;
-		}
+		constexpr explicit vector(size_type count, const allocator_type& alloc = allocator_type()) : vector(count, value_type{}, alloc) {}
 
 		// TODO: 若 first 和 last 都只是输入迭代器，会调用 O(N) 次 T 的复制构造函数，并且会进行 O(log N) 次重分配。
 		template<ciel::legacy_input_iterator InputIt>
@@ -227,6 +232,10 @@ namespace ciel {
 				start = alloc_traits::allocate(allocator, init.size());
 				finish = alloc_range_construct(allocator, start, init.begin(), init.end());
 				end_cap = finish;
+			} else {
+				start = nullptr;
+				finish = nullptr;
+				end_cap = nullptr;
 			}
 		}
 
@@ -311,6 +320,7 @@ namespace ciel {
 			if (capacity() < count) {
 				alloc_traits::deallocate(allocator, start, capacity());
 				start = alloc_traits::allocate(allocator, count);
+				end_cap = start + count;
 			}
 			finish = alloc_range_construct_n(allocator, start, count, value);
 		}
@@ -321,6 +331,7 @@ namespace ciel {
 			if (auto count = ciel::distance(first, last); capacity() < count) {
 				alloc_traits::deallocate(allocator, start, capacity());
 				start = alloc_traits::allocate(allocator, count);
+				end_cap = start + count;
 			}
 			finish = alloc_range_construct(allocator, start, first, last);
 		}
@@ -330,6 +341,7 @@ namespace ciel {
 			if (capacity() < ilist.size()) {
 				alloc_traits::deallocate(allocator, start, capacity());
 				start = alloc_traits::allocate(allocator, ilist.size());
+				end_cap = start + ilist.size();
 			}
 			finish = alloc_range_construct(allocator, start, ilist.begin(), ilist.end());
 		}
@@ -479,18 +491,27 @@ namespace ciel {
 
 		template<ciel::legacy_input_iterator InputIt>
 		constexpr iterator insert(iterator pos, InputIt first, InputIt last) {
-			size_type insert_size = ciel::distance(first, last);
-			if (size_type new_size = size() + insert_size; new_size > capacity()) {
+			size_type count = ciel::distance(first, last);
+			if (size_type new_size = size() + count; new_size > capacity()) {
 				size_type new_cap = capacity() ? capacity() * 2 : 1;
 				while (new_size > new_cap) {
 					new_cap *= 2;
 				}
+
+				size_type idx = pos - begin();
 				reserve(new_cap);
+				pos = begin() + idx;
 			}
-			finish = alloc_range_nothrow_move_backward(allocator, finish + insert_size, pos.base(), finish);
-			//TODO:
-			auto res = ciel::copy(first, last, pos);
-			return res;
+
+			pointer boundary = finish;
+			finish = alloc_range_nothrow_move_backward(allocator, finish + count, pos.base(), finish);
+			auto left_movement = boundary - pos.base();
+			auto loop_break = left_movement < count ? left_movement : count;
+			ciel::copy_n(first, loop_break, pos);
+			if (left_movement < count) {    // 赋值完还有一部分需要构造
+				pos = iterator(alloc_range_construct(allocator, boundary, first + left_movement, last) - 1);
+			}
+			return pos;
 		}
 
 		constexpr iterator insert(iterator pos, std::initializer_list<value_type> ilist) {
@@ -499,7 +520,12 @@ namespace ciel {
 
 		template<class... Args>
 		constexpr iterator emplace(iterator pos, Args&& ... args) {
-			return insert_n(pos, 1, ciel::forward<Args>(args)...);
+			if (pos == end()) {
+				emplace_back(ciel::forward<Args>(args)...);
+				return iterator(finish - 1);
+			} else {
+				return insert_n(pos, 1, value_type{ciel::forward<Args>(args)...});
+			}
 		}
 
 		constexpr iterator erase(iterator pos) {

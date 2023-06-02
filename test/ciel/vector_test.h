@@ -164,15 +164,10 @@ void vector_test() {
 			ciel::vector<int> v2{123, 543, 12};
 			v1.insert(v1.end(), v2.begin(), v2.begin());
 			CHECK(v1.size() == 10);
-std::cout<<"Hello\n";
+
 			v1.insert(v1.end() - 1, v2.begin() + 1, v2.end());
 			// 8, 4, 3, 2, 1, 2, 3, 4, 8, 543, 12, 9
-			std::cout<<"Hello\n";
 			CHECK(v1.size() == 12);
-//			for(int i:v1){
-//				std::cout << i<<'  ';
-//			}
-			std::cout << '\n';
 			CHECK(v1[v1.size() - 3] == 543);
 			CHECK(v1[10] == 12);
 			CHECK(v1.back() == 9);
