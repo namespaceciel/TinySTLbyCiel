@@ -8,6 +8,8 @@
 
 namespace ciel {
 
+	// TODO: 应有一个对平凡类型的特化版本 vector，在插入删除（中间元素）和扩容时可以改用更底层的函数处理
+
 	// vector 对所存元素类型 T 的移动构造函数是否为 noexcept 比较在意，这里仅对需要扩容的操作做出强异常保证
 	// 对于在非末尾时调用 insert, emplace 与 erase 的操作会直接调用 noexcept 的元素移动，若抛出异常则直接中断程序
 
@@ -192,7 +194,11 @@ namespace ciel {
 			end_cap = finish;
 		}
 
-		constexpr explicit vector(size_type count, const allocator_type& alloc = allocator_type()) : vector(count, value_type{}, alloc) {}
+		constexpr explicit vector(size_type count, const allocator_type& alloc = allocator_type()) {
+			start = alloc_traits::allocate(allocator, count);
+			finish = alloc_range_construct_n(allocator, start, count);
+			end_cap = finish;
+		}
 
 		// TODO: 若 first 和 last 都只是输入迭代器，会调用 O(N) 次 T 的复制构造函数，并且会进行 O(log N) 次重分配。
 		template<ciel::legacy_input_iterator InputIt>
@@ -569,7 +575,7 @@ namespace ciel {
 			if (size() >= count) {
 				finish = alloc_range_destroy(allocator, finish - (size() - count), finish);
 			} else {
-				finish = alloc_range_construct_n(allocator, finish, count - size(), value_type{});
+				finish = alloc_range_construct_n(allocator, finish, count - size());
 			}
 		}
 
@@ -618,6 +624,9 @@ namespace ciel {
 		c.erase(it, c.end());
 		return r;
 	}
+
+	template<ciel::legacy_input_iterator InputIt, class Alloc = ciel::allocator<typename ciel::iterator_traits<InputIt>::value_type>>
+	vector(InputIt, InputIt, Alloc = Alloc())-> vector<typename ciel::iterator_traits<InputIt>::value_type, Alloc>;
 
 }   // namespace ciel
 
