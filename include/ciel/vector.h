@@ -78,7 +78,7 @@ namespace ciel {
 
 		template<ciel::legacy_input_iterator InputIt>
 		constexpr pointer alloc_range_move(allocator_type& a, pointer begin, InputIt first, InputIt last) noexcept(ciel::is_nothrow_move_constructible_v<value_type>) {
-			if (ciel::is_nothrow_move_constructible_v<value_type>) {    // 为了保证异常安全中数据的完整性，只有在 value_type 的移动构造不抛异常时才会选择此函数
+			if (ciel::is_nothrow_move_constructible_v<value_type>) {    // 为了保证强异常安全，只有在 value_type 的移动构造不抛异常时才会选择此函数
 				pointer end = begin;
 				while (first != last) {
 					alloc_traits::construct(a, end++, ciel::move(*first++));
@@ -113,24 +113,24 @@ namespace ciel {
 		}
 
 		// step1: 仅分配新内存
-		constexpr pointer reserve_step1(allocator_type& a, size_type new_cap) {
+		constexpr pointer reserve_step1(size_type new_cap) {
 			if (new_cap > max_size()) {
 				throw std::length_error("ciel::vector::reserve 需求容量超出 max_size");
 			}
-			return alloc_traits::allocate(a, new_cap);
+			return alloc_traits::allocate(allocator, new_cap);
 		}
 
 		// step2: 移动旧元素，析构旧元素，释放旧内存
-		constexpr void reserve_step2(allocator_type& a, pointer new_start, size_type new_cap) {
+		constexpr void reserve_step2(pointer new_start, size_type new_cap) {
 			try {
-				alloc_range_move(a, new_start, start, finish);
+				alloc_range_move(allocator, new_start, start, finish);
 			} catch (...) {
-				alloc_traits::deallocate(a, new_start, new_cap);
+				alloc_traits::deallocate(allocator, new_start, new_cap);
 				throw;
 			}
 			size_type old_size = size();
-			alloc_range_destroy(a, start, finish);
-			alloc_traits::deallocate(a, start, capacity());
+			clear();
+			alloc_traits::deallocate(allocator, start, capacity());
 			start = new_start;
 			finish = start + old_size;
 			end_cap = start + new_cap;
@@ -171,6 +171,16 @@ namespace ciel {
 			return pos;
 		}
 
+		void clear_and_get_cap_no_less_than(size_type size) {
+			clear();
+			if (capacity() < size) {
+				alloc_traits::deallocate(allocator, start, capacity());
+				start = nullptr;    // 防止申请内存时抛出异常，自身析构时 double free
+				start = alloc_traits::allocate(allocator, size);
+				end_cap = start + size;
+			}
+		}
+
 	public:
 		constexpr vector() noexcept(noexcept(allocator_type())): start(nullptr), finish(nullptr), end_cap(nullptr), allocator() {}
 
@@ -195,14 +205,14 @@ namespace ciel {
 		constexpr vector(const vector& other) : allocator(alloc_traits::select_on_container_copy_construction(other.get_allocator())) {
 			start = alloc_traits::allocate(allocator, other.capacity());
 			finish = alloc_range_construct(allocator, start, other.begin(), other.end());
-			end_cap = finish + other.capacity();
+			end_cap = start + other.capacity();
 		}
 
 		// TODO: 在进行类模板实参推导时，只会从首个实参推导模板形参 Allocator。(C++23 起)
 		constexpr vector(const vector& other, const allocator_type& alloc) : allocator(alloc) {
 			start = alloc_traits::allocate(allocator, other.capacity());
 			finish = alloc_range_construct(allocator, start, other.begin(), other.end());
-			end_cap = finish + other.capacity();
+			end_cap = start + other.capacity();
 		}
 
 		constexpr vector(vector&& other) noexcept: start(other.start), finish(other.finish), end_cap(other.end_cap), allocator(ciel::move(other.allocator)) {
@@ -241,7 +251,7 @@ namespace ciel {
 
 		constexpr ~vector() {    // 先一个个手动调用成员的析构函数，再由 vector 自己释放内存
 			if (start) {
-				alloc_range_destroy(allocator, start, finish);
+				clear();
 				alloc_traits::deallocate(allocator, start, capacity());
 			}
 		}
@@ -256,16 +266,13 @@ namespace ciel {
 			if (alloc_traits::propagate_on_container_copy_assignment::value) {
 				auto old_allocator = ciel::move(allocator);
 				allocator = other.allocator;
-				if (allocator != old_allocator || capacity() < other.size()) {
-					alloc_range_destroy(old_allocator, start, finish);
-					alloc_traits::deallocate(old_allocator, start, capacity());
-					start = alloc_traits::allocate(allocator, other.size());
+				if (allocator != old_allocator) {
+					clear_and_get_cap_no_less_than(other.size());
 					finish = alloc_range_construct(allocator, start, other.begin(), other.end());
-					end_cap = finish;
 					return *this;
 				}
 			}
-			alloc_range_destroy(allocator, start, finish);
+			clear_and_get_cap_no_less_than(other.size());
 			finish = alloc_range_construct(allocator, start, other.begin(), other.end());
 			return *this;
 		}
@@ -283,7 +290,7 @@ namespace ciel {
 			}
 			if (alloc_traits::propagate_on_container_move_assignment::value || alloc_traits::is_always_equal::value) {
 				if (start) {
-					alloc_range_destroy(allocator, start, finish);
+					clear();
 					alloc_traits::deallocate(allocator, start, capacity());
 					start = nullptr;
 					finish = nullptr;
@@ -291,12 +298,7 @@ namespace ciel {
 				}
 				swap(other);
 			} else {
-				alloc_range_destroy(allocator, start, finish);
-				if (capacity() < other.size()) {
-					alloc_traits::deallocate(allocator, start, capacity());
-					start = alloc_traits::allocate(allocator, other.size());
-					end_cap = start + other.size();
-				}
+				clear_and_get_cap_no_less_than(other.size());
 				finish = alloc_range_construct(allocator, start, other.begin(), other.end());
 			}
 			return *this;
@@ -304,45 +306,29 @@ namespace ciel {
 
 		constexpr vector& operator=(std::initializer_list<value_type> ilist) {
 			if (capacity() < ilist.size()) {
-				vector tmp(ilist);
-				alloc_range_destroy(allocator, start, finish);
+				vector tmp(ilist, allocator);
+				clear();
 				swap(tmp);
 			} else {
-				alloc_range_destroy(allocator, start, finish);
+				clear();
 				finish = alloc_range_construct(allocator, start, ilist.begin(), ilist.end());
 			}
 			return *this;
 		}
 
-		// TODO: 重复代码太多，以后抽象一下
 		constexpr void assign(size_type count, const value_type& value) {
-			alloc_range_destroy(allocator, start, finish);
-			if (capacity() < count) {
-				alloc_traits::deallocate(allocator, start, capacity());
-				start = alloc_traits::allocate(allocator, count);
-				end_cap = start + count;
-			}
+			clear_and_get_cap_no_less_than(count);
 			finish = alloc_range_construct_n(allocator, start, count, value);
 		}
 
 		template<ciel::legacy_input_iterator InputIt>
 		constexpr void assign(InputIt first, InputIt last) {
-			alloc_range_destroy(allocator, start, finish);
-			if (auto count = ciel::distance(first, last); capacity() < count) {
-				alloc_traits::deallocate(allocator, start, capacity());
-				start = alloc_traits::allocate(allocator, count);
-				end_cap = start + count;
-			}
+			clear_and_get_cap_no_less_than(ciel::distance(first, last));
 			finish = alloc_range_construct(allocator, start, first, last);
 		}
 
 		constexpr void assign(std::initializer_list<value_type> ilist) {
-			alloc_range_destroy(allocator, start, finish);
-			if (capacity() < ilist.size()) {
-				alloc_traits::deallocate(allocator, start, capacity());
-				start = alloc_traits::allocate(allocator, ilist.size());
-				end_cap = start + ilist.size();
-			}
+			clear_and_get_cap_no_less_than(ilist.size());
 			finish = alloc_range_construct(allocator, start, ilist.begin(), ilist.end());
 		}
 
@@ -448,11 +434,11 @@ namespace ciel {
 			return begin() == end();
 		}
 
-		constexpr size_type size() const noexcept {
+		[[nodiscard]] constexpr size_type size() const noexcept {
 			return finish - start;
 		}
 
-		constexpr size_type max_size() const noexcept {
+		[[nodiscard]] constexpr size_type max_size() const noexcept {
 			return alloc_traits::max_size(allocator);
 		}
 
@@ -461,16 +447,20 @@ namespace ciel {
 			if (new_cap <= capacity()) {
 				return;
 			}
-			pointer new_start = reserve_step1(allocator, new_cap);
-			reserve_step2(allocator, new_start, new_cap);
+			pointer new_start = reserve_step1(new_cap);
+			reserve_step2(new_start, new_cap);
 		}
 
-		constexpr size_type capacity() const noexcept {
+		[[nodiscard]] constexpr size_type capacity() const noexcept {
 			return end_cap - start;
 		}
 
 		constexpr void shrink_to_fit() {
-			// TODO
+			if (size() == capacity()) {
+				return;
+			}
+			pointer new_start = alloc_traits::allocate(allocator, size());
+			reserve_step2(new_start, size());
 		}
 
 		constexpr void clear() noexcept {
@@ -554,14 +544,14 @@ namespace ciel {
 		constexpr reference emplace_back(Args&& ... args) {
 			if (size_type new_cap = capacity(); size() == new_cap) {
 				new_cap = new_cap ? 2 * new_cap : 1;
-				pointer new_start = reserve_step1(allocator, new_cap);
+				pointer new_start = reserve_step1(new_cap);
 				try {
 					alloc_range_construct_n(allocator, new_start + size(), 1, ciel::forward<Args>(args)...);
 				} catch (...) {
 					alloc_traits::deallocate(allocator, new_start, new_cap);
 					throw;
 				}
-				reserve_step2(allocator, new_start, new_cap);
+				reserve_step2(new_start, new_cap);
 				++finish;
 			} else {
 				finish = alloc_range_construct_n(allocator, finish, 1, ciel::forward<Args>(args)...);
