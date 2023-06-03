@@ -21,7 +21,7 @@ namespace vector_test_details {
 			return *this;
 		}
 		ConstructAndAssignCounter& operator=(ConstructAndAssignCounter&&) noexcept {
-			++copy;
+			++move;
 			return *this;
 		}
 	};
@@ -204,7 +204,10 @@ void vector_test() {
 
 			CHECK(ConstructAndAssignCounter::move == 0);
 		}
+
 		ConstructAndAssignCounter::copy = 0;
+		ConstructAndAssignCounter::move = 0;
+
 		{
 			ciel::vector<ConstructAndAssignCounter> v1;
 
@@ -231,10 +234,53 @@ void vector_test() {
 			CHECK(ConstructAndAssignCounter::copy == 100);
 
 //			std::cout << ConstructAndAssignCounter::move << '\n';	// ciel::vector 为 711，std::vector 为 711
+
+			ConstructAndAssignCounter::move = 0;
+
+			v1.shrink_to_fit();
+			CHECK(ConstructAndAssignCounter::copy == 100);
+			CHECK(ConstructAndAssignCounter::move == 400);
 		}
+
 		ConstructAndAssignCounter::copy = 0;
+		ConstructAndAssignCounter::move = 0;
+
 		{
-			ciel::vector<ConstructAndAssignCounter> v1;
+			ciel::vector<ConstructAndAssignCounter> v1(10);
+			v1.erase(v1.begin());    // 10 - 1
+			CHECK(ConstructAndAssignCounter::copy == 0);
+			CHECK(ConstructAndAssignCounter::move == 9);
+
+			v1.erase(v1.begin() + 5, v1.begin() + 7);    // 9 - 2
+			CHECK(ConstructAndAssignCounter::copy == 0);
+			CHECK(ConstructAndAssignCounter::move == 11);
+
+			v1.insert(v1.begin(), ConstructAndAssignCounter{});    // 7 + 1
+			CHECK(ConstructAndAssignCounter::copy == 0);
+			CHECK(ConstructAndAssignCounter::move == 19);
+
+			ConstructAndAssignCounter tmp;
+			v1.insert(v1.begin(), tmp);    // 8 + 1
+			CHECK(ConstructAndAssignCounter::copy == 1);
+			CHECK(ConstructAndAssignCounter::move == 27);
+
+			v1.insert(v1.begin(), 3, {});    // 9 + 3	// FIXME: 这里原本容量为 10，std::vector 能保证在有扩容操作时依旧一次性把元素移到正确位置
+			CHECK(ConstructAndAssignCounter::copy == 4);                // FIXME: 而 ciel::vector 目前是先 reserve 足够容量再继续 insert 的移动操作，所以会有多余移动次数
+			CHECK(ConstructAndAssignCounter::move == 36);
+
+			v1.insert(v1.begin(), {{}, {}});    // 容量为 20，12 + 2
+			CHECK(ConstructAndAssignCounter::copy == 6);
+			CHECK(ConstructAndAssignCounter::move == 48);
+
+			v1.shrink_to_fit();    // 容量为 14
+			CHECK(ConstructAndAssignCounter::copy == 6);
+			CHECK(ConstructAndAssignCounter::move == 62);
+
+			v1.insert(v1.end() - 2, v1.begin(), v1.begin() + 2);    // 14 + 2
+			CHECK(ConstructAndAssignCounter::copy == 8);
+			CHECK(ConstructAndAssignCounter::move == 76);
+
+			std::cout << ConstructAndAssignCounter::copy << '\n' << ConstructAndAssignCounter::move << '\n';
 		}
 	}
 
