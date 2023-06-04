@@ -38,8 +38,18 @@ namespace ciel {
 																	  ciel::true_type,
 																	  ciel::false_type>>> {};
 
+// gcc 没有 __is_trivially_destructible 而只有 __has_trivial_destructor
+#if __has_builtin(__is_trivially_destructible)
+
 	template<class T>
-	struct is_trivially_destructible : ciel::bool_constant<__is_trivially_destructible(ciel::remove_all_extents_t<T>)> {};
+	struct is_trivially_destructible : ciel::bool_constant<__is_trivially_destructible(T)> {};
+
+#else
+
+	template<class T>
+	struct is_trivially_destructible : ciel::bool_constant<is_destructible<T>::value && __has_trivial_destructor(T)> {};
+
+#endif
 
 	template<class T>
 	struct is_trivially_destructible<T[]> : ciel::false_type {};
