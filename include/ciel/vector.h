@@ -664,7 +664,7 @@ namespace ciel {
 	}
 
 	template<ciel::legacy_input_iterator InputIt, class Alloc = ciel::allocator<typename ciel::iterator_traits<InputIt>::value_type>>
-	vector(InputIt, InputIt, Alloc = Alloc())-> vector<typename ciel::iterator_traits<InputIt>::value_type, Alloc>;
+	vector(InputIt, InputIt, Alloc = Alloc()) -> vector<typename ciel::iterator_traits<InputIt>::value_type, Alloc>;
 
 }   // namespace ciel
 

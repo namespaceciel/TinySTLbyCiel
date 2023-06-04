@@ -45,27 +45,27 @@ namespace ciel {
 		constexpr explicit unique_ptr(pointer p) noexcept requires (ciel::is_default_constructible_v<deleter_type> && !ciel::is_pointer_v<deleter_type>): ptr(p), dlt() {}
 
 		// 第一组情况
-		template<class D = deleter_type, class = ciel::enable_if_t<unique_ptr_details::unique_ptr_constructor_helper<D>::tag == 0>>
+		template<class D = deleter_type, class A = ciel::remove_cvref_t<D>, class = ciel::enable_if_t<unique_ptr_details::unique_ptr_constructor_helper<D>::tag == 0>>
 			requires ciel::is_nothrow_copy_constructible_v<D>
-		unique_ptr(pointer p, const D& d) noexcept requires ciel::is_constructible_v<D, decltype(d)>: ptr(p), dlt(ciel::forward<decltype(d)>(d)) {}
+		unique_ptr(pointer p, const A& d) noexcept requires ciel::is_constructible_v<D, decltype(d)>: ptr(p), dlt(ciel::forward<decltype(d)>(d)) {}
 
-		template<class D = deleter_type, class = ciel::enable_if_t<unique_ptr_details::unique_ptr_constructor_helper<D>::tag == 0>>
+		template<class D = deleter_type, class A = ciel::remove_cvref_t<D>, class = ciel::enable_if_t<unique_ptr_details::unique_ptr_constructor_helper<D>::tag == 0>>
 			requires ciel::is_nothrow_move_constructible_v<D>
-		unique_ptr(pointer p, D&& d) noexcept requires ciel::is_constructible_v<D, decltype(d)>: ptr(p), dlt(ciel::forward<decltype(d)>(d)) {}
+		unique_ptr(pointer p, A&& d) noexcept requires ciel::is_constructible_v<D, decltype(d)>: ptr(p), dlt(ciel::forward<decltype(d)>(d)) {}
 
 		// 第二组情况
-		template<class D = deleter_type, class = ciel::enable_if_t<unique_ptr_details::unique_ptr_constructor_helper<D>::tag == 1>>
-		unique_ptr(pointer p, D& d) noexcept requires ciel::is_constructible_v<D, decltype(d)>: ptr(p), dlt(ciel::forward<decltype(d)>(d)) {}
+		template<class D = deleter_type, class A = ciel::remove_cvref_t<D>, class = ciel::enable_if_t<unique_ptr_details::unique_ptr_constructor_helper<D>::tag == 1>>
+		unique_ptr(pointer p, A& d) noexcept requires ciel::is_constructible_v<D, decltype(d)>: ptr(p), dlt(ciel::forward<decltype(d)>(d)) {}
 
-		template<class D = deleter_type, class = ciel::enable_if_t<unique_ptr_details::unique_ptr_constructor_helper<D>::tag == 1>>
-		unique_ptr(pointer p, D&& d) = delete;
+		template<class D = deleter_type, class A = ciel::remove_cvref_t<D>, class = ciel::enable_if_t<unique_ptr_details::unique_ptr_constructor_helper<D>::tag == 1>>
+		unique_ptr(pointer p, A&& d) = delete;
 
 		// 第三组情况
-		template<class D = deleter_type, class = ciel::enable_if_t<unique_ptr_details::unique_ptr_constructor_helper<D>::tag == 2>>
-		unique_ptr(pointer p, const D& d) noexcept requires ciel::is_constructible_v<D, decltype(d)>: ptr(p), dlt(ciel::forward<decltype(d)>(d)) {}
+		template<class D = deleter_type, class A = ciel::remove_cvref_t<D>, class = ciel::enable_if_t<unique_ptr_details::unique_ptr_constructor_helper<D>::tag == 2>>
+		unique_ptr(pointer p, const A& d) noexcept requires ciel::is_constructible_v<D, decltype(d)>: ptr(p), dlt(ciel::forward<decltype(d)>(d)) {}
 
-		template<class D = deleter_type, class = ciel::enable_if_t<unique_ptr_details::unique_ptr_constructor_helper<D>::tag == 2>>
-		unique_ptr(pointer p, const D&& d) = delete;
+		template<class D = deleter_type, class A = ciel::remove_cvref_t<D>, class = ciel::enable_if_t<unique_ptr_details::unique_ptr_constructor_helper<D>::tag == 2>>
+		unique_ptr(pointer p, const A&& d) = delete;
 
 		// TODO: 若 Deleter 不是引用类型，则要求它为不抛出可移动构造 (MoveConstructible) （若 Deleter 是引用，则 get_deleter() 和 u.get_deleter() 在移动构造后引用相同值）
 		constexpr unique_ptr(unique_ptr&& u) noexcept requires ciel::is_move_constructible_v<deleter_type>: ptr(u.release()), dlt(ciel::forward<deleter_type>(u.get_deleter())) {}
@@ -168,27 +168,27 @@ namespace ciel {
 		explicit unique_ptr(U p) noexcept requires (ciel::is_default_constructible_v<deleter_type> && !ciel::is_pointer_v<deleter_type>): ptr(p), dlt() {}
 
 		// 第一组情况
-		template<class U, class D = deleter_type, class = ciel::enable_if_t<unique_ptr_details::unique_ptr_constructor_helper<D>::tag == 0>>
-			requires ciel::is_nothrow_copy_constructible_v<deleter_type>
-		unique_ptr(U p, const deleter_type& d) noexcept requires ciel::is_constructible_v<deleter_type, decltype(d)>: ptr(p), dlt(ciel::forward<decltype(d)>(d)) {}
+		template<class U, class D = deleter_type, class A = ciel::remove_cvref_t<D>, class = ciel::enable_if_t<unique_ptr_details::unique_ptr_constructor_helper<D>::tag == 0>>
+			requires ciel::is_nothrow_copy_constructible_v<D>
+		unique_ptr(U p, const A& d) noexcept requires ciel::is_constructible_v<D, decltype(d)>: ptr(p), dlt(ciel::forward<decltype(d)>(d)) {}
 
-		template<class U, class D = deleter_type, class = ciel::enable_if_t<unique_ptr_details::unique_ptr_constructor_helper<D>::tag == 0>>
-			requires ciel::is_nothrow_move_constructible_v<deleter_type>
-		unique_ptr(U p, deleter_type&& d) noexcept requires ciel::is_constructible_v<deleter_type, decltype(d)>: ptr(p), dlt(ciel::forward<decltype(d)>(d)) {}
+		template<class U, class D = deleter_type, class A = ciel::remove_cvref_t<D>, class = ciel::enable_if_t<unique_ptr_details::unique_ptr_constructor_helper<D>::tag == 0>>
+			requires ciel::is_nothrow_move_constructible_v<D>
+		unique_ptr(U p, A&& d) noexcept requires ciel::is_constructible_v<D, decltype(d)>: ptr(p), dlt(ciel::forward<decltype(d)>(d)) {}
 
 		// 第二组情况
-		template<class U, class D = deleter_type, class = ciel::enable_if_t<unique_ptr_details::unique_ptr_constructor_helper<D>::tag == 1>>
-		unique_ptr(U p, deleter_type& d) noexcept requires ciel::is_constructible_v<deleter_type, decltype(d)>: ptr(p), dlt(ciel::forward<decltype(d)>(d)) {}
+		template<class U, class D = deleter_type, class A = ciel::remove_cvref_t<D>, class = ciel::enable_if_t<unique_ptr_details::unique_ptr_constructor_helper<D>::tag == 1>>
+		unique_ptr(U p, A& d) noexcept requires ciel::is_constructible_v<D, decltype(d)>: ptr(p), dlt(ciel::forward<decltype(d)>(d)) {}
 
-		template<class U, class D = deleter_type, class = ciel::enable_if_t<unique_ptr_details::unique_ptr_constructor_helper<D>::tag == 1>>
-		unique_ptr(U p, deleter_type&& d) = delete;
+		template<class U, class D = deleter_type, class A = ciel::remove_cvref_t<D>, class = ciel::enable_if_t<unique_ptr_details::unique_ptr_constructor_helper<D>::tag == 1>>
+		unique_ptr(U p, A&& d) = delete;
 
 		// 第三组情况
-		template<class U, class D = deleter_type, class = ciel::enable_if_t<unique_ptr_details::unique_ptr_constructor_helper<D>::tag == 2>>
-		unique_ptr(U p, const deleter_type& d) noexcept requires ciel::is_constructible_v<deleter_type, decltype(d)>: ptr(p), dlt(ciel::forward<decltype(d)>(d)) {}
+		template<class U, class D = deleter_type, class A = ciel::remove_cvref_t<D>, class = ciel::enable_if_t<unique_ptr_details::unique_ptr_constructor_helper<D>::tag == 2>>
+		unique_ptr(U p, const A& d) noexcept requires ciel::is_constructible_v<D, decltype(d)>: ptr(p), dlt(ciel::forward<decltype(d)>(d)) {}
 
-		template<class U, class D = deleter_type, class = ciel::enable_if_t<unique_ptr_details::unique_ptr_constructor_helper<D>::tag == 2>>
-		unique_ptr(U p, const deleter_type&& d) = delete;
+		template<class U, class D = deleter_type, class A = ciel::remove_cvref_t<D>, class = ciel::enable_if_t<unique_ptr_details::unique_ptr_constructor_helper<D>::tag == 2>>
+		unique_ptr(U p, const A&& d) = delete;
 
 		// TODO: 若 Deleter 不是引用类型，则要求它为不抛出可移动构造 (MoveConstructible) （若 Deleter 是引用，则 get_deleter() 和 u.get_deleter() 在移动构造后引用相同值）
 		constexpr unique_ptr(unique_ptr&& u) noexcept requires ciel::is_move_constructible_v<deleter_type>: ptr(u.release()), dlt(ciel::forward<deleter_type>(u.get_deleter())) {}

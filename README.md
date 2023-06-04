@@ -4,7 +4,7 @@
 
 C++ 新手的第一个项目当然是 CRUD 啦（
 
-基本遵守的是 [cppreference](https://zh.cppreference.com/) 上给的最新标准（ C++23 ），实现主要参考 Clang libc++ 源码。
+基本遵守的是 [cppreference](https://zh.cppreference.com/) 上给的最新标准（ C++23 ），实现主要参考 Clang libc++ 源码与 [EASTL](https://github.com/electronicarts/EASTL)。
 
 基本是现学 stackoverflow 现卖。。。
 
