@@ -167,6 +167,10 @@ void vector_test() {
 			// 8, 4, 222, 222, 222, 3, 2, 1, 2, 3, 4, 8, 543, 12, 9
 			CHECK(v1 == ciel::vector({8, 4, 222, 222, 222, 3, 2, 1, 2, 3, 4, 8, 543, 12, 9}));
 
+			ciel::vector<int> v3;
+			v3.insert(v3.begin(), v1.begin(), v1.end());
+			CHECK(v3 == ciel::vector({8, 4, 222, 222, 222, 3, 2, 1, 2, 3, 4, 8, 543, 12, 9}));
+
 //			v1.insert(v1.begin(), v1.begin() + 1, v1.begin() + 3);    // 不合规
 		}
 	}
@@ -264,8 +268,8 @@ void vector_test() {
 			CHECK(ConstructAndAssignCounter::copy == 1);
 			CHECK(ConstructAndAssignCounter::move == 27);
 
-			v1.insert(v1.begin(), 3, {});    // 9 + 3	// FIXME: 这里原本容量为 10，std::vector 能保证在有扩容操作时依旧一次性把元素移到正确位置
-			CHECK(ConstructAndAssignCounter::copy == 4);                // FIXME: 而 ciel::vector 目前是先 reserve 足够容量再继续 insert 的移动操作，所以会有多余移动次数
+			v1.insert(v1.begin(), 3, {});    // 9 + 3，这里原本容量为 10，std::vector 能保证在有扩容操作时依旧一次性把元素移到正确位置，我们 ciel::vector 也可以！（
+			CHECK(ConstructAndAssignCounter::copy == 4);
 			CHECK(ConstructAndAssignCounter::move == 36);
 
 			v1.insert(v1.begin(), {{}, {}});    // 容量为 20，12 + 2
@@ -279,8 +283,6 @@ void vector_test() {
 			v1.insert(v1.end() - 2, v1.begin(), v1.begin() + 2);    // 14 + 2
 			CHECK(ConstructAndAssignCounter::copy == 8);
 			CHECK(ConstructAndAssignCounter::move == 76);
-
-			std::cout << ConstructAndAssignCounter::copy << '\n' << ConstructAndAssignCounter::move << '\n';
 		}
 	}
 

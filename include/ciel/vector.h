@@ -149,28 +149,47 @@ namespace ciel {
 		*/
 		template<class Args>
 		constexpr iterator insert_n(iterator pos, size_type count, Args&& args) {
-			size_type new_size = size() + count;
-			if (new_size > capacity()) {
+			if (!count) {
+				return pos;
+			}
+			// 涉及到扩容时，需要将被插入位置的前后两段分别移动构造到正确位置，再在中间全部是原地构造。不涉及扩容则需要注意分别处理初始化与未初始化内存
+			if (size_type new_size = size() + count; new_size > capacity()) {
 				size_type new_cap = capacity() ? capacity() * 2 : 1;
 				while (new_size > new_cap) {
 					new_cap *= 2;
 				}
-				size_type idx = pos - begin();
-				reserve(new_cap);
-				pos = begin() + idx;
-			}
 
-			pointer boundary = finish;
-			finish = alloc_range_nothrow_move_backward(allocator, finish + count, pos.base(), finish);
-			auto left_movement = boundary - pos.base();
-			auto loop_break = left_movement < count ? left_movement : count;
-			for (size_type i = 0; i < loop_break; ++i) {    // 全部都是赋值
-				*(pos++) = ciel::forward<Args>(args);
+				size_type idx = pos - begin();
+				pointer new_start = alloc_traits::allocate(allocator, new_cap);
+				pointer new_pos = new_start + idx;
+
+				try {
+					alloc_range_move(allocator, new_start, begin(), pos);
+					alloc_range_move(allocator, new_pos + count, pos, end());
+				} catch (...) {
+					alloc_traits::deallocate(allocator, new_start, new_cap);
+					throw;
+				}
+
+				clear();
+				alloc_traits::deallocate(allocator, start, capacity());
+				start = new_start;
+				finish = start + new_size;
+				end_cap = start + new_cap;
+				return iterator(alloc_range_construct_n(allocator, new_pos, count, ciel::forward<Args>(args)) - 1);
+			} else {
+				pointer boundary = finish;
+				finish = alloc_range_nothrow_move_backward(allocator, finish + count, pos.base(), finish);
+				auto left_movement = boundary - pos.base();
+				auto loop_break = left_movement < count ? left_movement : count;
+				for (size_type i = 0; i < loop_break; ++i) {    // 全部都是赋值
+					*(pos++) = ciel::forward<Args>(args);
+				}
+				if (left_movement < count) {    // 赋值完还有一部分需要构造
+					pos = iterator(alloc_range_construct_n(allocator, boundary, count - left_movement, ciel::forward<Args>(args)) - 1);
+				}
+				return pos;
 			}
-			if (left_movement < count) {    // 赋值完还有一部分需要构造
-				pos = iterator(alloc_range_construct_n(allocator, boundary, count - left_movement, ciel::forward<Args>(args)) - 1);
-			}
-			return pos;
 		}
 
 		void clear_and_get_cap_no_less_than(size_type size) {
@@ -488,6 +507,10 @@ namespace ciel {
 		template<ciel::legacy_input_iterator InputIt>
 		constexpr iterator insert(iterator pos, InputIt first, InputIt last) {
 			size_type count = ciel::distance(first, last);
+			if (!count) {
+				return pos;
+			}
+			// 涉及到扩容时，需要将被插入位置的前后两段分别移动构造到正确位置，再在中间全部是原地构造。不涉及扩容则需要注意分别处理初始化与未初始化内存
 			if (size_type new_size = size() + count; new_size > capacity()) {
 				size_type new_cap = capacity() ? capacity() * 2 : 1;
 				while (new_size > new_cap) {
@@ -495,19 +518,34 @@ namespace ciel {
 				}
 
 				size_type idx = pos - begin();
-				reserve(new_cap);
-				pos = begin() + idx;
-			}
+				pointer new_start = alloc_traits::allocate(allocator, new_cap);
+				pointer new_pos = new_start + idx;
 
-			pointer boundary = finish;
-			finish = alloc_range_nothrow_move_backward(allocator, finish + count, pos.base(), finish);
-			auto left_movement = boundary - pos.base();
-			auto loop_break = left_movement < count ? left_movement : count;
-			ciel::copy_n(first, loop_break, pos);
-			if (left_movement < count) {    // 赋值完还有一部分需要构造
-				pos = iterator(alloc_range_construct(allocator, boundary, first + left_movement, last) - 1);
+				try {
+					alloc_range_move(allocator, new_start, begin(), pos);
+					alloc_range_move(allocator, new_pos + count, pos, end());
+				} catch (...) {
+					alloc_traits::deallocate(allocator, new_start, new_cap);
+					throw;
+				}
+
+				clear();
+				alloc_traits::deallocate(allocator, start, capacity());
+				start = new_start;
+				finish = start + new_size;
+				end_cap = start + new_cap;
+				return iterator(alloc_range_construct(allocator, new_pos, first, last) - 1);
+			} else {
+				pointer boundary = finish;
+				finish = alloc_range_nothrow_move_backward(allocator, finish + count, pos.base(), finish);
+				auto left_movement = boundary - pos.base();
+				auto loop_break = left_movement < count ? left_movement : count;
+				ciel::copy_n(first, loop_break, pos);
+				if (left_movement < count) {    // 赋值完还有一部分需要构造
+					pos = iterator(alloc_range_construct(allocator, boundary, first + left_movement, last) - 1);
+				}
+				return pos;
 			}
-			return pos;
 		}
 
 		constexpr iterator insert(iterator pos, std::initializer_list<value_type> ilist) {
