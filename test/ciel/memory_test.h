@@ -43,12 +43,23 @@ namespace memory_test_details {
 			delete ptr;
 		}
 	};
+
+	struct Constructor_And_Destructor_Counter {
+		inline static size_t ctor = 0;
+		inline static size_t dtor = 0;
+		Constructor_And_Destructor_Counter() {
+			++ctor;
+		};
+		~Constructor_And_Destructor_Counter() {
+			++dtor;
+		}
+	};
 }
 
 void memory_test() {
 	using namespace memory_test_details;
 
-	//unique_ptr
+	// unique_ptr
 	{
 		Task* t = Task::create_worker();
 		t->work_and_die();
@@ -104,6 +115,28 @@ void memory_test() {
 		ciel::unique_ptr<int, StructOperatorDeleter> ptr18(new int{5}, StructOperatorDeleter{});
 		ciel::unique_ptr<int, std::function<void(int*)>> ptr19(new int{5}, [](int* ptr) { delete ptr; });
 		ciel::unique_ptr<int[], std::function<void(int*)>> ptr20(new int{5}, [](int* ptr) { delete[] ptr; });
+	}
+
+	// shared_ptr
+	{
+		{
+			ciel::shared_ptr<Constructor_And_Destructor_Counter> ptr;
+		}
+		CHECK(Constructor_And_Destructor_Counter::ctor == 0 && Constructor_And_Destructor_Counter::dtor == 0);
+		{
+			ciel::shared_ptr<Constructor_And_Destructor_Counter> ptr(new Constructor_And_Destructor_Counter);
+		}
+		CHECK(Constructor_And_Destructor_Counter::ctor == 1 && Constructor_And_Destructor_Counter::dtor == 1);
+		{
+			ciel::shared_ptr<Constructor_And_Destructor_Counter> ptr(new Constructor_And_Destructor_Counter);
+			ciel::shared_ptr<Constructor_And_Destructor_Counter> ptr2(ptr);
+		}
+		CHECK(Constructor_And_Destructor_Counter::ctor == 2 && Constructor_And_Destructor_Counter::dtor == 2);
+		{
+			ciel::shared_ptr<Constructor_And_Destructor_Counter[]> ptr(new Constructor_And_Destructor_Counter[3]);
+			ciel::shared_ptr<Constructor_And_Destructor_Counter[]> ptr2(ptr);
+		}
+		CHECK(Constructor_And_Destructor_Counter::ctor == 5 && Constructor_And_Destructor_Counter::dtor == 5);
 	}
 
 	std::cout << "All memory_tests finished.\n";

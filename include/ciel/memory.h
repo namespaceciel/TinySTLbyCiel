@@ -12,6 +12,7 @@
 
 // 智能指针
 #include <ciel/memory_impl/unique_ptr.h>
+#include <ciel/memory_impl/shared_ptr.h>
 
 // 辅助类
 #include <ciel/memory_impl/default_delete.h>

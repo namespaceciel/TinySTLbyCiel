@@ -1,6 +1,5 @@
-#include <iostream>
-#include <ciel/vector_test.h>
+#include <ciel/memory_test.h>
 
 int main() {
-	vector_test();
+	memory_test();
 }
