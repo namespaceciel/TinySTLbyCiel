@@ -54,6 +54,30 @@ namespace memory_test_details {
 			++dtor;
 		}
 	};
+
+	struct Loop_Check2;
+	struct Loop_Check1 {
+		ciel::shared_ptr<Loop_Check2> p;
+		inline static size_t ctor = 0;
+		inline static size_t dtor = 0;
+		Loop_Check1() {
+			++ctor;
+		};
+		~Loop_Check1() {
+			++dtor;
+		}
+	};
+	struct Loop_Check2 {
+		ciel::weak_ptr<Loop_Check1> p;
+		inline static size_t ctor = 0;
+		inline static size_t dtor = 0;
+		Loop_Check2() {
+			++ctor;
+		};
+		~Loop_Check2() {
+			++dtor;
+		}
+	};
 }
 
 void memory_test() {
@@ -119,24 +143,35 @@ void memory_test() {
 
 	// shared_ptr
 	{
+		using CADC = Constructor_And_Destructor_Counter;
 		{
-			ciel::shared_ptr<Constructor_And_Destructor_Counter> ptr;
+			ciel::shared_ptr<CADC> ptr;
 		}
-		CHECK(Constructor_And_Destructor_Counter::ctor == 0 && Constructor_And_Destructor_Counter::dtor == 0);
+		CHECK(CADC::ctor == 0 && CADC::dtor == 0);
 		{
-			ciel::shared_ptr<Constructor_And_Destructor_Counter> ptr(new Constructor_And_Destructor_Counter);
+			ciel::shared_ptr<CADC> ptr(new CADC);
 		}
-		CHECK(Constructor_And_Destructor_Counter::ctor == 1 && Constructor_And_Destructor_Counter::dtor == 1);
+		CHECK(CADC::ctor == 1 && CADC::dtor == 1);
 		{
-			ciel::shared_ptr<Constructor_And_Destructor_Counter> ptr(new Constructor_And_Destructor_Counter);
-			ciel::shared_ptr<Constructor_And_Destructor_Counter> ptr2(ptr);
+			ciel::shared_ptr<CADC> ptr(new CADC);
+			ciel::shared_ptr<CADC> ptr2(ptr);
 		}
-		CHECK(Constructor_And_Destructor_Counter::ctor == 2 && Constructor_And_Destructor_Counter::dtor == 2);
+		CHECK(CADC::ctor == 2 && CADC::dtor == 2);
 		{
-			ciel::shared_ptr<Constructor_And_Destructor_Counter[]> ptr(new Constructor_And_Destructor_Counter[3]);
-			ciel::shared_ptr<Constructor_And_Destructor_Counter[]> ptr2(ptr);
+			ciel::shared_ptr<CADC[]> ptr(new CADC[3]);
+			ciel::shared_ptr<CADC[]> ptr2(ptr);
 		}
-		CHECK(Constructor_And_Destructor_Counter::ctor == 5 && Constructor_And_Destructor_Counter::dtor == 5);
+		CHECK(CADC::ctor == 5 && CADC::dtor == 5);
+
+		Loop_Check1* lc1 = new Loop_Check1;
+		Loop_Check2* lc2 = new Loop_Check2;
+		{
+			ciel::shared_ptr<Loop_Check1> ptr1(lc1);
+			ciel::shared_ptr<Loop_Check2> ptr2(lc2);
+			ptr1->p = ptr2;
+			ptr2->p = ptr1;
+		}
+		CHECK(Loop_Check1::ctor == 1 && Loop_Check1::dtor == 1 && Loop_Check2::ctor == 1 && Loop_Check2::dtor == 1);
 	}
 
 	std::cout << "All memory_tests finished.\n";
