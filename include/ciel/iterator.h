@@ -45,6 +45,13 @@
 #include <ciel/iterator_impl/next.h>
 #include <ciel/iterator_impl/prev.h>
 
+// 具名要求
+#include <ciel/iterator_impl/legacy_iterator.h>
+#include <ciel/iterator_impl/legacy_input_iterator.h>
+#include <ciel/iterator_impl/legacy_forward_iterator.h>
+#include <ciel/iterator_impl/legacy_bidirectional_iterator.h>
+#include <ciel/iterator_impl/legacy_random_access_iterator.h>
+
 // 非标准
 #include <ciel/iterator_impl/wrap_iter.h>
 

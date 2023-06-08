@@ -1,5 +1,5 @@
-#include <ciel/memory_test.h>
+#include <ciel/queue_test.h>
 
 int main() {
-	memory_test();
+	queue_test();
 }

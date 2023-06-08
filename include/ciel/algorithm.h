@@ -35,6 +35,12 @@
 // （已排序范围上的）集合操作
 
 // 堆操作
+#include <ciel/algorithm_impl/is_heap.h>
+#include <ciel/algorithm_impl/is_heap_until.h>
+#include <ciel/algorithm_impl/make_heap.h>
+#include <ciel/algorithm_impl/push_heap.h>
+#include <ciel/algorithm_impl/pop_heap.h>
+#include <ciel/algorithm_impl/sort_heap.h>
 
 // 最小/最大操作
 

@@ -1,7 +1,6 @@
 #ifndef TINYSTLBYCIEL_INCLUDE_CIEL_CONCEPTS_IMPL_RANGES_SWAP_H_
 #define TINYSTLBYCIEL_INCLUDE_CIEL_CONCEPTS_IMPL_RANGES_SWAP_H_
 
-#include <ciel/algorithm.h>
 #include <ciel/concepts_impl/class_or_enum_or_union.h>
 #include <ciel/concepts_impl/move_constructible.h>
 #include <ciel/concepts_impl/assignable_from.h>
