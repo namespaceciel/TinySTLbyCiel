@@ -1,5 +1,5 @@
-#include <ciel/queue_test.h>
+#include <ciel/list_test.h>
 
 int main() {
-	queue_test();
+	list_test();
 }

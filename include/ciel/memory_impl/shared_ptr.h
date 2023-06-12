@@ -27,12 +27,13 @@ namespace ciel {
 
 	实现类型擦除的删除器与分配器需要用到多态，先创建一个带有明确类型删除器与分配器的对象，后用基类指针指向它	TODO: 感觉 deducing this 的 ctrp 可能可以替代它
 	但因此也会有一些问题，例如基类指针中的 get_deleter() 虚函数返回值只能为 void*（无法得知 deleter_type）
-	FIXME: 上层 get_deleter() 需要手动指定模板参数 Deleter，传入底层函数后通过对比 typeid 来确定是否匹配，否则返回 nullptr
+	上层 get_deleter() 需要手动指定模板参数 Deleter，传入底层函数后通过对比 typeid 来确定是否匹配，否则返回 nullptr
 
 	[[no_unique_address]] 已经无法满足同时存在删除器和分配器的空基类优化了，所以继承了分配器（懒得用 compressed pair）
 
 	由于通过基类指针无从知晓控制块大小，控制块的释放只能由自身完成。EASTL 的实现是在子类重写虚函数（在内部拷贝分配器，显式调用析构函数后由分配器清理内存）
-	需要一个定制的 allocator，手动指定返回值为 control_block_with_pointer<element_type, Deleter, control_block_with_pointer_allocator>*
+	FIXME: 由于控制块的模板参数里有 allocator 本身，所以应要一个定制的 allocator 并手动指定 value_type 为 control_block_with_pointer<element_type, Deleter, control_block_with_pointer_allocator>，
+	 这对于用户指定分配器的要求太苛刻了
 
 	enable_shared_from_this 用到了 crtp
 	*/
