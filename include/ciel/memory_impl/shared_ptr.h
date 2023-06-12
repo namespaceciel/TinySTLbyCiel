@@ -83,7 +83,7 @@ namespace ciel {
 			}
 		}
 
-//		virtual void* get_deleter(const std::type_info& type) const noexcept = 0;
+		virtual void* get_deleter(const std::type_info& type) noexcept = 0;
 		virtual void delete_pointer() noexcept = 0;
 		virtual void delete_control_block() noexcept = 0;
 
@@ -106,9 +106,9 @@ namespace ciel {
 	public:
 		control_block_with_pointer(pointer p, deleter_type&& d, allocator_type&& alloc) : ptr(p), dlt(ciel::move(d)), allocator_type(ciel::move(alloc)) {}
 
-//		virtual void* get_deleter(const std::type_info& type) const noexcept override {
-//			return (type == typeid(deleter_type)) ? static_cast<void*>(&dlt) : nullptr;
-//		}
+		virtual void* get_deleter(const std::type_info& type) noexcept override {
+			return (type == typeid(deleter_type)) ? static_cast<void*>(&dlt) : nullptr;
+		}
 
 		virtual void delete_pointer() noexcept override {
 			dlt(ptr);
@@ -353,17 +353,17 @@ namespace ciel {
 			return count < other.count;
 		}
 
-//		template<class D>
-//		D* get_deleter() const noexcept {
-//			return count ? static_cast<D*>(count->get_deleter(typeid(ciel::remove_cv_t<D>))) : nullptr;
-//		}
+		template<class D>
+		D* get_deleter() const noexcept {
+			return count ? static_cast<D*>(count->get_deleter(typeid(ciel::remove_cv_t<D>))) : nullptr;
+		}
 
 	};    // class shared_ptr
 
-//	template<class Deleter, class T>
-//	Deleter* get_deleter(const shared_ptr<T>& p) noexcept {
-//		return p.template get_deleter<Deleter>();
-//	}
+	template<class Deleter, class T>
+	Deleter* get_deleter(const shared_ptr<T>& p) noexcept {
+		return p.template get_deleter<Deleter>();
+	}
 
 	template<class T>
 	void swap(shared_ptr<T>& lhs, shared_ptr<T>& rhs) noexcept {
