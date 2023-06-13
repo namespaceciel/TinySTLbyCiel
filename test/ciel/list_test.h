@@ -3,7 +3,6 @@
 
 #include <iostream>
 #include <ciel/list.h>
-#include <list>
 
 #ifndef CHECK
 #define CHECK(x) if (!(x)) { std::cerr << "Line " << __LINE__ << " : " << #x << " failed.\n"; }

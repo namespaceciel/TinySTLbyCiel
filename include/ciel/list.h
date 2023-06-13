@@ -127,8 +127,8 @@ namespace ciel {
 		using reference = value_type&;
 		using const_reference = const value_type&;
 
-		using pointer = ciel::allocator_traits<Allocator>::pointer;
-		using const_pointer = ciel::allocator_traits<Allocator>::const_pointer;
+		using pointer = ciel::allocator_traits<allocator_type>::pointer;
+		using const_pointer = ciel::allocator_traits<allocator_type>::const_pointer;
 
 		using iterator = list_iterator<value_type, pointer, reference>;
 		using const_iterator = list_iterator<value_type, const_pointer, const_reference>;
@@ -226,24 +226,24 @@ namespace ciel {
 	public:
 		list() : end_node(), s(0), allocator() {}
 
-		explicit list(const Allocator& alloc) : end_node(), s(0), allocator(alloc) {}
+		explicit list(const allocator_type& alloc) : end_node(), s(0), allocator(alloc) {}
 
-		list(size_type count, const T& value, const Allocator& alloc = Allocator()) : end_node(), s(0), allocator(alloc) {
+		list(size_type count, const T& value, const allocator_type& alloc = allocator_type()) : end_node(), s(0), allocator(alloc) {
 			alloc_range_allocate_and_construct_n(allocator, end(), count, value);
 		}
 
-		explicit list(size_type count, const Allocator& alloc = Allocator()) : end_node(), s(0), allocator(alloc) {
+		explicit list(size_type count, const allocator_type& alloc = allocator_type()) : end_node(), s(0), allocator(alloc) {
 			alloc_range_allocate_and_construct_n(allocator, end(), count);
 		}
 
 		template<ciel::legacy_input_iterator InputIt>
-		list(InputIt first, InputIt last, const Allocator& alloc = Allocator()) : end_node(), s(0), allocator(alloc) {
+		list(InputIt first, InputIt last, const allocator_type& alloc = allocator_type()) : end_node(), s(0), allocator(alloc) {
 			alloc_range_allocate_and_construct(allocator, end(), first, last);
 		}
 
 		list(const list& other) : list(iterator(other.begin().base()), iterator(other.end().base()), other.allocator) {}
 
-		list(const list& other, const Allocator& alloc) : list(iterator(other.begin().base()), iterator(other.end().base()), alloc) {}
+		list(const list& other, const allocator_type& alloc) : list(iterator(other.begin().base()), iterator(other.end().base()), alloc) {}
 
 		list(list&& other) : end_node(other.end_node), s(other.s), allocator(other.allocator) {
 			end_node.next->prev = &end_node;
@@ -252,16 +252,15 @@ namespace ciel {
 			other.s = 0;
 		}
 
-		list(list&& other, const Allocator& alloc) : end_node(other.end_node), s(other.s), allocator(alloc) {
+		// TODO: 如果 alloc != other.get_allocator() ，那么它会导致逐元素移动
+		list(list&& other, const allocator_type& alloc) : end_node(other.end_node), s(other.s), allocator(alloc) {
 			end_node.next->prev = &end_node;
 			end_node.prev->next = &end_node;
 			other.end_node.clear();
 			other.s = 0;
 		}
 
-		list(std::initializer_list<T> init, const Allocator& alloc = Allocator()) : end_node(), s(0), allocator(alloc) {
-			alloc_range_allocate_and_construct(allocator, end(), init.begin(), init.end());
-		}
+		list(std::initializer_list<T> init, const allocator_type& alloc = allocator_type()) : list(init.begin(), init.end(), alloc) {}
 
 		~list() {
 			clear();
@@ -380,11 +379,11 @@ namespace ciel {
 			return size() == 0;
 		}
 
-		size_type size() const noexcept {
+		[[nodiscard]] size_type size() const noexcept {
 			return s;
 		}
 
-		size_type max_size() const noexcept {
+		[[nodiscard]] size_type max_size() const noexcept {
 			return ciel::numeric_limits<difference_type>::max();
 		}
 

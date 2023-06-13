@@ -8,6 +8,7 @@
 #include <ciel/stack_test.h>
 #include <ciel/queue_test.h>
 #include <ciel/list_test.h>
+#include <ciel/forward_list_test.h>
 
 int main() {
 	type_traits_test();
@@ -20,4 +21,5 @@ int main() {
 	stack_test();
 	queue_test();
 	list_test();
+	forward_list_test();
 }
