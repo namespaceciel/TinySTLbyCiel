@@ -22,7 +22,7 @@ namespace concepts_details {
 	struct HasSwap {
 		void swap(HasSwap&) {}
 	};
-	void swap(HasSwap&, HasSwap&) { std::cout << "HasSwap 自己定义的 swap 被调用（应打印两次）\n"; }
+	void swap(HasSwap&, HasSwap&) { /* std::cout << "HasSwap 自己定义的 swap 被调用（应打印两次）\n"; */ }
 }
 
 void concepts_test() {
