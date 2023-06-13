@@ -2,8 +2,135 @@
 #define TINYSTLBYCIEL_INCLUDE_CIEL_QUEUE_H_
 
 #include <ciel/vector.h>
+#include <ciel/list.h>
 
 namespace ciel {
+
+	// TODO: ciel::deque
+	template<class T, class Container = ciel::list<T>>
+	class queue {
+
+		static_assert(ciel::is_same_v<T, typename Container::value_type>, "ciel::queue 的 T 与底层容器的 T 不同");
+
+	public:
+		using container_type = Container;
+		using value_type = container_type::value_type;
+		using size_type = container_type::size_type;
+		using reference = container_type::reference;
+		using const_reference = container_type::const_reference;
+
+	protected:
+		container_type c;
+
+	public:
+		queue() : queue(Container()) {}
+
+		explicit queue(const Container& cont) : c(cont) {}
+
+		explicit queue(Container&& cont) : c(ciel::move(cont)) {}
+
+		queue(const queue& other) : c(other.c) {}
+
+		queue(queue&& other) : c(ciel::move(other.c)) {}
+
+		template<ciel::legacy_input_iterator InputIt>
+		queue(InputIt first, InputIt last) : c(first, last) {}
+
+		// TODO: 以下这些构造函数仅若 uses_allocator<Container, Alloc> 为 true ，即底层容器是知分配器容器（对所有标准库容器为 true ）才参与重载决议
+
+		template<class Alloc>
+		explicit queue(const Alloc& alloc) : c(alloc) {}
+
+		template<class Alloc>
+		queue(const Container& cont, const Alloc& alloc) : c(cont, alloc) {}
+
+		template<class Alloc>
+		queue(Container&& cont, const Alloc& alloc) : c(ciel::move(cont), alloc) {}
+
+		template<class Alloc>
+		queue(const queue& other, const Alloc& alloc) : c(other.c, alloc) {}
+
+		template<class Alloc>
+		queue(queue&& other, const Alloc& alloc) : c(ciel::move(other.c), alloc) {}
+
+		template<ciel::legacy_input_iterator InputIt, class Alloc>
+		queue(InputIt first, InputIt last, const Alloc& alloc) : c(first, last, alloc) {}
+
+		~queue() = default;
+
+		queue& operator=(const queue& other) = default;
+
+		queue& operator=(queue&& other) = default;
+
+		reference front() {
+			return c.front();
+		}
+
+		const_reference front() const {
+			return c.front();
+		}
+
+		reference back() {
+			return c.back();
+		}
+
+		const_reference back() const {
+			return c.back();
+		}
+
+		[[nodiscard]] bool empty() const {
+			return c.empty();
+		}
+
+		size_type size() const {
+			return c.size();
+		}
+
+		void push(const value_type& value) {
+			c.push_back(value);
+		}
+
+		void push(value_type&& value) {
+			c.push_back(ciel::move(value));
+		}
+
+		template<class... Args>
+		decltype(auto) emplace(Args&& ... args) {
+			return c.emplace_back(ciel::forward<Args>(args)...);
+		}
+
+		void pop() {
+			c.pop_front();
+		}
+
+		void swap(queue& other) noexcept(ciel::is_nothrow_swappable_v<container_type>) {
+			ciel::swap(c, other.c);
+		}
+
+	};    // class queue
+
+	template<class T, class Container>
+		requires ciel::is_swappable_v<Container>
+	void swap(queue<T, Container>& lhs, queue<T, Container>& rhs) noexcept(noexcept(lhs.swap(rhs))) {
+		lhs.swap(rhs);
+	}
+
+	template<class T, class Container, class Alloc>
+		requires ciel::uses_allocator_v<Container, Alloc>
+	struct uses_allocator<queue<T, Container>, Alloc> : ciel::uses_allocator<Container, Alloc>::type {};
+
+	template<class Container>
+	queue(Container) -> queue<typename Container::value_type, Container>;
+
+	template<ciel::legacy_input_iterator InputIt>
+	queue(InputIt, InputIt) -> queue<typename ciel::iterator_traits<InputIt>::value_type>;
+
+	template<class Container, class Alloc>
+		requires ciel::uses_allocator_v<Container, Alloc>
+	queue(Container, Alloc) -> queue<typename Container::value_type, Container>;
+
+//	template<class InputIt, class Alloc>
+//	queue(InputIt, InputIt, Alloc) -> queue<typename ciel::iterator_traits<InputIt>::value_type, std::deque<typename ciel::iterator_traits<InputIt>::value_type, Alloc>>;
 
 	template<class T, class Container = ciel::vector<T>, class Compare = ciel::less<typename Container::value_type>>
 	    requires ciel::legacy_random_access_iterator<typename Container::iterator>
@@ -158,7 +285,7 @@ namespace ciel {
 	};    // class priority_queue
 
 	template<class T, class Container, class Compare>
-	requires ciel::is_swappable_v<Container> && ciel::is_swappable_v<Compare>
+		requires ciel::is_swappable_v<Container> && ciel::is_swappable_v<Compare>
 	void swap(priority_queue<T, Container, Compare>& lhs, priority_queue<T, Container, Compare>& rhs) noexcept(noexcept(lhs.swap(rhs))) {
 		lhs.swap(rhs);
 	}

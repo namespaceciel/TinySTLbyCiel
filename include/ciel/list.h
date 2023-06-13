@@ -3,6 +3,7 @@
 
 #include <ciel/memory.h>
 #include <ciel/iterator.h>
+#include <ciel/algorithm.h>
 
 namespace ciel {
 
@@ -30,13 +31,8 @@ namespace ciel {
 	struct list_node : list_node_base {
 		T value;
 
-		template<class U>
-		list_node(U&& v) : value(ciel::forward<U>(v)), list_node_base() {}
-
-		template<class U>
-		list_node(U&& v, list_node_base* p, list_node_base* n) : value(ciel::forward<U>(v)), list_node_base(p, n) {}
-
-		list_node(list_node_base* p, list_node_base* n) : value(), list_node_base(p, n) {}
+		template<class... Args>
+		list_node(list_node_base* p, list_node_base* n, Args&& ... args) : value(ciel::forward<Args>(args)...), list_node_base(p, n) {}
 
 	};    // struct list_node
 
@@ -181,7 +177,7 @@ namespace ciel {
 				for (size_type i = 0; i < n; ++i) {
 					node_type* construct_place = node_alloc_traits::allocate(a, 1);
 					try {
-						node_alloc_traits::construct(a, construct_place, ciel::forward<Arg>(arg)..., before_begin.base(), begin.base());
+						node_alloc_traits::construct(a, construct_place, before_begin.base(), begin.base(), ciel::forward<Arg>(arg)...);
 						++s;
 						before_begin.base()->next = construct_place;
 						begin.base()->prev = construct_place;
@@ -210,7 +206,7 @@ namespace ciel {
 				while (first != last) {
 					node_type* construct_place = node_alloc_traits::allocate(a, 1);
 					try {
-						node_alloc_traits::construct(a, construct_place, *first++, before_begin.base(), begin.base());
+						node_alloc_traits::construct(a, construct_place, before_begin.base(), begin.base(), *first++);
 						++s;
 						before_begin.base()->next = construct_place;
 						begin.base()->prev = construct_place;
@@ -294,6 +290,22 @@ namespace ciel {
 			clear();
 			alloc_range_allocate_and_construct(allocator, end(), ilist.begin(), ilist.end());
 			return *this;
+		}
+
+		void assign(size_type count, const T& value) {
+			clear();
+			alloc_range_allocate_and_construct_n(allocator, end(), count, value);
+		}
+
+		template<ciel::legacy_input_iterator InputIt>
+		void assign(InputIt first, InputIt last) {
+			clear();
+			alloc_range_allocate_and_construct(allocator, end(), first, last);
+		}
+
+		void assign(std::initializer_list<T> ilist) {
+			clear();
+			alloc_range_allocate_and_construct(allocator, end(), ilist.begin(), ilist.end());
 		}
 
 		allocator_type get_allocator() const noexcept {
@@ -380,23 +392,39 @@ namespace ciel {
 			alloc_range_destroy_and_deallocate(allocator, begin(), end());
 		}
 
-//		iterator insert(const_iterator pos, const T& value);
-//
-//		iterator insert(const_iterator pos, T&& value);
-//
-//		iterator insert(const_iterator pos, size_type count, const T& value);
-//
-//		template<ciel::legacy_input_iterator InputIt>
-//		iterator insert(const_iterator pos, InputIt first, InputIt last);
-//
-//		iterator insert(const_iterator pos, std::initializer_list<T> ilist);
-//
-//		template<class... Args>
-//		iterator emplace(const_iterator pos, Args&& ... args);
-//
-//		iterator erase(const_iterator pos);
-//
-//		iterator erase(const_iterator first, const_iterator last);
+		iterator insert(iterator pos, const T& value) {
+			return alloc_range_allocate_and_construct_n(allocator, pos, 1, value);
+		}
+
+		iterator insert(iterator pos, T&& value) {
+			return alloc_range_allocate_and_construct_n(allocator, pos, 1, ciel::move(value));
+		}
+
+		iterator insert(iterator pos, size_type count, const T& value) {
+			return alloc_range_allocate_and_construct_n(allocator, pos, count, value);
+		}
+
+		template<ciel::legacy_input_iterator InputIt>
+		iterator insert(iterator pos, InputIt first, InputIt last) {
+			return alloc_range_allocate_and_construct(allocator, pos, first, last);
+		}
+
+		iterator insert(iterator pos, std::initializer_list<T> ilist) {
+			return alloc_range_allocate_and_construct(allocator, pos, ilist.begin(), ilist.end());
+		}
+
+		template<class... Args>
+		iterator emplace(iterator pos, Args&& ... args) {
+			return alloc_range_allocate_and_construct_n(allocator, pos, 1, ciel::forward<Args>(args)...);
+		}
+
+		iterator erase(iterator pos) {
+			return alloc_range_destroy_and_deallocate(allocator, pos, pos.next());
+		}
+
+		iterator erase(iterator first, iterator last) {
+			return alloc_range_destroy_and_deallocate(allocator, first, last);
+		}
 
 		void push_back(const T& value) {
 			emplace_back(value);
@@ -408,7 +436,7 @@ namespace ciel {
 
 		template<class... Args>
 		reference emplace_back(Args&& ... args) {
-			return alloc_range_allocate_and_construct_n(allocator, end(), 1, ciel::forward<Args>(args)...);
+			return *alloc_range_allocate_and_construct_n(allocator, end(), 1, ciel::forward<Args>(args)...);
 		}
 
 		void pop_back() {
@@ -425,21 +453,84 @@ namespace ciel {
 
 		template<class... Args>
 		reference emplace_front(Args&& ... args) {
-			return alloc_range_allocate_and_construct_n(allocator, begin(), 1, ciel::forward<Args>(args)...);
+			return *alloc_range_allocate_and_construct_n(allocator, begin(), 1, ciel::forward<Args>(args)...);
 		}
 
 		void pop_front() {
 			alloc_range_destroy_and_deallocate(allocator, begin(), begin().next());
 		}
 
-//		void resize(size_type count);
-//
-//		void resize(size_type count, const value_type& value);
+		void resize(size_type count) {
+			if (size() >= count) {
+				iterator tmp = ciel::prev(end(), size() - count);
+				alloc_range_destroy_and_deallocate(allocator, tmp, end());
+			} else {
+				alloc_range_allocate_and_construct_n(allocator, end(), count - size());
+			}
+		}
 
-		// TODO: 如果 alloc_traits::propagate_on_container_swap::value 是 true，那么就会用对非成员 swap 的无限定调用交换分配器。否则，不交换它们（且在 get_allocator() != other.get_allocator() 时行为未定义）。
-//		void swap(list& other) noexcept(alloc_traits::is_always_equal::value);
+		void resize(size_type count, const value_type& value) {
+			if (size() >= count) {
+				iterator tmp = ciel::prev(end(), size() - count);
+				alloc_range_destroy_and_deallocate(allocator, tmp, end());
+			} else {
+				alloc_range_allocate_and_construct_n(allocator, end(), count - size(), value);
+			}
+		}
+
+		// TODO: 如果 alloc_traits::propagate_on_container_swap::value 是 true，那么就会用对非成员 swap 的无限定调用交换分配器。否则，不交换它们（且在 get_allocator() != other.get_allocator() 时行为未定义）
+		void swap(list& other) noexcept(alloc_traits::is_always_equal::value) {
+			ciel::swap(end_node, other.end_node);
+			end_node.next->prev = &end_node;
+			end_node.prev->next = &end_node;
+			other.end_node.next->prev = &other.end_node;
+			other.end_node.prev->next = &other.end_node;
+			ciel::swap(s, other.s);
+			ciel::swap(allocator, other.allocator);
+		}
+
+		// merge 应保证稳定性：*this 中与 other 的等价元素始终排在前面
+//		void merge(list& other) {
+//			merge(other, ciel::less<value_type>());
+//		}
+//
+//		void merge(list&& other) {
+//			merge(ciel::move(other), ciel::less<value_type>());
+//		}
+//
+//		template<class Compare>
+//		void merge(list& other, Compare comp);
+//
+//		template<class Compare>
+//		void merge(list&& other, Compare comp);
 
 	};    // class list
+
+	template<class T, class Alloc>
+	bool operator==(const list<T, Alloc>& lhs, const list<T, Alloc>& rhs) {
+		if (lhs.size() != rhs.size()) {
+			return false;
+		}
+		return ciel::equal(lhs.begin(), lhs.end(), rhs.begin());
+	}
+
+	template<class T, class Alloc>
+	void swap(list<T, Alloc>& lhs, list<T, Alloc>& rhs) noexcept(noexcept(lhs.swap(rhs))) {
+		lhs.swap(rhs);
+	}
+
+	template<class T, class Alloc, class U>
+	typename list<T, Alloc>::size_type erase(list<T, Alloc>& c, const U& value) {
+		return c.remove_if([&](auto& elem) { return elem == value; });
+	}
+
+	template<class T, class Alloc, class Pred>
+	typename list<T, Alloc>::size_type erase_if(list<T, Alloc>& c, Pred pred) {
+		return c.remove_if(pred);
+	}
+
+	template<ciel::legacy_input_iterator InputIt, class Alloc = ciel::allocator<typename ciel::iterator_traits<InputIt>::value_type>>
+	list(InputIt, InputIt, Alloc = Alloc()) -> list<typename ciel::iterator_traits<InputIt>::value_type, Alloc>;
 
 }   // namespace ciel
 

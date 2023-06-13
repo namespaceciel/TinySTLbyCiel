@@ -10,11 +10,12 @@
 #define CHECK(x) if (!(x)) { std::cerr << "Line " << __LINE__ << " : " << #x << " failed.\n"; }
 #endif
 
-namespace queue_test_details {
-}
-
 void queue_test() {
-	using namespace queue_test_details;
+
+	// queue
+	{
+		// TODO
+	}
 
 	// priority_queue
 	{
