@@ -5,7 +5,7 @@
 
 namespace ciel {
 
-	template<class ForwardIt1, class ForwardIt2>
+	template<ciel::legacy_forward_iterator ForwardIt1, ciel::legacy_forward_iterator ForwardIt2>
 	constexpr ForwardIt2 swap_ranges(ForwardIt1 first1, ForwardIt1 last1, ForwardIt2 first2) {
 		while (first1 != last1) {
 			ciel::iter_swap(first1++, first2++);

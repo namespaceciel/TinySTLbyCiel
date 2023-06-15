@@ -4,6 +4,9 @@
 // TODO 概念与约束
 
 // 不修改序列的操作
+#include <ciel/algorithm_impl/find.h>
+#include <ciel/algorithm_impl/find_if.h>
+#include <ciel/algorithm_impl/find_if_not.h>
 
 // 修改序列的操作
 #include <ciel/algorithm_impl/copy.h>

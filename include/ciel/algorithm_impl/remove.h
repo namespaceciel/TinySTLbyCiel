@@ -1,12 +1,13 @@
 #ifndef TINYSTLBYCIEL_INCLUDE_CIEL_ALGORITHM_IMPL_REMOVE_H_
 #define TINYSTLBYCIEL_INCLUDE_CIEL_ALGORITHM_IMPL_REMOVE_H_
 
+#include <ciel/iterator.h>
 #include <ciel/algorithm_impl/find.h>
 #include <ciel/utility.h>
 
 namespace ciel {
 
-	template<class ForwardIt, class T>
+	template<ciel::legacy_forward_iterator ForwardIt, class T>
 	constexpr ForwardIt remove(ForwardIt first, ForwardIt last, const T& value) {
 		first = ciel::find(first, last, value);
 		if (first != last) {

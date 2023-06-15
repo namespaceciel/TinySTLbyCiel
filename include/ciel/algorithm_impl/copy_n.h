@@ -1,9 +1,11 @@
 #ifndef TINYSTLBYCIEL_INCLUDE_CIEL_ALGORITHM_IMPL_COPY_N_H_
 #define TINYSTLBYCIEL_INCLUDE_CIEL_ALGORITHM_IMPL_COPY_N_H_
 
+#include <ciel/iterator.h>
+
 namespace ciel {
 
-	template<class InputIt, class Size, class OutputIt>
+	template<ciel::legacy_input_iterator InputIt, class Size, ciel::legacy_input_iterator OutputIt>
 	constexpr OutputIt copy_n(InputIt first, Size count, OutputIt result) {
 		if (count > 0) {
 			*result++ = *first;
