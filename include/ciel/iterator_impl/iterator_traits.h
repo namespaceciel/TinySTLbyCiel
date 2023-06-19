@@ -15,7 +15,7 @@ namespace ciel {
 
 		template<class Iter>
 		struct has_pointer1<Iter, ciel::void_t<typename Iter::pointer>> {
-			using type = Iter::pointer;
+			using type = typename Iter::pointer;
 		};
 
 		// 对应三种情况
@@ -26,7 +26,7 @@ namespace ciel {
 		template<class Iter>
 			requires requires { typename Iter::pointer; }
 		struct has_pointer2_helper1<Iter> {
-			using type = Iter::pointer;
+			using type = typename Iter::pointer;
 		};
 
 		template<class Iter>
@@ -42,7 +42,7 @@ namespace ciel {
 
 		template<class Iter>
 		struct has_reference2<Iter, ciel::void_t<typename Iter::reference>> {
-			using type = Iter::reference;
+			using type = typename Iter::reference;
 		};
 
 		// 对应五种情况
@@ -55,7 +55,7 @@ namespace ciel {
 		template<class Iter>
 			requires requires { typename Iter::iterator_category; }
 		struct has_iterator_category2_helper1<Iter> {
-			using type = Iter::iterator_category;
+			using type = typename Iter::iterator_category;
 		};
 
 		template<legacy_random_access_iterator Iter>
@@ -80,7 +80,7 @@ namespace ciel {
 
 		template<class Iter>
 		struct has_difference_type3<Iter, ciel::void_t<typename ciel::incrementable_traits<Iter>::difference_type>> {
-			using type = ciel::incrementable_traits<Iter>::difference_type;
+			using type = typename ciel::incrementable_traits<Iter>::difference_type;
 		};
 
 		template<class Iter>
@@ -101,25 +101,25 @@ namespace ciel {
 
 		template<has_other_four_members Iter>
 		struct iterator_traits_helper1<Iter> {
-			using difference_type = Iter::difference_type;
-			using value_type = Iter::value_type;
-			using pointer = has_pointer1<Iter>::type;
-			using reference = Iter::reference;
-			using iterator_category = Iter::iterator_category;
+			using difference_type = typename Iter::difference_type;
+			using value_type = typename Iter::value_type;
+			using pointer = typename has_pointer1<Iter>::type;
+			using reference = typename Iter::reference;
+			using iterator_category = typename Iter::iterator_category;
 		};
 
 		template<legacy_input_iterator Iter>
 		struct iterator_traits_helper2<Iter> {
-			using difference_type = ciel::incrementable_traits<Iter>::difference_type;
-			using value_type = ciel::indirectly_readable_traits<Iter>::value_type;
-			using pointer = has_pointer2_helper1<Iter>::type;
-			using reference = has_reference2<Iter>::type;
-			using iterator_category = has_iterator_category2_helper1<Iter>::type;
+			using difference_type = typename ciel::incrementable_traits<Iter>::difference_type;
+			using value_type = typename ciel::indirectly_readable_traits<Iter>::value_type;
+			using pointer = typename has_pointer2_helper1<Iter>::type;
+			using reference = typename has_reference2<Iter>::type;
+			using iterator_category = typename has_iterator_category2_helper1<Iter>::type;
 		};
 
 		template<legacy_iterator Iter>
 		struct iterator_traits_helper3<Iter> {
-			using difference_type = has_difference_type3<Iter>::type;
+			using difference_type = typename has_difference_type3<Iter>::type;
 			using value_type = void;
 			using pointer = void;
 			using reference = void;

@@ -110,8 +110,8 @@ namespace ciel {
 		using reference = value_type&;
 		using const_reference = const value_type&;
 
-		using pointer = ciel::allocator_traits<allocator_type>::pointer;
-		using const_pointer = ciel::allocator_traits<allocator_type>::const_pointer;
+		using pointer = typename ciel::allocator_traits<allocator_type>::pointer;
+		using const_pointer = typename ciel::allocator_traits<allocator_type>::const_pointer;
 
 		using iterator = forward_list_iterator<value_type, pointer, reference>;
 		using const_iterator = forward_list_iterator<value_type, const_pointer, const_reference>;

@@ -7,8 +7,8 @@ namespace ciel {
 
 	template<ciel::legacy_random_access_iterator RandomIt, class Compare>
 	constexpr void sift_down(RandomIt first, Compare&& comp, typename ciel::iterator_traits<RandomIt>::difference_type len, RandomIt head) {    // head 为这次下沉的父节点
-		using value_type = ciel::iterator_traits<RandomIt>::value_type;
-		using difference_type = ciel::iterator_traits<RandomIt>::difference_type;
+		using value_type = typename ciel::iterator_traits<RandomIt>::value_type;
+		using difference_type = typename ciel::iterator_traits<RandomIt>::difference_type;
 		// 当父节点下标为 i，左右子节点下标分别为 2i + 1, 2i + 2
 		difference_type diff = head - first;
 		if (len < 2 || (len - 2) / 2 < diff) {

@@ -1,12 +1,11 @@
 #ifndef TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_DECAY_H_
 #define TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_DECAY_H_
 
-#include <ciel/type_traits_impl/remove_reference.h>
 #include <ciel/type_traits_impl/is_array.h>
 #include <ciel/type_traits_impl/remove_extent.h>
 #include <ciel/type_traits_impl/is_function.h>
 #include <ciel/type_traits_impl/add_pointer.h>
-#include <ciel/type_traits_impl/remove_cv.h>
+#include <ciel/type_traits_impl/remove_cvref.h>
 #include <ciel/type_traits_impl/conditional.h>
 
 namespace ciel {

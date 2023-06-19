@@ -14,20 +14,20 @@ namespace ciel {
 
 	public:
 		using container_type = Container;
-		using value_type = container_type::value_type;
-		using size_type = container_type::size_type;
-		using reference = container_type::reference;
-		using const_reference = container_type::const_reference;
+		using value_type = typename container_type::value_type;
+		using size_type = typename container_type::size_type;
+		using reference = typename container_type::reference;
+		using const_reference = typename container_type::const_reference;
 
 	protected:
 		container_type c;
 
 	public:
-		queue() : queue(Container()) {}
+		queue() : queue(container_type()) {}
 
-		explicit queue(const Container& cont) : c(cont) {}
+		explicit queue(const container_type& cont) : c(cont) {}
 
-		explicit queue(Container&& cont) : c(ciel::move(cont)) {}
+		explicit queue(container_type&& cont) : c(ciel::move(cont)) {}
 
 		queue(const queue& other) : c(other.c) {}
 
@@ -42,10 +42,10 @@ namespace ciel {
 		explicit queue(const Alloc& alloc) : c(alloc) {}
 
 		template<class Alloc>
-		queue(const Container& cont, const Alloc& alloc) : c(cont, alloc) {}
+		queue(const container_type& cont, const Alloc& alloc) : c(cont, alloc) {}
 
 		template<class Alloc>
-		queue(Container&& cont, const Alloc& alloc) : c(ciel::move(cont), alloc) {}
+		queue(container_type&& cont, const Alloc& alloc) : c(ciel::move(cont), alloc) {}
 
 		template<class Alloc>
 		queue(const queue& other, const Alloc& alloc) : c(other.c, alloc) {}
@@ -141,10 +141,10 @@ namespace ciel {
 	public:
 		using container_type = Container;
 		using value_compare = Compare;
-		using value_type = container_type::value_type;
-		using size_type = container_type::size_type;
-		using reference = container_type::reference;
-		using const_reference = container_type::const_reference;
+		using value_type = typename container_type::value_type;
+		using size_type = typename container_type::size_type;
+		using reference = typename container_type::reference;
+		using const_reference = typename container_type::const_reference;
 
 	protected:
 		container_type c;

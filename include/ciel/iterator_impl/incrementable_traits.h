@@ -20,7 +20,7 @@ namespace ciel {
 	template<class T>
 		requires requires { typename T::difference_type; }
 	struct incrementable_traits<T> {
-		using difference_type = T::difference_type;
+		using difference_type = typename T::difference_type;
 	};
 
 	// 不定义公开可访问成员类型 difference_type，但支持减法的类型

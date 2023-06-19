@@ -1,6 +1,9 @@
 #ifndef TINYSTLBYCIEL_INCLUDE_CIEL_FUNCTIONAL_H_
 #define TINYSTLBYCIEL_INCLUDE_CIEL_FUNCTIONAL_H_
 
+// 包装
+// reference_wrapper 定义在 <ciel/functional_impl/invoke.h> 中
+
 // 算术运算
 #include <ciel/functional_impl/plus.h>
 #include <ciel/functional_impl/minus.h>
@@ -19,5 +22,8 @@
 
 // 恒等
 #include <ciel/functional_impl/identity.h>
+
+// 函数
+#include <ciel/functional_impl/invoke.h>
 
 #endif // TINYSTLBYCIEL_INCLUDE_CIEL_FUNCTIONAL_H_

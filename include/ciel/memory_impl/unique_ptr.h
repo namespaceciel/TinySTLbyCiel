@@ -31,7 +31,7 @@ namespace ciel {
 	public:
 		using element_type = T;
 		using deleter_type = Deleter;
-		using pointer = allocator_traits_details::has_pointer<element_type, deleter_type>::type;    // pointer 可以为智能指针，但必须满足可空指针 (NullablePointer)
+		using pointer = typename allocator_traits_details::has_pointer<element_type, deleter_type>::type;    // pointer 可以为智能指针，但必须满足可空指针 (NullablePointer)
 
 	private:
 		pointer ptr;
@@ -153,7 +153,7 @@ namespace ciel {
 	public:
 		using element_type = T;
 		using deleter_type = Deleter;
-		using pointer = allocator_traits_details::has_pointer<element_type, deleter_type>::type;    // pointer 可以为智能指针，但必须满足可空指针 (NullablePointer)，即需要实现 operator bool()
+		using pointer = typename allocator_traits_details::has_pointer<element_type, deleter_type>::type;    // pointer 可以为智能指针，但必须满足可空指针 (NullablePointer)，即需要实现 operator bool()
 
 	private:
 		pointer ptr;

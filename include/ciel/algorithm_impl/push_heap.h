@@ -9,7 +9,7 @@ namespace ciel {
 
 	template<ciel::legacy_random_access_iterator RandomIt, class Compare>
 	constexpr void sift_up(RandomIt first, RandomIt last, Compare&& comp, typename ciel::iterator_traits<RandomIt>::difference_type len) {
-		using value_type = ciel::iterator_traits<RandomIt>::value_type;
+		using value_type = typename ciel::iterator_traits<RandomIt>::value_type;
 		if (len > 1) {
 			len = (len - 2) / 2;
 			RandomIt head = first + len;

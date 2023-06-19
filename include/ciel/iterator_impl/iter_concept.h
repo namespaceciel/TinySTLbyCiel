@@ -26,13 +26,13 @@ namespace ciel {
 		// 若 iter_traits<I>::iterator_concept 合法并指名类型，则 iter_concept<I> 指代该类型。
 		template<class I> requires requires { typename iter_traits<I>::iterator_concept; }
 		struct iter_concept_helper1<I> {
-			using type = iter_traits<I>::iterator_concept;
+			using type = typename iter_traits<I>::iterator_concept;
 		};
 
 		// 否则，若 iter_traits<I>::iterator_category 合法并指名类型，则 iter_concept<I> 指代该类型。
 		template<class I> requires requires { typename iter_traits<I>::iterator_category; }
 		struct iter_concept_helper2<I> {
-			using type = iter_traits<I>::iterator_category;
+			using type = typename iter_traits<I>::iterator_category;
 		};
 
 		// 否则，若 iterator_traits<I> 从主模板生成，则 iter_concept<I> 指代 random_access_iterator_tag 。
@@ -43,7 +43,7 @@ namespace ciel {
 	}
 
 	template<class I>
-	using iter_concept = iter_concept_details::iter_concept_helper1<I>::type;
+	using iter_concept = typename iter_concept_details::iter_concept_helper1<I>::type;
 
 }   // namespace ciel
 

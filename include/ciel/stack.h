@@ -14,13 +14,13 @@ namespace ciel {
 	class stack {
 	public:
 		using container_type = Container;
-		using value_type = Container::value_type;
-		using size_type = Container::size_type;
-		using reference = Container::reference;
-		using const_reference = Container::const_reference;
+		using value_type = typename container_type::value_type;
+		using size_type = typename container_type::size_type;
+		using reference = typename container_type::reference;
+		using const_reference = typename container_type::const_reference;
 
 	protected:
-		Container c;
+		container_type c;
 
 	public:
 		stack() : stack(container_type()) {}

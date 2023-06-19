@@ -68,9 +68,9 @@
 #include <ciel/type_traits_impl/is_same.h>
 #include <ciel/type_traits_impl/is_base_of.h>
 #include <ciel/type_traits_impl/is_convertible.h>
-// #include <ciel/type_traits_impl/is_layout_compatible.h>/*找不到相关实现*/
-// #include <ciel/type_traits_impl/is_pointer_interconvertible_base_of.h>/*找不到相关实现*/
-// #include <ciel/type_traits_impl/is_invocable.h>
+//#include <ciel/type_traits_impl/is_layout_compatible.h>/*找不到相关实现*/
+//#include <ciel/type_traits_impl/is_pointer_interconvertible_base_of.h>/*找不到相关实现*/
+// is_invocable 定义在 <ciel/functional_impl/invoke.h> 中
 
 // 常-易变性说明符
 #include <ciel/type_traits_impl/remove_cv.h>
@@ -101,7 +101,7 @@
 #include <ciel/type_traits_impl/common_type.h>
 #include <ciel/type_traits_impl/common_reference.h>
 #include <ciel/type_traits_impl/underlying_type.h>/*由编译器实现*/
-// #include <ciel/type_traits_impl/invoke_result.h>
+// invoke_result 定义在 <ciel/functional_impl/invoke.h> 中
 #include <ciel/type_traits_impl/void_t.h>
 #include <ciel/type_traits_impl/type_identity.h>
 
@@ -111,8 +111,8 @@
 #include <ciel/type_traits_impl/negation.h>
 
 // 成员关系
-// #include <ciel/type_traits_impl/is_pointer_interconvertible_with_class.h>/*找不到相关实现*/
-// #include <ciel/type_traits_impl/is_corresponding_member.h>/*找不到相关实现*/
+//#include <ciel/type_traits_impl/is_pointer_interconvertible_with_class.h>/*找不到相关实现*/
+//#include <ciel/type_traits_impl/is_corresponding_member.h>/*找不到相关实现*/
 
 // 常量求值语境
 #include <ciel/type_traits_impl/is_constant_evaluated.h>/*由编译器实现*/
@@ -125,5 +125,7 @@
 #include <ciel/type_traits_impl/copy_cvref.h>
 #include <ciel/type_traits_impl/is_implicitly_default_constructible.h>
 #include <ciel/type_traits_impl/is_type_in_pack.h>
+
+#include <ciel/functional_impl/invoke.h>
 
 #endif // TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_H_

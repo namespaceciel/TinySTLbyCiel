@@ -46,7 +46,7 @@ namespace ciel {
 	}
 
 	template<size_t N>
-	using make_index_sequence = integer_sequence_details::make_index_sequence_helper<N>::type;
+	using make_index_sequence = typename integer_sequence_details::make_index_sequence_helper<N>::type;
 
 	namespace integer_sequence_details {
 		// 借用 make_index_sequence 的经验和成果，做个简单的强转
@@ -60,7 +60,7 @@ namespace ciel {
 	}
 
 	template<class T, T N>
-	using make_integer_sequence = integer_sequence_details::make_integer_sequence_helper<T, N>::type;
+	using make_integer_sequence = typename integer_sequence_details::make_integer_sequence_helper<T, N>::type;
 
 	template<class... T>
 	using index_sequence_for = make_index_sequence<sizeof...(T)>;

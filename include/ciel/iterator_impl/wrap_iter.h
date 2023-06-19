@@ -12,11 +12,11 @@ namespace ciel {
 	class wrap_iter {
 	public:
 		using iterator_type = Iter;
-		using value_type = ciel::iterator_traits<iterator_type>::value_type;
-		using difference_type = ciel::iterator_traits<iterator_type>::difference_type;
-		using pointer = ciel::iterator_traits<iterator_type>::pointer;
-		using reference = ciel::iterator_traits<iterator_type>::reference;
-		using iterator_category = ciel::iterator_traits<iterator_type>::iterator_category;
+		using value_type = typename ciel::iterator_traits<iterator_type>::value_type;
+		using difference_type = typename ciel::iterator_traits<iterator_type>::difference_type;
+		using pointer = typename ciel::iterator_traits<iterator_type>::pointer;
+		using reference = typename ciel::iterator_traits<iterator_type>::reference;
+		using iterator_category = typename ciel::iterator_traits<iterator_type>::iterator_category;
 		using iterator_concept = ciel::contiguous_iterator_tag;
 
 	private:
@@ -135,8 +135,8 @@ namespace ciel {
 	template<class Iter>
 	struct pointer_traits<wrap_iter<Iter>> {
 		using pointer = wrap_iter<Iter>;
-		using element_type = pointer_traits<Iter>::element_type;
-		using difference_type = pointer_traits<Iter>::difference_type;
+		using element_type = typename pointer_traits<Iter>::element_type;
+		using difference_type = typename pointer_traits<Iter>::difference_type;
 
 		constexpr static element_type* to_address(pointer p) noexcept {
 			return ciel::to_address(p.base());

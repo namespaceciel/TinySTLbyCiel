@@ -20,7 +20,7 @@ namespace ciel {
 
 		template<class Iter>
 		struct what_iterator_category {
-			using iterator_category = ciel::iterator_traits<Iter>::iterator_category;
+			using iterator_category = typename ciel::iterator_traits<Iter>::iterator_category;
 		};
 
 		template<class Iter> requires ciel::derived_from<typename ciel::iterator_traits<Iter>::iterator_category, ciel::random_access_iterator_tag>
@@ -34,11 +34,11 @@ namespace ciel {
 	class reverse_iterator {
 	public:
 		using iterator_type = Iter;
-		using iterator_concept = reverse_iterator_details::what_iterator_concept<Iter>::iterator_concept;
-		using iterator_catetory = reverse_iterator_details::what_iterator_category<Iter>::iterator_category;
+		using iterator_concept = typename reverse_iterator_details::what_iterator_concept<Iter>::iterator_concept;
+		using iterator_catetory = typename reverse_iterator_details::what_iterator_category<Iter>::iterator_category;
 		using value_type = ciel::iter_value_t<Iter>;
 		using difference_type = ciel::iter_difference_t<Iter>;
-		using pointer = ciel::iterator_traits<Iter>::pointer;
+		using pointer = typename ciel::iterator_traits<Iter>::pointer;
 		using reference = ciel::iter_reference_t<Iter>;
 
 	protected:

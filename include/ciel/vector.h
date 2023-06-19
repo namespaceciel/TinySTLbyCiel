@@ -26,8 +26,8 @@ namespace ciel {
 		using reference = value_type&;
 		using const_reference = const value_type&;
 
-		using pointer = ciel::allocator_traits<allocator_type>::pointer;
-		using const_pointer = ciel::allocator_traits<allocator_type>::const_pointer;
+		using pointer = typename ciel::allocator_traits<allocator_type>::pointer;
+		using const_pointer = typename ciel::allocator_traits<allocator_type>::const_pointer;
 
 		using iterator = ciel::wrap_iter<pointer>;
 		using const_iterator = ciel::wrap_iter<const_pointer>;

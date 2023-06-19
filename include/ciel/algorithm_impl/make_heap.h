@@ -9,7 +9,7 @@ namespace ciel {
 	namespace make_heap_details {
 		template<ciel::legacy_random_access_iterator RandomIt, class Compare>
 		constexpr void make_heap_helper(RandomIt first, RandomIt last, Compare&& comp) {
-			using difference_type = ciel::iterator_traits<RandomIt>::difference_type;
+			using difference_type = typename ciel::iterator_traits<RandomIt>::difference_type;
 			difference_type len = last - first;
 			if (len > 1) {
 				for (difference_type offset = (len - 2) / 2; offset >= 0; --offset) {
