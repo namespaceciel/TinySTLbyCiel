@@ -10,6 +10,8 @@
 
 namespace ciel {
 
+	// TODO: operator<=>
+
 	template<class T, size_t N>
 	struct array {
 

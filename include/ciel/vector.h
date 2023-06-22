@@ -8,7 +8,7 @@
 
 namespace ciel {
 
-	// TODO: 应有一个对平凡类型的特化版本 vector，在插入删除（中间元素）和扩容时可以改用更底层的函数处理
+	// TODO: operator<=>, 应有一个对平凡类型的特化版本 vector，在插入删除（中间元素）和扩容时可以改用更底层的函数处理
 
 	// vector 对所存元素类型 T 的移动构造函数是否为 noexcept 比较在意，这里仅对需要扩容的操作做出强异常保证
 	// 对于在非末尾时调用 insert, emplace 与 erase 的操作会直接调用 noexcept 的元素移动，若抛出异常则直接中断程序
@@ -229,7 +229,6 @@ namespace ciel {
 
 		constexpr vector(const vector& other) : vector(other.begin(), other.end(), alloc_traits::select_on_container_copy_construction(other.get_allocator())) {}
 
-		// TODO: 在进行类模板实参推导时，只会从首个实参推导模板形参 Allocator。(C++23 起)
 		constexpr vector(const vector& other, const allocator_type& alloc) : vector(other.begin(), other.end(), alloc) {}
 
 		constexpr vector(vector&& other) noexcept : start(other.start), finish(other.finish), end_cap(other.end_cap), allocator(ciel::move(other.allocator)) {
@@ -239,7 +238,6 @@ namespace ciel {
 		}
 
 		// 如果 alloc != other.get_allocator() ，那么它会导致逐元素移动。（此时移动后不保证 other 为空）
-		// TODO: 在进行类模板实参推导时，只会从首个实参推导模板形参 Allocator。(C++23 起)
 		constexpr vector(vector&& other, const allocator_type& alloc) {
 			if (alloc == other.get_allocator()) {
 				allocator = alloc;
@@ -274,7 +272,7 @@ namespace ciel {
 				if (allocator != other.allocator) {
 					{
 						vector tmp(other.allocator);
-						(*this).swap(tmp);
+						swap(tmp);
 					}
 					clear_and_get_cap_no_less_than(other.size());
 					finish = alloc_range_construct(allocator, start, other.begin(), other.end());
@@ -295,22 +293,21 @@ namespace ciel {
 			if (this == ciel::addressof(other)) {
 				return *this;
 			}
+			if (!alloc_traits::propagate_on_container_move_assignment::value && allocator != other.allocator) {
+				clear_and_get_cap_no_less_than(other.size());
+				finish = alloc_range_construct(allocator, start, other.begin(), other.end());
+				return *this;
+			}
 			if (alloc_traits::propagate_on_container_move_assignment::value) {
 				allocator = other.allocator;
 			}
-			if (alloc_traits::propagate_on_container_move_assignment::value || alloc_traits::is_always_equal::value) {
-				if (start) {
-					clear();
-					alloc_traits::deallocate(allocator, start, capacity());
-					start = nullptr;
-					finish = nullptr;
-					end_cap = nullptr;
-				}
-				swap(other);
-			} else {
-				clear_and_get_cap_no_less_than(other.size());
-				finish = alloc_range_construct(allocator, start, other.begin(), other.end());
-			}
+			clear();
+			start = other.start;
+			finish = other.finish;
+			end_cap = other.end_cap;
+			other.start = nullptr;
+			other.finish = nullptr;
+			other.end_cap = nullptr;
 			return *this;
 		}
 
@@ -597,7 +594,10 @@ namespace ciel {
 		constexpr void resize(size_type count) {
 			if (size() >= count) {
 				finish = alloc_range_destroy(allocator, finish - (size() - count), finish);
-			} else {
+			} else if (count > capacity()) {
+                reserve(count);
+                finish = alloc_range_construct_n(allocator, finish, count - size());
+            } else {
 				finish = alloc_range_construct_n(allocator, finish, count - size());
 			}
 		}
@@ -605,7 +605,10 @@ namespace ciel {
 		constexpr void resize(size_type count, const value_type& value) {
 			if (size() >= count) {
 				finish = alloc_range_destroy(allocator, finish - (size() - count), finish);
-			} else {
+			} else if (count > capacity()) {
+                reserve(count);
+                finish = alloc_range_construct_n(allocator, finish, count - size(), value);
+            } else {
 				finish = alloc_range_construct_n(allocator, finish, count - size(), value);
 			}
 		}

@@ -9,6 +9,7 @@
 #include <ciel/queue_test.h>
 #include <ciel/list_test.h>
 #include <ciel/forward_list_test.h>
+#include <ciel/deque_test.h>
 
 int main() {
 	type_traits_test();
@@ -22,4 +23,5 @@ int main() {
 	queue_test();
 	list_test();
 	forward_list_test();
+    deque_test();
 }

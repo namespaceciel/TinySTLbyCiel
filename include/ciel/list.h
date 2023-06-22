@@ -7,6 +7,8 @@
 
 namespace ciel {
 
+	// TODO: operator<=>, 操作
+
 	// 感觉常规实现有点丢西瓜捡芝麻了，让 end 结点作为栈上内存使得移动构造/赋值要考虑的更多（因为其不是指针，所以交换过来再让原 end 结点置空就不可行）
 	// 当然我觉得 end 结点作为栈上内存的主要考量估计是保证空 list 不需要内存分配
 	// 而 end 结点因为不用存储数据，让 list_node 拆分出 list_node_base 也让事情复杂化了
@@ -16,12 +18,12 @@ namespace ciel {
 		list_node_base* next;
 
 		list_node_base() : prev(this), next(this) {}
-		
+
 		list_node_base(list_node_base* p, list_node_base* n) : prev(p), next(n) {}
 
 		list_node_base(const list_node_base& other) : prev(other.prev), next(other.next) {}
 
-		void clear() {
+		void clear() noexcept {
 			prev = this;
 			next = this;
 		}
@@ -61,13 +63,13 @@ namespace ciel {
 		list_iterator(const list_iterator& other) noexcept: it(other.base()) {}
 
 		template<class P, class R>
-		list_iterator(const list_iterator<T, P, R>& other) : it(const_cast<base_node_type*>(other.base())) {}
+		list_iterator(const list_iterator<T, P, R>& other) noexcept : it(const_cast<base_node_type*>(other.base())) {}
 
-		list_iterator next() const {
+		list_iterator next() const noexcept {
 			return list_iterator(it->next);
 		}
 
-		list_iterator prev() const {
+		list_iterator prev() const noexcept {
 			return list_iterator(it->prev);
 		}
 
@@ -102,7 +104,7 @@ namespace ciel {
 			return res;
 		}
 
-		base_node_type* base() const noexcept {
+		[[nodiscard]] base_node_type* base() const noexcept {
 			return it;
 		}
 
@@ -121,7 +123,7 @@ namespace ciel {
 	template<class T, class Allocator = ciel::allocator<T>>
 	class list {
 
-		static_assert(ciel::is_same_v<typename Allocator::value_type, T>, "ciel::list 要求 Allocator::value_type 与 T 相同");
+//		static_assert(ciel::is_same_v<typename Allocator::value_type, T>, "ciel::list 要求 Allocator::value_type 与 T 相同");
 
 	public:
 		using value_type = T;
@@ -245,23 +247,30 @@ namespace ciel {
 			alloc_range_allocate_and_construct(allocator, end(), first, last);
 		}
 
-		list(const list& other) : list(other.begin(), other.end(), other.allocator) {}
+		list(const list& other) : list(other.begin(), other.end(), alloc_traits::select_on_container_copy_construction(other.get_allocator())) {}
 
 		list(const list& other, const allocator_type& alloc) : list(other.begin(), other.end(), alloc) {}
 
-		list(list&& other) noexcept : end_node(other.end_node), s(other.s), allocator(other.allocator) {
+		list(list&& other) noexcept : end_node(other.end_node), s(other.s), allocator(ciel::move(other.allocator)) {
 			end_node.next->prev = &end_node;
 			end_node.prev->next = &end_node;
 			other.end_node.clear();
 			other.s = 0;
 		}
 
-		// TODO: 如果 alloc != other.get_allocator() ，那么它会导致逐元素移动
-		list(list&& other, const allocator_type& alloc) : end_node(other.end_node), s(other.s), allocator(alloc) {
-			end_node.next->prev = &end_node;
-			end_node.prev->next = &end_node;
-			other.end_node.clear();
-			other.s = 0;
+		// 如果 alloc != other.get_allocator() ，那么它会导致逐元素移动
+		list(list&& other, const allocator_type& alloc) {
+			if (alloc == other.get_allocator()) {
+				end_node = other.end_node;
+				s = other.s;
+				allocator = alloc;
+				end_node.next->prev = &end_node;
+				end_node.prev->next = &end_node;
+				other.end_node.clear();
+				other.s = 0;
+			} else {
+				list(other, alloc);
+			}
 		}
 
 		list(std::initializer_list<T> init, const allocator_type& alloc = allocator_type()) : list(init.begin(), init.end(), alloc) {}
@@ -270,20 +279,42 @@ namespace ciel {
 			clear();
 		}
 
-		// TODO: 详见 cppreference 此节对于分配器的注解
-
+		// 若 alloc_traits::propagate_on_container_copy_assignment::value 为 true ，则用 other 的分配器的副本替换 *this 的分配器
+		// 若 *this 的分配器在赋值后将与其旧值比较不相等，则用旧分配器解分配内存，然后在复制元素前用新分配器分配内存
+		// 否则，在可行时可能复用 *this 所拥有的内存
 		list& operator=(const list& other) {
 			if (this == ciel::addressof(other)) {
 				return *this;
+			}
+			if (alloc_traits::propagate_on_container_copy_assignment::value) {
+				if (allocator != other.allocator) {
+					{
+						list tmp(other.allocator);
+						swap(tmp);
+					}
+					alloc_range_allocate_and_construct(allocator, end(), other.begin(), other.end());
+					return *this;
+				}
+				allocator = other.allocator;
 			}
 			clear();
 			alloc_range_allocate_and_construct(allocator, end(), other.begin(), other.end());
 			return *this;
 		}
 
+		// 若 alloc_traits::propagate_on_container_move_assignment::value 为 true ，则用 other 的分配器的副本替换 *this 的分配器
+		// 若它为 false 且 *this 与 other 的分配器不比较相等，则 *this 不能接管 other 所拥有的内存的所有权且必须单独地移动赋值每个元素，并用其自身的分配器按需分配额外内存
 		list& operator=(list&& other) noexcept(alloc_traits::is_always_equal::value) {
 			if (this == ciel::addressof(other)) {
 				return *this;
+			}
+			if (!alloc_traits::propagate_on_container_move_assignment::value && allocator != other.allocator) {
+				clear();
+				alloc_range_allocate_and_construct(allocator, end(), other.begin(), other.end());
+				return *this;
+			}
+			if (alloc_traits::propagate_on_container_move_assignment::value) {
+				allocator = other.allocator;
 			}
 			clear();
 			end_node = other.end_node;
@@ -487,7 +518,6 @@ namespace ciel {
 			}
 		}
 
-		// TODO: 如果 alloc_traits::propagate_on_container_swap::value 是 true，那么就会用对非成员 swap 的无限定调用交换分配器。否则，不交换它们（且在 get_allocator() != other.get_allocator() 时行为未定义）
 		void swap(list& other) noexcept(alloc_traits::is_always_equal::value) {
 			ciel::swap(end_node, other.end_node);
 			end_node.next->prev = &end_node;

@@ -2,12 +2,13 @@
 #define TINYSTLBYCIEL_INCLUDE_CIEL_QUEUE_H_
 
 #include <ciel/vector.h>
-#include <ciel/list.h>
+#include <ciel/deque.h>
 
 namespace ciel {
 
-	// TODO: ciel::deque
-	template<class T, class Container = ciel::list<T>>
+	// TODO: operator<=>
+
+	template<class T, class Container = ciel::deque<T>>
 	class queue {
 
 		static_assert(ciel::is_same_v<T, typename Container::value_type>, "ciel::queue 的 T 与底层容器的 T 不同");
@@ -36,24 +37,28 @@ namespace ciel {
 		template<ciel::legacy_input_iterator InputIt>
 		queue(InputIt first, InputIt last) : c(first, last) {}
 
-		// TODO: 以下这些构造函数仅若 uses_allocator<Container, Alloc> 为 true ，即底层容器是知分配器容器（对所有标准库容器为 true ）才参与重载决议
-
 		template<class Alloc>
+			requires ciel::uses_allocator_v<container_type, Alloc>
 		explicit queue(const Alloc& alloc) : c(alloc) {}
 
 		template<class Alloc>
+			requires ciel::uses_allocator_v<container_type, Alloc>
 		queue(const container_type& cont, const Alloc& alloc) : c(cont, alloc) {}
 
 		template<class Alloc>
+			requires ciel::uses_allocator_v<container_type, Alloc>
 		queue(container_type&& cont, const Alloc& alloc) : c(ciel::move(cont), alloc) {}
 
 		template<class Alloc>
+			requires ciel::uses_allocator_v<container_type, Alloc>
 		queue(const queue& other, const Alloc& alloc) : c(other.c, alloc) {}
 
 		template<class Alloc>
+			requires ciel::uses_allocator_v<container_type, Alloc>
 		queue(queue&& other, const Alloc& alloc) : c(ciel::move(other.c), alloc) {}
 
 		template<ciel::legacy_input_iterator InputIt, class Alloc>
+			requires ciel::uses_allocator_v<container_type, Alloc>
 		queue(InputIt first, InputIt last, const Alloc& alloc) : c(first, last, alloc) {}
 
 		~queue() = default;
@@ -107,6 +112,36 @@ namespace ciel {
 			ciel::swap(c, other.c);
 		}
 
+		template<class U, class C>
+		friend bool operator==(const queue<U, C>& lhs, const queue<U, C>& rhs) {
+			return lhs.c == rhs.c;
+		}
+
+		template<class U, class C>
+		friend bool operator!=(const queue<U, C>& lhs, const queue<U, C>& rhs) {
+			return lhs.c != rhs.c;
+		}
+
+		template<class U, class C>
+		friend bool operator<(const queue<U, C>& lhs, const queue<U, C>& rhs) {
+			return lhs.c < rhs.c;
+		}
+
+		template<class U, class C>
+		friend bool operator<=(const queue<U, C>& lhs, const queue<U, C>& rhs) {
+			return lhs.c <= rhs.c;
+		}
+
+		template<class U, class C>
+		friend bool operator>(const queue<U, C>& lhs, const queue<U, C>& rhs) {
+			return lhs.c > rhs.c;
+		}
+
+		template<class U, class C>
+		friend bool operator>=(const queue<U, C>& lhs, const queue<U, C>& rhs) {
+			return lhs.c >= rhs.c;
+		}
+
 	};    // class queue
 
 	template<class T, class Container>
@@ -116,7 +151,6 @@ namespace ciel {
 	}
 
 	template<class T, class Container, class Alloc>
-		requires ciel::uses_allocator_v<Container, Alloc>
 	struct uses_allocator<queue<T, Container>, Alloc> : ciel::uses_allocator<Container, Alloc>::type {};
 
 	template<class Container>
@@ -129,8 +163,8 @@ namespace ciel {
 		requires ciel::uses_allocator_v<Container, Alloc>
 	queue(Container, Alloc) -> queue<typename Container::value_type, Container>;
 
-//	template<class InputIt, class Alloc>
-//	queue(InputIt, InputIt, Alloc) -> queue<typename ciel::iterator_traits<InputIt>::value_type, std::deque<typename ciel::iterator_traits<InputIt>::value_type, Alloc>>;
+	template<ciel::legacy_input_iterator InputIt, class Alloc>
+	queue(InputIt, InputIt, Alloc) -> queue<typename ciel::iterator_traits<InputIt>::value_type, ciel::deque<typename ciel::iterator_traits<InputIt>::value_type, Alloc>>;
 
 	template<class T, class Container = ciel::vector<T>, class Compare = ciel::less<typename Container::value_type>>
 	    requires ciel::legacy_random_access_iterator<typename Container::iterator>
@@ -184,49 +218,57 @@ namespace ciel {
 			ciel::make_heap(c.begin(), c.end(), comp);
 		}
 
-		// TODO: 以下这些重载只有在 uses_allocator<container_type, Alloc>::value 为 true ，即底层容器为知分配器容器（对所有标准库容器为真）时才会参与重载决议
-
 		template<class Alloc>
+			requires ciel::uses_allocator_v<container_type, Alloc>
 		explicit priority_queue(const Alloc& alloc) : c(alloc), comp(value_compare()) {}
 
 		template<class Alloc>
+			requires ciel::uses_allocator_v<container_type, Alloc>
 		priority_queue(const value_compare& compare, const Alloc& alloc) : c(alloc), comp(compare) {}
 
 		template<class Alloc>
+			requires ciel::uses_allocator_v<container_type, Alloc>
 		priority_queue(const value_compare& compare, const container_type& cont, const Alloc& alloc) : c(cont, alloc), comp(compare) {
 			ciel::make_heap(c.begin(), c.end(), comp);
 		}
 
 		template<class Alloc>
+			requires ciel::uses_allocator_v<container_type, Alloc>
 		priority_queue(const value_compare& compare, container_type&& cont, const Alloc& alloc) : c(ciel::move(cont), alloc), comp(compare) {
 			ciel::make_heap(c.begin(), c.end(), comp);
 		}
 
 		template<class Alloc>
+			requires ciel::uses_allocator_v<container_type, Alloc>
 		priority_queue(const priority_queue& other, const Alloc& alloc) : c(other.c, alloc), comp(other.comp) {}
 
 		template<class Alloc>
+			requires ciel::uses_allocator_v<container_type, Alloc>
 		priority_queue(priority_queue&& other, const Alloc& alloc) : c(ciel::move(other.c), alloc), comp(ciel::move(other.comp)) {}
 
 		template<ciel::legacy_input_iterator InputIt, class Alloc>
+			requires ciel::uses_allocator_v<container_type, Alloc>
 		priority_queue(InputIt first, InputIt last, const Alloc& alloc) : c(alloc), comp(value_compare()) {
 			c.insert(c.end(), first, last);
 			ciel::make_heap(c.begin(), c.end(), comp);
 		}
 
 		template<ciel::legacy_input_iterator InputIt, class Alloc>
+			requires ciel::uses_allocator_v<container_type, Alloc>
 		priority_queue(InputIt first, InputIt last, const value_compare& compare, const Alloc& alloc) : c(alloc), comp(compare) {
 			c.insert(c.end(), first, last);
 			ciel::make_heap(c.begin(), c.end(), comp);
 		}
 
 		template<ciel::legacy_input_iterator InputIt, class Alloc>
+			requires ciel::uses_allocator_v<container_type, Alloc>
 		priority_queue(InputIt first, InputIt last, const value_compare& compare, const container_type& cont, const Alloc& alloc) : c(cont, alloc), comp(compare) {
 			c.insert(c.end(), first, last);
 			ciel::make_heap(c.begin(), c.end(), comp);
 		}
 
 		template<ciel::legacy_input_iterator InputIt, class Alloc>
+			requires ciel::uses_allocator_v<container_type, Alloc>
 		priority_queue(InputIt first, InputIt last, const value_compare& compare, container_type&& cont, const Alloc& alloc) : c(ciel::move(cont), alloc), comp(compare) {
 			c.insert(c.end(), first, last);
 			ciel::make_heap(c.begin(), c.end(), comp);
@@ -296,19 +338,21 @@ namespace ciel {
 	template<class Comp, class Container>
 	priority_queue(Comp, Container) -> priority_queue<typename Container::value_type, Container, Comp>;
 
-	template<class InputIt, class Comp = ciel::less<typename ciel::iterator_traits<InputIt>::value_type>, class Container = ciel::vector<typename ciel::iterator_traits<InputIt>::value_type>>
+	template<ciel::legacy_input_iterator InputIt, class Comp = ciel::less<typename ciel::iterator_traits<InputIt>::value_type>, class Container = ciel::vector<typename ciel::iterator_traits<InputIt>::value_type>>
 	priority_queue(InputIt, InputIt, Comp = Comp(), Container = Container()) -> priority_queue<typename ciel::iterator_traits<InputIt>::value_type, Container, Comp>;
 
 	template<class Comp, class Container, class Alloc>
+		requires ciel::uses_allocator_v<Container, Alloc>
 	priority_queue(Comp, Container, Alloc) -> priority_queue<typename Container::value_type, Container, Comp>;
 
-	template<class InputIt, class Alloc>
+	template<ciel::legacy_input_iterator InputIt, class Alloc>
 	priority_queue(InputIt, InputIt, Alloc) -> priority_queue<typename ciel::iterator_traits<InputIt>::value_type, ciel::vector<typename ciel::iterator_traits<InputIt>::value_type, Alloc>, ciel::less<typename ciel::iterator_traits<InputIt>::value_type>>;
 
-	template<class InputIt, class Comp, class Alloc>
+	template<ciel::legacy_input_iterator InputIt, class Comp, class Alloc>
 	priority_queue(InputIt, InputIt, Comp, Alloc) -> priority_queue<typename ciel::iterator_traits<InputIt>::value_type, ciel::vector<typename ciel::iterator_traits<InputIt>::value_type, Alloc>, Comp>;
 
-	template<class InputIt, class Comp, class Container, class Alloc>
+	template<ciel::legacy_input_iterator InputIt, class Comp, class Container, class Alloc>
+		requires ciel::uses_allocator_v<Container, Alloc>
 	priority_queue(InputIt, InputIt, Comp, Container, Alloc) -> priority_queue<typename Container::value_type, Container, Comp>;
 
 }   // namespace ciel

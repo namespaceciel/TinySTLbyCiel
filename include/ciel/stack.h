@@ -1,16 +1,13 @@
 #ifndef TINYSTLBYCIEL_INCLUDE_CIEL_STACK_H_
 #define TINYSTLBYCIEL_INCLUDE_CIEL_STACK_H_
 
-// TODO: ciel::deque
-
-#include <ciel/vector.h>
+#include <ciel/deque.h>
 
 namespace ciel {
 
-	template<class T, class Allocator = ciel::allocator<T>>
-	class deque;
+	// TODO: operator<=>
 
-	template<class T, class Container = ciel::vector<T>>
+	template<class T, class Container = ciel::deque<T>>
 	class stack {
 	public:
 		using container_type = Container;
@@ -36,24 +33,28 @@ namespace ciel {
 		template<ciel::legacy_input_iterator InputIt>
 		stack(InputIt first, InputIt last) : c(first, last) {}
 
-		// TODO: 以下这些构造函数仅若 uses_allocator<Container, Alloc> 为 true ，即底层容器是知分配器容器（对所有标准库容器为 true ）才参与重载决议
-
 		template<class Alloc>
+			requires ciel::uses_allocator_v<container_type, Alloc>
 		explicit stack(const Alloc& alloc) : c(alloc) {}
 
 		template<class Alloc>
+			requires ciel::uses_allocator_v<container_type, Alloc>
 		stack(const container_type& cont, const Alloc& alloc) : c(cont, alloc) {}
 
 		template<class Alloc>
+			requires ciel::uses_allocator_v<container_type, Alloc>
 		stack(container_type&& cont, const Alloc& alloc) : c(ciel::move(cont), alloc) {}
 
 		template<class Alloc>
+			requires ciel::uses_allocator_v<container_type, Alloc>
 		stack(const stack& other, const Alloc& alloc) : c(other.c, alloc) {}
 
 		template<class Alloc>
+			requires ciel::uses_allocator_v<container_type, Alloc>
 		stack(stack&& other, const Alloc& alloc) : c(ciel::move(other.c), alloc) {}
 
 		template<ciel::legacy_input_iterator InputIt, class Alloc>
+			requires ciel::uses_allocator_v<container_type, Alloc>
 		stack(InputIt first, InputIt last, const Alloc& alloc) : c(first, last, alloc) {}
 
 		~stack() = default;
@@ -99,6 +100,36 @@ namespace ciel {
 			ciel::swap(c, other.c);
 		}
 
+//		template<class U, class C>
+//		friend bool operator==(const stack<U, C>& lhs, const stack<U, C>& rhs) {
+//			return lhs.c == rhs.c;
+//		}
+//
+//		template<class U, class C>
+//		friend bool operator!=(const stack<U, C>& lhs, const stack<U, C>& rhs) {
+//			return lhs.c != rhs.c;
+//		}
+//
+//		template<class U, class C>
+//		friend bool operator<(const stack<U, C>& lhs, const stack<U, C>& rhs) {
+//			return lhs.c < rhs.c;
+//		}
+//
+//		template<class U, class C>
+//		friend bool operator<=(const stack<U, C>& lhs, const stack<U, C>& rhs) {
+//			return lhs.c <= rhs.c;
+//		}
+//
+//		template<class U, class C>
+//		friend bool operator>(const stack<U, C>& lhs, const stack<U, C>& rhs) {
+//			return lhs.c > rhs.c;
+//		}
+//
+//		template<class U, class C>
+//		friend bool operator>=(const stack<U, C>& lhs, const stack<U, C>& rhs) {
+//			return lhs.c >= rhs.c;
+//		}
+
 	};    // class stack
 
 	template<class T, class Container>
@@ -108,7 +139,6 @@ namespace ciel {
 	}
 
 	template<class T, class Container, class Alloc>
-		requires ciel::uses_allocator_v<Container, Alloc>
 	struct uses_allocator<stack<T, Container>, Alloc> : ciel::uses_allocator<Container, Alloc>::type {};
 
 	template<class Container>
@@ -117,11 +147,12 @@ namespace ciel {
 	template<ciel::legacy_input_iterator InputIt>
 	stack(InputIt, InputIt) -> stack<typename ciel::iterator_traits<InputIt>::value_type>;
 
-	template<class Container, class Alloc> requires ciel::uses_allocator_v<Container, Alloc>
+	template<class Container, class Alloc>
+	    requires ciel::uses_allocator_v<Container, Alloc>
 	stack(Container, Alloc) -> stack<typename Container::value_type, Container>;
 
-//	template<ciel::legacy_input_iterator InputIt, class Alloc>
-//	stack(InputIt, InputIt, Alloc) -> stack<typename ciel::iterator_traits<InputIt>::value_type, ciel::deque<typename ciel::iterator_traits<InputIt>::value_type, Alloc>>;
+	template<ciel::legacy_input_iterator InputIt, class Alloc>
+	stack(InputIt, InputIt, Alloc) -> stack<typename ciel::iterator_traits<InputIt>::value_type, ciel::deque<typename ciel::iterator_traits<InputIt>::value_type, Alloc>>;
 
 }   // namespace ciel
 

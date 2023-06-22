@@ -7,6 +7,8 @@
 
 namespace ciel {
 
+	// TODO: operator<=>, 操作
+
 	// 为了所谓的轻量化，forward_list 标准里没有 size()，有点无语
 	// 不同于 list，forward_list 不是环状的，好处是 end() 的返回值可以直接是 iterator(nullptr)
 	// 注意这个容器的大部分操作区间都是前后双开区间
@@ -20,7 +22,7 @@ namespace ciel {
 
 		forward_list_node_base(const forward_list_node_base& other) : next(other.next) {}
 
-		void clear() {
+		void clear() noexcept {
 			next = nullptr;
 		}
 
@@ -52,16 +54,16 @@ namespace ciel {
 		base_node_type* it;
 
 	public:
-		forward_list_iterator() noexcept: it(nullptr) {}
+		forward_list_iterator() noexcept : it(nullptr) {}
 
-		forward_list_iterator(const base_node_type* p) noexcept: it(const_cast<base_node_type*>(p)) {}    // const_cast 是为了 const_iterator -> iterator
+		forward_list_iterator(const base_node_type* p) noexcept : it(const_cast<base_node_type*>(p)) {}    // const_cast 是为了 const_iterator -> iterator
 
-		forward_list_iterator(const forward_list_iterator& other) noexcept: it(other.base()) {}
+		forward_list_iterator(const forward_list_iterator& other) noexcept : it(other.base()) {}
 
 		template<class P, class R>
 		forward_list_iterator(const forward_list_iterator<T, P, R>& other) noexcept : it(const_cast<base_node_type*>(other.base())) {}
 
-		forward_list_iterator next() const {
+		forward_list_iterator next() const noexcept {
 			return forward_list_iterator(it->next);
 		}
 
@@ -85,7 +87,7 @@ namespace ciel {
 			return res;
 		}
 
-		base_node_type* base() const noexcept {
+		[[nodiscard]] base_node_type* base() const noexcept {
 			return it;
 		}
 
@@ -104,7 +106,7 @@ namespace ciel {
 	template<class T, class Allocator = ciel::allocator<T>>
 	class forward_list {
 
-		static_assert(ciel::is_same_v<typename Allocator::value_type, T>, "ciel::forward_list 要求 Allocator::value_type 与 T 相同");
+//		static_assert(ciel::is_same_v<typename Allocator::value_type, T>, "ciel::forward_list 要求 Allocator::value_type 与 T 相同");
 
 	public:
 		using value_type = T;
@@ -217,17 +219,23 @@ namespace ciel {
 			alloc_range_allocate_and_construct(allocator, before_begin(), first, last);
 		}
 
-		forward_list(const forward_list& other) : forward_list(other.begin(), other.end(), other.allocator) {}
+		forward_list(const forward_list& other) : forward_list(other.begin(), other.end(), alloc_traits::select_on_container_copy_construction(other.get_allocator())) {}
 
 		forward_list(const forward_list& other, const allocator_type& alloc) : forward_list(other.begin(), other.end(), alloc) {}
 
-		forward_list(forward_list&& other) noexcept : bb(other.bb), allocator(other.allocator) {
+		forward_list(forward_list&& other) noexcept : bb(other.bb), allocator(ciel::move(other.allocator)) {
 			other.bb.clear();
 		}
 
-		// TODO: 如果 alloc != other.get_allocator() ，那么它会导致逐元素移动
-		forward_list(forward_list&& other, const allocator_type& alloc) : bb(other.bb), allocator(alloc) {
-			other.bb.clear();
+		// 如果 alloc != other.get_allocator() ，那么它会导致逐元素移动
+		forward_list(forward_list&& other, const allocator_type& alloc) {
+			if (alloc == other.get_allocator()) {
+				allocator = alloc;
+				bb = other.bb;
+				other.bb.clear();
+			} else {
+				forward_list(other, alloc);
+			}
 		}
 
 		forward_list(std::initializer_list<T> init, const allocator_type& alloc = allocator_type()) : forward_list(init.begin(), init.end(), alloc) {}
@@ -236,20 +244,42 @@ namespace ciel {
 			clear();
 		}
 
-		// TODO: 详见 cppreference 此节对于分配器的注解
-
+		// 若 alloc_traits::propagate_on_container_copy_assignment::value 为 true ，则用 other 的分配器的副本替换 *this 的分配器
+		// 若 *this 的分配器在赋值后将与其旧值比较不相等，则用旧分配器解分配内存，然后在复制元素前用新分配器分配内存
+		// 否则，在可行时可能复用 *this 所拥有的内存
 		forward_list& operator=(const forward_list& other) {
 			if (this == ciel::addressof(other)) {
 				return *this;
+			}
+			if (alloc_traits::propagate_on_container_copy_assignment::value) {
+				if (allocator != other.allocator) {
+					{
+						forward_list tmp(other.allocator);
+						swap(tmp);
+					}
+					alloc_range_allocate_and_construct(allocator, before_begin(), other.begin(), other.end());
+					return *this;
+				}
+				allocator = other.allocator;
 			}
 			clear();
 			alloc_range_allocate_and_construct(allocator, before_begin(), other.begin(), other.end());
 			return *this;
 		}
 
+		// 若 alloc_traits::propagate_on_container_move_assignment::value 为 true ，则用 other 的分配器的副本替换 *this 的分配器
+		// 若它为 false 且 *this 与 other 的分配器不比较相等，则 *this 不能接管 other 所拥有的内存的所有权且必须单独地移动赋值每个元素，并用其自身的分配器按需分配额外内存
 		forward_list& operator=(forward_list&& other) noexcept(alloc_traits::is_always_equal::value) {
 			if (this == ciel::addressof(other)) {
 				return *this;
+			}
+			if (!alloc_traits::propagate_on_container_move_assignment::value && allocator != other.allocator) {
+				clear();
+				alloc_range_allocate_and_construct(allocator, before_begin(), other.begin(), other.end());
+				return *this;
+			}
+			if (alloc_traits::propagate_on_container_move_assignment::value) {
+				allocator = other.allocator;
 			}
 			clear();
 			bb = other.bb;

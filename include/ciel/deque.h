@@ -8,9 +8,10 @@ namespace ciel {
 
 	// 这里的实现为了简单起见，deque 的 map （每个小数组的控制中心）用的是 list 实现，避免了重分配
 	// 同样为了简单起见，与其他容器不同，deque 即使空初始化依然会分配一块堆内存。注意：这使得移动构造行为变为了先本身进行空初始化再与 other 进行 swap
+    // 注意：deque_iterator 的 finish() 仅作为哨兵存在，iterator 在正常操作时只要到 finish 会自动跳到下一块小数组的起点，永远不可能停留在 finish
 
 	template<class T>
-	constexpr size_t deque_subarray_size() {
+	constexpr size_t deque_subarray_size() noexcept {
 		return ((sizeof(T) <= 4) ? 64 : ((sizeof(T) <= 8) ? 32 : ((sizeof(T) <= 16) ? 16 : ((sizeof(T) <= 32) ? 8 : 4))));
 	}
 
@@ -28,37 +29,36 @@ namespace ciel {
 		T* cur;
 		MapIterator node;
 
-		T* start() const {
+		T* start() const noexcept {
 			return *node;
 		}
 
-		T* finish() const {
+		T* finish() const noexcept {
 			return start() + SubarraySize;
 		}
 
 		template<class, class, size_t>
-		friend
-		class deque;
+		friend class deque;
 
 	public:
-		deque_iterator() = default;
+		deque_iterator() noexcept = default;
 
-		deque_iterator(T* c, const MapIterator& n) : cur(c), node(n) {}
+		deque_iterator(T* c, const MapIterator& n) noexcept : cur(c), node(n) {}
 
-		deque_iterator(const deque_iterator& other) = default;
+		deque_iterator(const deque_iterator& other) noexcept = default;
 
 		template<class P, class R, class M>
-		deque_iterator(const deque_iterator<T, P, R, M, SubarraySize>& other) : cur(other.cur), node(other.node) {}
+		deque_iterator(const deque_iterator<T, P, R, M, SubarraySize>& other) noexcept : cur(other.base()), node(other.map()) {}
 
-		pointer operator->() const {
+		pointer operator->() const noexcept {
 			return cur;
 		}
 
-		reference operator*() const {
+		reference operator*() const noexcept {
 			return *cur;
 		}
 
-		deque_iterator& operator++() {
+		deque_iterator& operator++() noexcept {
 			if (++cur == finish()) {
 				++node;
 				cur = start();
@@ -66,13 +66,13 @@ namespace ciel {
 			return *this;
 		}
 
-		deque_iterator operator++(int) {
+		deque_iterator operator++(int) noexcept {
 			deque_iterator res(*this);
 			++*this;
 			return res;
 		}
 
-		deque_iterator& operator--() {
+		deque_iterator& operator--() noexcept {
 			if (cur == start()) {
 				--node;
 				cur = finish() - 1;
@@ -82,13 +82,13 @@ namespace ciel {
 			return *this;
 		}
 
-		deque_iterator operator--(int) {
+		deque_iterator operator--(int) noexcept {
 			deque_iterator res(*this);
 			--*this;
 			return res;
 		}
 
-		deque_iterator& operator+=(difference_type n) {
+		deque_iterator& operator+=(difference_type n) noexcept {
 			auto offset = n + (cur - start());
 			if (offset >= 0 && offset < SubarraySize) {
 				cur += n;
@@ -100,23 +100,27 @@ namespace ciel {
 			return *this;
 		}
 
-		deque_iterator& operator-=(difference_type n) {
+		deque_iterator& operator-=(difference_type n) noexcept {
 			return *this += -n;
 		}
 
-		deque_iterator operator+(difference_type n) const {
+		deque_iterator operator+(difference_type n) const noexcept {
 			deque_iterator res(*this);
 			return res += n;
 		}
 
-		deque_iterator operator-(difference_type n) const {
+		deque_iterator operator-(difference_type n) const noexcept {
 			deque_iterator res(*this);
 			return res -= n;
 		}
 
-		T* base() {
-			return cur;
-		}
+        T* base() const noexcept {
+            return cur;
+        }
+
+        MapIterator map() const noexcept {
+            return node;
+        }
 
 	};    // class deque_iterator
 
@@ -187,7 +191,7 @@ namespace ciel {
 
 		template<ciel::legacy_input_iterator InputIt>
 		iterator alloc_range_construct(allocator_type& a, iterator begin, InputIt first, InputIt last) {
-			pointer end = begin;
+            iterator end = begin;
 			try {
 				while (first != last) {
 					alloc_traits::construct(a, (end++).base(), *first++);
@@ -211,6 +215,26 @@ namespace ciel {
 				}
 			}
 		}
+
+        size_type front_space() {
+            size_type res = start.cur - start.start();
+            auto cur = start.node;
+            while (cur != map.begin()) {
+                res += SubarraySize;
+                --cur;
+            }
+            return res;
+        }
+
+        size_type back_space() {
+            size_type res = finish.finish() - finish.cur - 1;
+            auto cur = finish.node;
+            while (cur != map.end().prev()) {
+                res += SubarraySize;
+                ++cur;
+            }
+            return res;
+        }
 
 	public:
 		deque() : allocator(), map(1, alloc_traits::allocate(allocator, SubarraySize), allocator), start(map.front(), map.begin()), finish(start) {}
@@ -242,7 +266,7 @@ namespace ciel {
 				map.emplace_back(alloc_traits::allocate(allocator, SubarraySize));
 			}
 			start = iterator(map.front(), map.begin());
-			finish = alloc_range_construct_n(allocator, start, first, last);
+			finish = alloc_range_construct(allocator, start, first, last);
 		}
 
 		deque(const deque& other) : deque(other.begin(), other.end(), alloc_traits::select_on_container_copy_construction(other.get_allocator())) {}
@@ -253,10 +277,13 @@ namespace ciel {
 			swap(other);
 		}
 
-		// TODO: 如果 alloc != other.get_allocator() ，那么它会导致逐元素移动
 		deque(deque&& other, const allocator_type& alloc) : deque() {
-			swap(other);
-			allocator = alloc;
+            if (alloc == other.get_allocator()) {
+                swap(other);
+                allocator = alloc;
+            } else {
+                deque(other, alloc);
+            }
 		}
 
 		deque(std::initializer_list<T> init, const allocator_type& alloc = allocator_type()) : deque(init.begin(), init.end(), alloc) {}
@@ -279,7 +306,7 @@ namespace ciel {
 				if (allocator != other.allocator) {
 					{
 						deque tmp(other.allocator);
-						(*this).swap(tmp);
+						swap(tmp);
 					}
 					clear_and_get_cap_no_less_than(other.size());
 					finish = alloc_range_construct(allocator, start, other.begin(), other.end());
@@ -298,6 +325,17 @@ namespace ciel {
 			if (this == ciel::addressof(other)) {
 				return *this;
 			}
+            if (!alloc_traits::propagate_on_container_move_assignment::value && allocator != other.allocator) {
+                clear_and_get_cap_no_less_than(other.size());
+                finish = alloc_range_construct(allocator, start, other.begin(), other.end());
+                return *this;
+            }
+            if (alloc_traits::propagate_on_container_move_assignment::value) {
+                allocator = other.allocator;
+            }
+            clear();
+            swap(other);
+            return *this;
 		}
 
 		deque& operator=(std::initializer_list<T> ilist) {
@@ -483,11 +521,38 @@ namespace ciel {
 			++start;
 		}
 
-		void resize(size_type count);
+		void resize(size_type count) {
+            if (size() >= count) {
+                finish = alloc_range_destroy(allocator, finish - (size() - count), finish);
+            } else {
+                size_type needed_space = count - size();
+                size_type bs = back_space();
+                if (needed_space > bs) {
+                    bs = (needed_space - bs) / SubarraySize + 1;
+                    while (bs--) {
+                        map.emplace_back(alloc_traits::allocate(allocator, SubarraySize));
+                    }
+                }
+                finish = alloc_range_construct_n(allocator, finish, needed_space);
+            }
+        }
 
-		void resize(size_type count, const value_type& value);
+		void resize(size_type count, const value_type& value) {
+            if (size() >= count) {
+                finish = alloc_range_destroy(allocator, finish - (size() - count), finish);
+            } else {
+                size_type needed_space = count - size();
+                size_type bs = back_space();
+                if (needed_space > bs) {
+                    bs = (needed_space - bs) / SubarraySize + 1;
+                    while (bs--) {
+                        map.emplace_back(alloc_traits::allocate(allocator, SubarraySize));
+                    }
+                }
+                finish = alloc_range_construct_n(allocator, finish, needed_space, value);
+            }
+        }
 
-		// TODO: 如果 alloc_traits::propagate_on_container_swap::value 是 true，那么就会用对非成员 swap 的无限定调用交换分配器。否则，不交换它们（且在 get_allocator() != other.get_allocator() 时行为未定义）。
 		void swap(deque& other) noexcept(alloc_traits::is_always_equal::value) {
 			ciel::swap(map, other.map);
 			ciel::swap(start, other.start);
@@ -496,6 +561,22 @@ namespace ciel {
 		}
 
 	};    // class deque
+
+    template<class T, class Alloc>
+    constexpr bool operator==(const deque<T, Alloc>& lhs, const deque<T, Alloc>& rhs) {
+        if (lhs.size() != rhs.size()) {
+            return false;
+        }
+        return ciel::equal(lhs.begin(), lhs.end(), rhs.begin());
+    }
+
+    template<class T, class Alloc>
+    void swap(deque<T, Alloc>& lhs, deque<T, Alloc>& rhs) noexcept(noexcept(lhs.swap(rhs))) {
+        lhs.swap(rhs);
+    }
+
+    template<ciel::legacy_input_iterator InputIt, class Alloc = ciel::allocator<typename ciel::iterator_traits<InputIt>::value_type>>
+    deque(InputIt, InputIt, Alloc = Alloc()) -> deque<typename ciel::iterator_traits<InputIt>::value_type, Alloc>;
 
 }   // namespace ciel
 
