@@ -58,7 +58,7 @@ namespace ciel {
 
 		constexpr pair(const pair& p) = default;
 
-		constexpr pair(pair&& p) = default;
+		constexpr pair(pair&& p) noexcept = default;
 
 		constexpr pair& operator=(const pair& other) requires ciel::is_copy_assignable_v<T1> && ciel::is_copy_assignable_v<T2> {
 			first = other.first;
@@ -93,7 +93,7 @@ namespace ciel {
 			return *this;
 		}
 
-		constexpr const pair& operator=(pair&& other) const requires ciel::is_assignable_v<const T1&, T1> && ciel::is_assignable_v<const T2&, T2> {
+		constexpr const pair& operator=(pair&& other) const noexcept requires ciel::is_assignable_v<const T1&, T1> && ciel::is_assignable_v<const T2&, T2> {
 			first = ciel::move(other.first);
 			second = ciel::move(other.second);
 			return *this;

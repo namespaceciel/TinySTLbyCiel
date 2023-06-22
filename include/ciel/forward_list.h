@@ -15,6 +15,7 @@ namespace ciel {
 		forward_list_node_base* next;
 
 		forward_list_node_base() : next(nullptr) {}
+
 		forward_list_node_base(forward_list_node_base* n) : next(n) {}
 
 		forward_list_node_base(const forward_list_node_base& other) : next(other.next) {}
@@ -53,9 +54,12 @@ namespace ciel {
 	public:
 		forward_list_iterator() noexcept: it(nullptr) {}
 
-		forward_list_iterator(const base_node_type* p) noexcept: it(const_cast<base_node_type*>(p)) {}    // const_cast 是为了 const_iterator 的初始化
+		forward_list_iterator(const base_node_type* p) noexcept: it(const_cast<base_node_type*>(p)) {}    // const_cast 是为了 const_iterator -> iterator
 
-		forward_list_iterator(const forward_list_iterator& other) noexcept: it(other.it) {}
+		forward_list_iterator(const forward_list_iterator& other) noexcept: it(other.base()) {}
+
+		template<class P, class R>
+		forward_list_iterator(const forward_list_iterator<T, P, R>& other) noexcept : it(const_cast<base_node_type*>(other.base())) {}
 
 		forward_list_iterator next() const {
 			return forward_list_iterator(it->next);
@@ -87,13 +91,13 @@ namespace ciel {
 
 	};    // class list_iterator
 
-	template<class T, class Pointer, class Reference>
-	bool operator==(const forward_list_iterator<T, Pointer, Reference>& lhs, const forward_list_iterator<T, Pointer, Reference>& rhs) {
+	template<class T, class Pointer1, class Pointer2, class Reference1, class Reference2>
+	bool operator==(const forward_list_iterator<T, Pointer1, Reference1>& lhs, const forward_list_iterator<T, Pointer2, Reference2>& rhs) {
 		return lhs.base() == rhs.base();
 	}
 
-	template<class T, class Pointer, class Reference>
-	bool operator!=(const forward_list_iterator<T, Pointer, Reference>& lhs, const forward_list_iterator<T, Pointer, Reference>& rhs) {
+	template<class T, class Pointer1, class Pointer2, class Reference1, class Reference2>
+	bool operator!=(const forward_list_iterator<T, Pointer1, Reference1>& lhs, const forward_list_iterator<T, Pointer2, Reference2>& rhs) {
 		return !(lhs == rhs);
 	}
 
@@ -213,11 +217,11 @@ namespace ciel {
 			alloc_range_allocate_and_construct(allocator, before_begin(), first, last);
 		}
 
-		forward_list(const forward_list& other) : forward_list(iterator(other.begin().base()), iterator(other.end().base()), other.allocator) {}
+		forward_list(const forward_list& other) : forward_list(other.begin(), other.end(), other.allocator) {}
 
-		forward_list(const forward_list& other, const allocator_type& alloc) : forward_list(iterator(other.begin().base()), iterator(other.end().base()), alloc) {}
+		forward_list(const forward_list& other, const allocator_type& alloc) : forward_list(other.begin(), other.end(), alloc) {}
 
-		forward_list(forward_list&& other) : bb(other.bb), allocator(other.allocator) {
+		forward_list(forward_list&& other) noexcept : bb(other.bb), allocator(other.allocator) {
 			other.bb.clear();
 		}
 
@@ -235,12 +239,18 @@ namespace ciel {
 		// TODO: 详见 cppreference 此节对于分配器的注解
 
 		forward_list& operator=(const forward_list& other) {
+			if (this == ciel::addressof(other)) {
+				return *this;
+			}
 			clear();
-			alloc_range_allocate_and_construct(allocator, before_begin(), iterator(other.begin().base()), iterator(other.end().base()));
+			alloc_range_allocate_and_construct(allocator, before_begin(), other.begin(), other.end());
 			return *this;
 		}
 
 		forward_list& operator=(forward_list&& other) noexcept(alloc_traits::is_always_equal::value) {
+			if (this == ciel::addressof(other)) {
+				return *this;
+			}
 			clear();
 			bb = other.bb;
 			other.bb.clear();
@@ -323,7 +333,7 @@ namespace ciel {
 
 		[[nodiscard]] size_type size() const noexcept {
 			size_type res = 0;
-			iterator loop = iterator(before_begin().base());
+			iterator loop = before_begin();
 			while (loop.base()->next) {
 				++loop;
 				++res;
@@ -339,40 +349,40 @@ namespace ciel {
 			alloc_range_destroy_and_deallocate(allocator, before_begin(), end());
 		}
 
-		iterator insert_after(iterator pos, const T& value) {
+		iterator insert_after(const_iterator pos, const T& value) {
 			return alloc_range_allocate_and_construct_n(allocator, pos, 1, value);
 		}
 
-		iterator insert_after(iterator pos, T&& value) {
+		iterator insert_after(const_iterator pos, T&& value) {
 			return alloc_range_allocate_and_construct_n(allocator, pos, 1, ciel::move(value));
 		}
 
-		iterator insert_after(iterator pos, size_type count, const T& value) {
+		iterator insert_after(const_iterator pos, size_type count, const T& value) {
 			return alloc_range_allocate_and_construct_n(allocator, pos, count, value);
 		}
 
 		template<ciel::legacy_input_iterator InputIt>
-		iterator insert_after(iterator pos, InputIt first, InputIt last) {
+		iterator insert_after(const_iterator pos, InputIt first, InputIt last) {
 			return alloc_range_allocate_and_construct(allocator, pos, first, last);
 		}
 
-		iterator insert_after(iterator pos, std::initializer_list<T> ilist) {
+		iterator insert_after(const_iterator pos, std::initializer_list<T> ilist) {
 			return alloc_range_allocate_and_construct(allocator, pos, ilist.begin(), ilist.end());
 		}
 
 		template<class... Args>
-		iterator emplace_after(iterator pos, Args&& ... args) {
+		iterator emplace_after(const_iterator pos, Args&& ... args) {
 			return alloc_range_allocate_and_construct_n(allocator, pos, 1, ciel::forward<Args>(args)...);
 		}
 
-		iterator erase_after(iterator pos) {
+		iterator erase_after(const_iterator pos) {
 			if (pos.next() == end()) {
 				return end();
 			}
 			return alloc_range_destroy_and_deallocate(allocator, pos, pos.next().next());
 		}
 
-		iterator erase_after(iterator first, iterator last) {
+		iterator erase_after(const_iterator first, const_iterator last) {
 			return alloc_range_destroy_and_deallocate(allocator, first, last);
 		}
 
@@ -389,7 +399,7 @@ namespace ciel {
 			return *alloc_range_allocate_and_construct_n(allocator, before_begin(), 1, ciel::forward<Args>(args)...);
 		}
 
-		void pop_front() {
+		void pop_front() noexcept {
 			if (empty()) {
 				return;
 			}

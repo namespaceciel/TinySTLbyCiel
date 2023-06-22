@@ -31,7 +31,7 @@ namespace ciel {
 
 		queue(const queue& other) : c(other.c) {}
 
-		queue(queue&& other) : c(ciel::move(other.c)) {}
+		queue(queue&& other) noexcept : c(ciel::move(other.c)) {}
 
 		template<ciel::legacy_input_iterator InputIt>
 		queue(InputIt first, InputIt last) : c(first, last) {}
@@ -60,7 +60,7 @@ namespace ciel {
 
 		queue& operator=(const queue& other) = default;
 
-		queue& operator=(queue&& other) = default;
+		queue& operator=(queue&& other) noexcept = default;
 
 		reference front() {
 			return c.front();
@@ -82,7 +82,7 @@ namespace ciel {
 			return c.empty();
 		}
 
-		size_type size() const {
+		[[nodiscard]] size_type size() const {
 			return c.size();
 		}
 
@@ -165,7 +165,7 @@ namespace ciel {
 
 		priority_queue(const priority_queue& other) = default;
 
-		priority_queue(priority_queue&& other) = default;
+		priority_queue(priority_queue&& other) noexcept = default;
 
 		template<ciel::legacy_input_iterator InputIt>
 		priority_queue(InputIt first, InputIt last, const value_compare& compare = value_compare()) : c(first, last), comp(compare) {
@@ -236,7 +236,7 @@ namespace ciel {
 
 		priority_queue& operator=(const priority_queue& other) = default;
 
-		priority_queue& operator=(priority_queue&& other) = default;
+		priority_queue& operator=(priority_queue&& other) noexcept = default;
 
 		const_reference top() const {
 			return c.front();
@@ -246,7 +246,7 @@ namespace ciel {
 			return c.empty();
 		}
 
-		size_type size() const {
+		[[nodiscard]] size_type size() const {
 			return c.size();
 		}
 

@@ -127,11 +127,11 @@ namespace ciel {
 			return N == 0;
 		}
 
-		constexpr size_type size() const noexcept {
+		[[nodiscard]] constexpr size_type size() const noexcept {
 			return N;
 		}
 
-		constexpr size_type max_size() const noexcept {
+		[[nodiscard]] constexpr size_type max_size() const noexcept {
 			return N;
 		}
 
@@ -186,14 +186,12 @@ namespace ciel {
 	namespace array_details {
 
 		template<class T, size_t N, size_t... I>
-		constexpr array<ciel::remove_cv_t<T>, N>
-		to_array_impl(T (& a)[N], std::index_sequence<I...>) {
+		constexpr array<ciel::remove_cv_t<T>, N> to_array_impl(T (& a)[N], ciel::index_sequence<I...>) {
 			return {{a[I]...}};
 		}
 
 		template<class T, size_t N, size_t... I>
-		constexpr array<ciel::remove_cv_t<T>, N>
-		to_array_impl(T (&& a)[N], std::index_sequence<I...>) {
+		constexpr array<ciel::remove_cv_t<T>, N> to_array_impl(T (&& a)[N], ciel::index_sequence<I...>) {
 			return {{ciel::move(a[I])...}};
 		}
 	}
@@ -203,7 +201,7 @@ namespace ciel {
 		static_assert(!ciel::is_array_v<T>, "ciel::to_array 不接受高维数组");
 		static_assert(ciel::is_constructible_v<T, T&>, "ciel::to_array 需要元素可构造");
 
-		return array_details::to_array_impl(a, std::make_index_sequence<N>{});
+		return array_details::to_array_impl(a, ciel::make_index_sequence<N>{});
 	}
 
 	template<class T, size_t N>
@@ -211,8 +209,19 @@ namespace ciel {
 		static_assert(!ciel::is_array_v<T>, "ciel::to_array 不接受高维数组");
 		static_assert(ciel::is_move_constructible_v<T>, "ciel::to_array 需要元素可移动构造");
 
-		return array_details::to_array_impl(ciel::move(a), std::make_index_sequence<N>{});
+		return array_details::to_array_impl(ciel::move(a), ciel::make_index_sequence<N>{});
 	}
+
+	template<class T, size_t N>
+	struct tuple_size<array<T, N>> : ciel::integral_constant<size_t, N> {};
+
+	template<size_t I, class T>
+	struct tuple_element;
+
+	template<size_t I, class T, size_t N>
+	struct tuple_element<I, array<T, N>> {
+		using type = T;
+	};
 
 	template<class T, class... U, class = ciel::enable_if_t<(ciel::is_same_v<T, U> && ...)>>
 	array(T, U...) -> array<T, 1 + sizeof...(U)>;

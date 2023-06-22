@@ -207,40 +207,32 @@ namespace ciel {
 
 		constexpr explicit vector(const allocator_type& alloc) noexcept: start(nullptr), finish(nullptr), end_cap(nullptr), allocator(alloc) {}
 
-		constexpr vector(size_type count, const value_type& value, const allocator_type& alloc = allocator_type()) : allocator(alloc) {
-			start = alloc_traits::allocate(allocator, count);
-			finish = alloc_range_construct_n(allocator, start, count, value);
-			end_cap = finish;
-		}
+		constexpr vector(size_type count, const value_type& value, const allocator_type& alloc = allocator_type())
+			: allocator(alloc),
+			  start(count ? alloc_traits::allocate(allocator, count) : nullptr),
+			  finish(alloc_range_construct_n(allocator, start, count, value)),
+			  end_cap(finish) {}
 
-		constexpr explicit vector(size_type count, const allocator_type& alloc = allocator_type()) {
-			start = alloc_traits::allocate(allocator, count);
-			finish = alloc_range_construct_n(allocator, start, count);
-			end_cap = finish;
-		}
+		constexpr explicit vector(size_type count, const allocator_type& alloc = allocator_type())
+			: allocator(alloc),
+			  start(count ? alloc_traits::allocate(allocator, count) : nullptr),
+			  finish(alloc_range_construct_n(allocator, start, count)),
+			  end_cap(finish) {}
 
 		// TODO: 若 first 和 last 都只是输入迭代器，会调用 O(N) 次 T 的复制构造函数，并且会进行 O(log N) 次重分配。
 		template<ciel::legacy_input_iterator InputIt>
-		constexpr vector(InputIt first, InputIt last, const allocator_type& alloc = allocator_type()) : allocator(alloc) {
-			start = alloc_traits::allocate(allocator, ciel::distance(first, last));
-			finish = alloc_range_construct(allocator, start, first, last);
-			end_cap = finish;
-		}
+		constexpr vector(InputIt first, InputIt last, const allocator_type& alloc = allocator_type())
+			: allocator(alloc),
+			  start(ciel::distance(first, last) ? alloc_traits::allocate(allocator, ciel::distance(first, last)) : nullptr),
+			  finish(alloc_range_construct(allocator, start, first, last)),
+			  end_cap(finish) {}
 
-		constexpr vector(const vector& other) : allocator(alloc_traits::select_on_container_copy_construction(other.get_allocator())) {
-			start = alloc_traits::allocate(allocator, other.capacity());
-			finish = alloc_range_construct(allocator, start, other.begin(), other.end());
-			end_cap = start + other.capacity();
-		}
+		constexpr vector(const vector& other) : vector(other.begin(), other.end(), alloc_traits::select_on_container_copy_construction(other.get_allocator())) {}
 
 		// TODO: 在进行类模板实参推导时，只会从首个实参推导模板形参 Allocator。(C++23 起)
-		constexpr vector(const vector& other, const allocator_type& alloc) : allocator(alloc) {
-			start = alloc_traits::allocate(allocator, other.capacity());
-			finish = alloc_range_construct(allocator, start, other.begin(), other.end());
-			end_cap = start + other.capacity();
-		}
+		constexpr vector(const vector& other, const allocator_type& alloc) : vector(other.begin(), other.end(), alloc) {}
 
-		constexpr vector(vector&& other) noexcept: start(other.start), finish(other.finish), end_cap(other.end_cap), allocator(ciel::move(other.allocator)) {
+		constexpr vector(vector&& other) noexcept : start(other.start), finish(other.finish), end_cap(other.end_cap), allocator(ciel::move(other.allocator)) {
 			other.start = nullptr;
 			other.finish = nullptr;
 			other.end_cap = nullptr;
@@ -262,17 +254,7 @@ namespace ciel {
 			}
 		}
 
-		constexpr vector(std::initializer_list<value_type> init, const allocator_type& alloc = allocator_type()) : allocator(alloc) {
-			if (init.size() > 0) {
-				start = alloc_traits::allocate(allocator, init.size());
-				finish = alloc_range_construct(allocator, start, init.begin(), init.end());
-				end_cap = finish;
-			} else {
-				start = nullptr;
-				finish = nullptr;
-				end_cap = nullptr;
-			}
-		}
+		constexpr vector(std::initializer_list<value_type> init, const allocator_type& alloc = allocator_type()) : vector(init.begin(), init.end(), alloc) {}
 
 		constexpr ~vector() {    // 先一个个手动调用成员的析构函数，再由 vector 自己释放内存
 			if (start) {
@@ -289,13 +271,16 @@ namespace ciel {
 				return *this;
 			}
 			if (alloc_traits::propagate_on_container_copy_assignment::value) {
-				auto old_allocator = ciel::move(allocator);
-				allocator = other.allocator;
-				if (allocator != old_allocator) {
+				if (allocator != other.allocator) {
+					{
+						vector tmp(other.allocator);
+						(*this).swap(tmp);
+					}
 					clear_and_get_cap_no_less_than(other.size());
 					finish = alloc_range_construct(allocator, start, other.begin(), other.end());
 					return *this;
 				}
+				allocator = other.allocator;
 			}
 			clear_and_get_cap_no_less_than(other.size());
 			finish = alloc_range_construct(allocator, start, other.begin(), other.end());
@@ -492,20 +477,20 @@ namespace ciel {
 			finish = alloc_range_destroy(allocator, start, finish);
 		}
 
-		constexpr iterator insert(iterator pos, const value_type& value) {
+		constexpr iterator insert(const_iterator pos, const value_type& value) {
 			return insert_n(pos, 1, value);
 		}
 
-		constexpr iterator insert(iterator pos, value_type&& value) {
+		constexpr iterator insert(const_iterator pos, value_type&& value) {
 			return insert_n(pos, 1, ciel::move(value));
 		}
 
-		constexpr iterator insert(iterator pos, size_type count, const value_type& value) {
+		constexpr iterator insert(const_iterator pos, size_type count, const value_type& value) {
 			return insert_n(pos, count, value);
 		}
 
 		template<ciel::legacy_input_iterator InputIt>
-		constexpr iterator insert(iterator pos, InputIt first, InputIt last) {
+		constexpr iterator insert(const_iterator pos, InputIt first, InputIt last) {
 			size_type count = ciel::distance(first, last);
 			if (!count) {
 				return pos;
@@ -522,8 +507,8 @@ namespace ciel {
 				pointer new_pos = new_start + idx;
 
 				try {
-					alloc_range_move(allocator, new_start, begin(), pos);
-					alloc_range_move(allocator, new_pos + count, pos, end());
+					alloc_range_move(allocator, new_start, begin(), iterator(pos));
+					alloc_range_move(allocator, new_pos + count, iterator(pos), end());
 				} catch (...) {
 					alloc_traits::deallocate(allocator, new_start, new_cap);
 					throw;
@@ -537,10 +522,10 @@ namespace ciel {
 				return iterator(alloc_range_construct(allocator, new_pos, first, last) - 1);
 			} else {
 				pointer boundary = finish;
-				finish = alloc_range_nothrow_move_backward(allocator, finish + count, pos.base(), finish);
+				finish = alloc_range_nothrow_move_backward(allocator, finish + count, const_cast<pointer>(pos.base()), finish);
 				auto left_movement = boundary - pos.base();
 				auto loop_break = left_movement < count ? left_movement : count;
-				ciel::copy_n(first, loop_break, pos);
+				ciel::copy_n(first, loop_break, iterator(pos));
 				if (left_movement < count) {    // 赋值完还有一部分需要构造
 					pos = iterator(alloc_range_construct(allocator, boundary, first + left_movement, last) - 1);
 				}
@@ -548,12 +533,12 @@ namespace ciel {
 			}
 		}
 
-		constexpr iterator insert(iterator pos, std::initializer_list<value_type> ilist) {
+		constexpr iterator insert(const_iterator pos, std::initializer_list<value_type> ilist) {
 			return insert(pos, ilist.begin(), ilist.end());
 		}
 
 		template<class... Args>
-		constexpr iterator emplace(iterator pos, Args&& ... args) {
+		constexpr iterator emplace(const_iterator pos, Args&& ... args) {
 			if (pos == end()) {
 				emplace_back(ciel::forward<Args>(args)...);
 				return iterator(finish - 1);
@@ -562,16 +547,16 @@ namespace ciel {
 			}
 		}
 
-		constexpr iterator erase(iterator pos) {
+		constexpr iterator erase(const_iterator pos) {
 			return erase(pos, pos + 1);
 		}
 
-		constexpr iterator erase(iterator first, iterator last) {
+		constexpr iterator erase(const_iterator first, const_iterator last) {
 			auto distance = ciel::distance(first, last);
 			if (!distance) {
 				return last;
 			}
-			auto new_end = ciel::move(last, end(), first);
+			auto new_end = ciel::move(iterator(last), end(), iterator(first));
 			finish = alloc_range_destroy(allocator, new_end.base(), finish);
 			return end();
 		}
@@ -603,7 +588,7 @@ namespace ciel {
 			return back();
 		}
 
-		constexpr void pop_back() {
+		constexpr void pop_back() noexcept {
 			if (!empty()) {
 				finish = alloc_range_destroy(allocator, finish - 1, finish);
 			}

@@ -31,7 +31,7 @@ namespace ciel {
 
 		stack(const stack& other) : c(other.c) {}
 
-		stack(stack&& other) : c(ciel::move(other.c)) {}
+		stack(stack&& other) noexcept : c(ciel::move(other.c)) {}
 
 		template<ciel::legacy_input_iterator InputIt>
 		stack(InputIt first, InputIt last) : c(first, last) {}
@@ -60,7 +60,7 @@ namespace ciel {
 
 		stack& operator=(const stack& other) = default;
 
-		stack& operator=(stack&& other) = default;
+		stack& operator=(stack&& other) noexcept = default;
 
 		reference top() {
 			return c.back();
@@ -74,7 +74,7 @@ namespace ciel {
 			return c.empty();
 		}
 
-		size_type size() const {
+		[[nodiscard]] size_type size() const {
 			return c.size();
 		}
 

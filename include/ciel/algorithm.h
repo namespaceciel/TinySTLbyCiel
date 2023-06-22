@@ -1,8 +1,6 @@
 #ifndef TINYSTLBYCIEL_INCLUDE_CIEL_ALGORITHM_H_
 #define TINYSTLBYCIEL_INCLUDE_CIEL_ALGORITHM_H_
 
-// TODO 概念与约束
-
 // 不修改序列的操作
 #include <ciel/algorithm_impl/find.h>
 #include <ciel/algorithm_impl/find_if.h>
