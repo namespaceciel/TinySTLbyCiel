@@ -125,7 +125,7 @@ void memory_test() {
 		}
 
 		int* arr = new int[]{0, 1, 2, 3, 4};
-		ciel::unique_ptr<int> ptr13(arr);
+		ciel::unique_ptr<int[]> ptr13(arr);
 		ciel::unique_ptr<int> ptr14(arr + 3);
 		CHECK(ptr13 < ptr14);
 		CHECK(ptr13 <= ptr14);
@@ -138,7 +138,7 @@ void memory_test() {
 		ciel::unique_ptr<int, void (*)(int*)> ptr17(new int{5}, IntFunctionDeleter);
 		ciel::unique_ptr<int, StructOperatorDeleter> ptr18(new int{5}, StructOperatorDeleter{});
 		ciel::unique_ptr<int, std::function<void(int*)>> ptr19(new int{5}, [](int* ptr) { delete ptr; });
-		ciel::unique_ptr<int[], std::function<void(int*)>> ptr20(new int{5}, [](int* ptr) { delete[] ptr; });
+		ciel::unique_ptr<int[], std::function<void(int*)>> ptr20(new int[]{1,5}, [](int* ptr) { delete[] ptr; });
 	}
 
 	// shared_ptr
