@@ -148,8 +148,8 @@ namespace ciel {
 
 		using alloc_traits = ciel::allocator_traits<allocator_type>;
 		// 不同于 vector 分配的内存完全用于元素本身，list 在内的大多数容器都需要额外空间维持运作，allocator<T> 的分配是有问题的，所以需要 rebind_alloc 出手
-		using node_allocator = alloc_traits::template rebind_alloc<node_type>;
-		using node_alloc_traits = alloc_traits::template rebind_traits<node_type>;
+		using node_allocator = typename alloc_traits::template rebind_alloc<node_type>;
+		using node_alloc_traits = typename alloc_traits::template rebind_traits<node_type>;
 
 		base_node_type end_node;
 		size_type s;

@@ -538,9 +538,9 @@ namespace ciel {
 		constexpr iterator emplace(const_iterator pos, Args&& ... args) {
 			if (pos == end()) {
 				emplace_back(ciel::forward<Args>(args)...);
-				return iterator(finish - 1);
+				return iterator(finish - 1);    // 由于扩容的可能，不要直接返回 iterator(pos)
 			} else {
-				return insert_n(pos, 1, value_type{ciel::forward<Args>(args)...});
+				return insert_n(pos, 1, value_type(ciel::forward<Args>(args)...));
 			}
 		}
 
@@ -553,7 +553,7 @@ namespace ciel {
 			if (!distance) {
 				return last;
 			}
-			auto new_end = ciel::move(iterator(last), end(), iterator(first));
+			iterator new_end = ciel::move(iterator(last), end(), iterator(first));
 			finish = alloc_range_destroy(allocator, new_end.base(), finish);
 			return end();
 		}

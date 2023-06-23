@@ -114,6 +114,12 @@ void vector_test() {
 
 			v1.push_back(v1[0]);    // 自引用
 			CHECK(v1 == ciel::vector({654, 654}));
+
+            v1.resize(5000, 654);
+            CHECK(v1.size() == 5000);
+            for (int i: v1) {
+                CHECK(i == 654);
+            }
 		}
 		{
 			ciel::vector v1{0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
@@ -170,6 +176,9 @@ void vector_test() {
 			ciel::vector<int> v3;
 			v3.insert(v3.begin(), v1.begin(), v1.end());
 			CHECK(v3 == ciel::vector({8, 4, 222, 222, 222, 3, 2, 1, 2, 3, 4, 8, 543, 12, 9}));
+
+            v3.insert(v3.end(), v1.begin(), v1.end());
+            CHECK(v3 == ciel::vector({8, 4, 222, 222, 222, 3, 2, 1, 2, 3, 4, 8, 543, 12, 9, 8, 4, 222, 222, 222, 3, 2, 1, 2, 3, 4, 8, 543, 12, 9}));
 
 //			v1.insert(v1.begin(), v1.begin() + 1, v1.begin() + 3);    // 不合规
 		}
@@ -284,30 +293,12 @@ void vector_test() {
 			CHECK(ConstructAndAssignCounter::copy == 8);
 			CHECK(ConstructAndAssignCounter::move == 76);
 		}
-	}
 
-	// 3、异常安全
+        ConstructAndAssignCounter::copy = 0;
+        ConstructAndAssignCounter::move = 0;
+    }
 
-	/*
-		g++ main.cpp -I/home/parallels/TinySTLbyCiel/test -I/home/parallels/TinySTLbyCiel/include -std=c++23
-		valgrind --leak-check=full ./a.out
-
-		==15593== Memcheck, a memory error detector
-		==15593== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
-		==15593== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
-		==15593== Command: ./a.out
-		==15593==
-		All vector_tests finished.
-		==15593==
-		==15593== HEAP SUMMARY:
-		==15593==     in use at exit: 0 bytes in 0 blocks
-		==15593==   total heap usage: 53 allocs, 53 frees, 76,761 bytes allocated
-		==15593==
-		==15593== All heap blocks were freed -- no leaks are possible
-		==15593==
-		==15593== For lists of detected and suppressed errors, rerun with: -s
-		==15593== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
-	*/
+	// TODO: 3、异常安全
 
 	std::cout << "All vector_tests finished.\n";
 }

@@ -6,9 +6,11 @@
 
 namespace ciel {
 
+    // TODO: operator<=>
+
 	// 这里的实现为了简单起见，deque 的 map （每个小数组的控制中心）用的是 list 实现，避免了重分配
 	// 同样为了简单起见，与其他容器不同，deque 即使空初始化依然会分配一块堆内存。注意：这使得移动构造行为变为了先本身进行空初始化再与 other 进行 swap
-    // 注意：deque_iterator 的 finish() 仅作为哨兵存在，iterator 在正常操作时只要到 finish 会自动跳到下一块小数组的起点，永远不可能停留在 finish
+    // 注意：deque_iterator 的 finish() 仅作为哨兵存在，deque_iterator 在正常操作时只要到 finish 会自动跳到下一块小数组的起点，永远不可能停留在 finish
 
 	template<class T>
 	constexpr size_t deque_subarray_size() noexcept {
@@ -16,8 +18,7 @@ namespace ciel {
 	}
 
 	template<class T, class Pointer, class Reference, class MapIterator, size_t SubarraySize>
-	class deque_iterator {
-	public:
+	struct deque_iterator {
 		using difference_type = ptrdiff_t;
 		using value_type = T;
 		using pointer = Pointer;
@@ -25,7 +26,6 @@ namespace ciel {
 		using iterator_category = ciel::random_access_iterator_tag;
 		using iterator_concept = ciel::random_access_iterator_tag;
 
-	private:
 		T* cur;
 		MapIterator node;
 
@@ -37,10 +37,6 @@ namespace ciel {
 			return start() + SubarraySize;
 		}
 
-		template<class, class, size_t>
-		friend class deque;
-
-	public:
 		deque_iterator() noexcept = default;
 
 		deque_iterator(T* c, const MapIterator& n) noexcept : cur(c), node(n) {}
@@ -48,7 +44,7 @@ namespace ciel {
 		deque_iterator(const deque_iterator& other) noexcept = default;
 
 		template<class P, class R, class M>
-		deque_iterator(const deque_iterator<T, P, R, M, SubarraySize>& other) noexcept : cur(other.base()), node(other.map()) {}
+		deque_iterator(const deque_iterator<T, P, R, M, SubarraySize>& other) noexcept : cur(other.base()), node(other.node) {}
 
 		pointer operator->() const noexcept {
 			return cur;
@@ -89,11 +85,11 @@ namespace ciel {
 		}
 
 		deque_iterator& operator+=(difference_type n) noexcept {
-			auto offset = n + (cur - start());
+            difference_type offset = n + (cur - start());
 			if (offset >= 0 && offset < SubarraySize) {
 				cur += n;
 			} else {
-				ciel::advance(node, offset > 0 ? offset / SubarraySize : offset / SubarraySize - 1);
+				ciel::advance(node, offset > 0 ? offset / static_cast<difference_type>(SubarraySize) : offset / static_cast<difference_type>(SubarraySize) - 1);    // 这个忘记转有符号数卡了我好久= =
 				offset %= SubarraySize;
 				cur = start() + offset;
 			}
@@ -118,25 +114,21 @@ namespace ciel {
             return cur;
         }
 
-        MapIterator map() const noexcept {
-            return node;
-        }
+	};    // struct deque_iterator
 
-	};    // class deque_iterator
-
-	template<class T, class Pointer1, class Pointer2, class Reference1, class Reference2, class MapIterator1, class MapIterator2, size_t SubarraySize>
-	bool operator==(const deque_iterator<T, Pointer1, Reference1, MapIterator1, SubarraySize>& lhs, const deque_iterator<T, Pointer2, Reference2, MapIterator2, SubarraySize>& rhs) {
+	template<class T, class Pointer1, class Pointer2, class Reference1, class Reference2, class MapIterator, size_t SubarraySize>
+	bool operator==(const deque_iterator<T, Pointer1, Reference1, MapIterator, SubarraySize>& lhs, const deque_iterator<T, Pointer2, Reference2, MapIterator, SubarraySize>& rhs) {
 		return lhs.base() == rhs.base();
 	}
 
-	template<class T, class Pointer1, class Pointer2, class Reference1, class Reference2, class MapIterator1, class MapIterator2, size_t SubarraySize>
-	bool operator!=(const deque_iterator<T, Pointer1, Reference1, MapIterator1, SubarraySize>& lhs, const deque_iterator<T, Pointer2, Reference2, MapIterator2, SubarraySize>& rhs) {
+	template<class T, class Pointer1, class Pointer2, class Reference1, class Reference2, class MapIterator, size_t SubarraySize>
+	bool operator!=(const deque_iterator<T, Pointer1, Reference1, MapIterator, SubarraySize>& lhs, const deque_iterator<T, Pointer2, Reference2, MapIterator, SubarraySize>& rhs) {
 		return !(lhs.base() == rhs.base());
 	}
 
-	template<class T, class Pointer1, class Pointer2, class Reference1, class Reference2, class MapIterator1, class MapIterator2, size_t SubarraySize>
-	auto operator-(const deque_iterator<T, Pointer1, Reference1, MapIterator1, SubarraySize>& lhs, const deque_iterator<T, Pointer2, Reference2, MapIterator2, SubarraySize>& rhs) -> decltype(lhs.base() - rhs.base()) {
-		return lhs.base() - rhs.base();
+	template<class T, class Pointer1, class Pointer2, class Reference1, class Reference2, class MapIterator, size_t SubarraySize>
+    typename ciel::iterator_traits<deque_iterator<T, Pointer1, Reference1, MapIterator, SubarraySize>>::difference_type operator-(const deque_iterator<T, Pointer1, Reference1, MapIterator, SubarraySize>& lhs, const deque_iterator<T, Pointer2, Reference2, MapIterator, SubarraySize>& rhs) {
+		return SubarraySize * (ciel::distance(rhs.node, lhs.node) - 1) + (lhs.base() - lhs.start()) + (rhs.finish() - rhs.base());
 	}
 
 	template<class T, class Allocator = ciel::allocator<T>, size_t SubarraySize = deque_subarray_size<T>()>
@@ -155,7 +147,7 @@ namespace ciel {
 		using const_pointer = typename ciel::allocator_traits<allocator_type>::const_pointer;
 
 		using iterator = deque_iterator<value_type, pointer, reference, typename ciel::list<value_type*, allocator_type>::iterator, SubarraySize>;
-		using const_iterator = deque_iterator<value_type, const_pointer, const_reference, typename ciel::list<value_type*, allocator_type>::const_iterator, SubarraySize>;
+		using const_iterator = deque_iterator<value_type, const_pointer, const_reference, typename ciel::list<value_type*, allocator_type>::iterator, SubarraySize>;
 
 		using reverse_iterator = ciel::reverse_iterator<iterator>;
 		using const_reverse_iterator = ciel::reverse_iterator<const_iterator>;
@@ -205,8 +197,8 @@ namespace ciel {
 
 		void clear_and_get_cap_no_less_than(size_type size) {
 			clear();
-			start = iterator(map.front(), map.begin());
-			finish = start;
+            start = iterator(map.front(), map.begin());
+            finish = start;
 			size_type s = size / SubarraySize + 1;
 			if (map.size() < s) {
 				s -= map.size();
@@ -234,6 +226,82 @@ namespace ciel {
                 ++cur;
             }
             return res;
+        }
+
+        // 关于 insert / emplace / erase 的注意事项请看 vector
+        iterator alloc_range_nothrow_move(allocator_type& a, iterator begin, iterator first, iterator last) noexcept {
+            iterator end = begin;
+            iterator boundary = first;
+            while (first != last && end != boundary) {
+                alloc_traits::construct(a, (end++).base(), ciel::move(*first++));
+            }
+            while (first != last) {
+                *begin++ = ciel::move(*first++);
+            }
+            return begin;
+        }
+
+        iterator alloc_range_nothrow_move_backward(allocator_type& a, iterator end, iterator first, iterator last) noexcept {
+            iterator begin = end;
+            iterator boundary = last;
+            while (first != last && begin != boundary) {
+                alloc_traits::construct(a, (--begin).base(), ciel::move(*--last));
+            }
+            while (first != last) {
+                *--begin = ciel::move(*--last);
+            }
+            return end;
+        }
+
+        // 看插入位置离哪头更近就移动两边
+        template<class Args>
+        iterator insert_n(iterator pos, size_type count, Args&& args) {
+            if (!count) {
+                return pos;
+            }
+            if (ciel::distance(begin(), pos) < ciel::distance(pos, end())) {  // 头部往前移动
+                size_type bs = front_space();
+                if (count > bs) {
+                    bs = (count - bs) / SubarraySize + 1;
+                    while (bs--) {
+                        map.emplace_front(alloc_traits::allocate(allocator, SubarraySize));
+                    }
+                }
+
+                iterator boundary = start;
+                iterator res = pos - 1;
+                start = alloc_range_nothrow_move(allocator, start - count, start, pos);
+
+                auto left_movement = pos - boundary;
+                auto loop_break = left_movement < count ? left_movement : count;
+                for (size_type i = 0; i < loop_break; ++i) {    // 全部都是赋值
+                    *--pos = ciel::forward<Args>(args);
+                }
+                if (left_movement < count) {    // 赋值完还有一部分需要构造
+                    alloc_range_construct_n(allocator, start + loop_break, count - left_movement, ciel::forward<Args>(args)) - 1;
+                }
+                return res;
+            } else {    // 尾部往后移动
+                size_type bs = back_space();
+                if (count >= bs) {
+                    bs = (count - bs) / SubarraySize + 1;
+                    while (bs--) {
+                        map.emplace_back(alloc_traits::allocate(allocator, SubarraySize));
+                    }
+                }
+
+                iterator boundary = finish;
+                finish = alloc_range_nothrow_move_backward(allocator, finish + count, pos, finish);
+                auto left_movement = boundary - pos;
+                auto loop_break = left_movement < count ? left_movement : count;
+                for (size_type i = 0; i < loop_break; ++i) {    // 全部都是赋值
+                    *(pos++) = ciel::forward<Args>(args);
+                }
+                if (left_movement < count) {    // 赋值完还有一部分需要构造
+                    pos = alloc_range_construct_n(allocator, boundary, count - left_movement, ciel::forward<Args>(args)) - 1;
+                }
+                return pos;
+            }
         }
 
 	public:
@@ -273,7 +341,7 @@ namespace ciel {
 
 		deque(const deque& other, const allocator_type& alloc) : deque(other.begin(), other.end(), alloc) {}
 
-		deque(deque&& other) : deque() {
+		deque(deque&& other) noexcept : deque() {
 			swap(other);
 		}
 
@@ -477,6 +545,107 @@ namespace ciel {
 			finish = alloc_range_destroy(allocator, begin(), end());
 		}
 
+        iterator insert(const_iterator pos, const T& value) {
+            return insert_n(pos, 1, value);
+        }
+
+        iterator insert(const_iterator pos, T&& value) {
+            return insert_n(pos, 1, ciel::move(value));
+        }
+
+        iterator insert(const_iterator pos, size_type count, const T& value) {
+            return insert_n(pos, count, value);
+        }
+
+        template<ciel::legacy_input_iterator InputIt>
+        iterator insert(const_iterator pos, InputIt first, InputIt last) {
+            size_type count = distance(first, last);
+            if (!count) {
+                return pos;
+            }
+            auto front_distance = ciel::distance(begin(), iterator(pos));
+            auto back_distance = ciel::distance(iterator(pos), end());
+            if (front_distance < back_distance) {  // 头部往前移动
+                size_type bs = front_space();
+                if (count > bs) {
+                    bs = (count - bs) / SubarraySize + 1;
+                    while (bs--) {
+                        map.emplace_front(alloc_traits::allocate(allocator, SubarraySize));
+                    }
+                }
+
+                iterator boundary = start;
+                iterator res = pos - 1;
+                start = alloc_range_nothrow_move(allocator, start - count, start, pos);
+
+                iterator insert_begin = start + front_distance;
+
+                auto left_movement = pos - boundary;
+
+                auto loop_break = left_movement < count ? left_movement : count;
+                if (left_movement < count) {
+                    insert_begin = alloc_range_construct(allocator, insert_begin, first, first + count - left_movement);
+                }
+                ciel::copy_n(first + count - left_movement, loop_break, insert_begin);
+                return res;
+            } else {    // 尾部往后移动
+                size_type bs = back_space();
+                if (count >= bs) {
+                    bs = (count - bs) / SubarraySize + 1;
+                    while (bs--) {
+                        map.emplace_back(alloc_traits::allocate(allocator, SubarraySize));
+                    }
+                }
+
+                iterator boundary = finish;
+                finish = alloc_range_nothrow_move_backward(allocator, finish + count, pos, finish);
+                auto left_movement = boundary - pos;
+                auto loop_break = left_movement < count ? left_movement : count;
+                ciel::copy_n(first, loop_break, iterator(pos));
+                if (left_movement < count) {    // 赋值完还有一部分需要构造
+                    pos = alloc_range_construct(allocator, boundary, first + left_movement, last) - 1;
+                }
+                return pos;
+            }
+        }
+
+        iterator insert(const_iterator pos, std::initializer_list<T> ilist) {
+            return insert(pos, ilist.begin(), ilist.end());
+        }
+
+        template<class... Args>
+        iterator emplace(const_iterator pos, Args&&... args) {
+            if (pos == begin()) {
+                emplace_front(ciel::forward<Args>(args)...);
+                return begin();
+            } else if (pos == end()) {
+                emplace_back(ciel::forward<Args>(args)...);
+                return iterator(pos);
+            } else {
+                return insert_n(pos, 1, value_type(ciel::forward<Args>(args)...));
+            }
+        }
+
+        iterator erase(const_iterator pos) {
+            return erase(pos, pos + 1);
+        }
+
+        iterator erase(const_iterator first, const_iterator last) {
+            auto distance = ciel::distance(first, last);
+            if (!distance) {
+                return last;
+            }
+            if (ciel::distance(begin(), iterator(first)) < ciel::distance(iterator(last), end())) {
+                iterator old_begin = start;
+                start = ciel::move_backward(begin(), iterator(first), iterator(last));
+                alloc_range_destroy(allocator, old_begin, start);
+            } else {
+                iterator new_end = ciel::move(iterator(last), end(), iterator(first));
+                finish = alloc_range_destroy(allocator, new_end, finish);
+            }
+            return end();
+        }
+
 		void push_back(const T& value) {
 			emplace_back(value);
 		}
@@ -512,7 +681,7 @@ namespace ciel {
 				map.emplace_front(alloc_traits::allocate(allocator, SubarraySize));
 			}
 			alloc_range_construct_n(allocator, start - 1, 1, ciel::forward<Args>(args)...);
-			--start;
+            --start;
 			return front();
 		}
 
@@ -527,7 +696,7 @@ namespace ciel {
             } else {
                 size_type needed_space = count - size();
                 size_type bs = back_space();
-                if (needed_space > bs) {
+                if (needed_space >= bs) {
                     bs = (needed_space - bs) / SubarraySize + 1;
                     while (bs--) {
                         map.emplace_back(alloc_traits::allocate(allocator, SubarraySize));
@@ -543,7 +712,7 @@ namespace ciel {
             } else {
                 size_type needed_space = count - size();
                 size_type bs = back_space();
-                if (needed_space > bs) {
+                if (needed_space >= bs) {
                     bs = (needed_space - bs) / SubarraySize + 1;
                     while (bs--) {
                         map.emplace_back(alloc_traits::allocate(allocator, SubarraySize));
@@ -573,6 +742,22 @@ namespace ciel {
     template<class T, class Alloc>
     void swap(deque<T, Alloc>& lhs, deque<T, Alloc>& rhs) noexcept(noexcept(lhs.swap(rhs))) {
         lhs.swap(rhs);
+    }
+
+    template<class T, class Alloc, class U>
+    typename deque<T, Alloc>::size_type erase(deque<T, Alloc>& c, const U& value) {
+        auto it = ciel::remove(c.begin(), c.end(), value);
+        auto r = ciel::distance(it, c.end());
+        c.erase(it, c.end());
+        return r;
+    }
+
+    template<class T, class Alloc, class Pred>
+    typename deque<T, Alloc>::size_type erase_if(deque<T, Alloc>& c, Pred pred) {
+        auto it = ciel::remove_if(c.begin(), c.end(), pred);
+        auto r = ciel::distance(it, c.end());
+        c.erase(it, c.end());
+        return r;
     }
 
     template<ciel::legacy_input_iterator InputIt, class Alloc = ciel::allocator<typename ciel::iterator_traits<InputIt>::value_type>>

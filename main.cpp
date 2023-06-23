@@ -1,3 +1,5 @@
+#include <ciel/print.h>
+
 #include <ciel/type_traits_test.h>
 #include <ciel/concepts_test.h>
 #include <ciel/iterator_test.h>
