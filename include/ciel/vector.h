@@ -301,7 +301,10 @@ namespace ciel {
 			if (alloc_traits::propagate_on_container_move_assignment::value) {
 				allocator = other.allocator;
 			}
-			clear();
+            if (start) {
+                clear();
+                alloc_traits::deallocate(allocator, start, capacity());
+            }
 			start = other.start;
 			finish = other.finish;
 			end_cap = other.end_cap;
@@ -314,7 +317,6 @@ namespace ciel {
 		constexpr vector& operator=(std::initializer_list<value_type> ilist) {
 			if (capacity() < ilist.size()) {
 				vector tmp(ilist, allocator);
-				clear();
 				swap(tmp);
 			} else {
 				clear();

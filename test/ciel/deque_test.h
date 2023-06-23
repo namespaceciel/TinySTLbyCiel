@@ -5,8 +5,6 @@
 #include <ciel/deque.h>
 #include <ciel/vector_test.h>
 
-#include <deque>
-
 #ifndef CHECK
 #define CHECK(x) if (!(x)) { std::cerr << "Line " << __LINE__ << " : " << #x << " failed.\n"; }
 #endif
