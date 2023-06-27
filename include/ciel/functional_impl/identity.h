@@ -10,6 +10,8 @@ namespace ciel {
 		constexpr T&& operator()(T&& t) const noexcept {
 			return ciel::forward<T>(t);
 		}
+
+        using is_transparent = void;
 	};
 
 }   // namespace ciel

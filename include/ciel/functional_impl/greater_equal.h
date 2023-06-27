@@ -18,6 +18,8 @@ namespace ciel {
 		constexpr bool operator()(T&& lhs, U&& rhs) const requires requires { ciel::forward<T>(lhs) >= ciel::forward<U>(rhs); } {
 			return ciel::forward<T>(lhs) >= ciel::forward<U>(rhs);
 		}
+
+        using is_transparent = void;
 	};
 
 }   // namespace ciel

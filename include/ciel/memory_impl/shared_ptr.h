@@ -29,8 +29,6 @@ namespace ciel {
 	但因此也会有一些问题，例如基类指针中的 get_deleter() 虚函数返回值只能为 void*（无法得知 deleter_type）
 	上层 get_deleter() 需要手动指定模板参数 Deleter，传入底层函数后通过对比 typeid 来确定是否匹配，否则返回 nullptr
 
-	[[no_unique_address]] 已经无法满足同时存在删除器和分配器的空基类优化了，所以继承了分配器（懒得用 compressed pair）
-
 	由于通过基类指针无从知晓控制块大小，控制块的释放只能由自身完成。EASTL 的实现是在子类重写虚函数（在内部拷贝分配器，显式调用析构函数后由分配器清理内存）
 	FIXME: 由于控制块的模板参数里有 allocator 本身，所以应要一个定制的 allocator 并手动指定 value_type 为 control_block_with_pointer<element_type, Deleter, control_block_with_pointer_allocator>，
 	 这对于用户指定分配器的要求太苛刻了
@@ -92,7 +90,7 @@ namespace ciel {
 
 	template<class element_type, class Deleter, class Allocator>
 		requires requires { ciel::declval<Deleter>()(static_cast<element_type*>(nullptr)); } && ciel::is_move_constructible_v<Deleter>
-	struct control_block_with_pointer : shared_weak_count, Allocator {
+	struct control_block_with_pointer : shared_weak_count {
 	public:
 		using pointer = element_type*;
 		using deleter_type = Deleter;
@@ -103,9 +101,10 @@ namespace ciel {
 
 		pointer ptr;
 		[[no_unique_address]] deleter_type dlt;
+        [[no_unique_address]] allocator_type allocator;
 
 	public:
-		control_block_with_pointer(pointer p, deleter_type&& d, allocator_type&& alloc) : ptr(p), dlt(ciel::move(d)), allocator_type(ciel::move(alloc)) {}
+		control_block_with_pointer(pointer p, deleter_type&& d, allocator_type&& alloc) : ptr(p), dlt(ciel::move(d)), allocator(ciel::move(alloc)) {}
 
 		virtual void* get_deleter(const std::type_info& type) noexcept override {
 			return (type == typeid(deleter_type)) ? static_cast<void*>(&dlt) : nullptr;
@@ -117,7 +116,7 @@ namespace ciel {
 		}
 
 		virtual void delete_control_block() noexcept override {
-			allocator_type alloc = *this;
+			allocator_type alloc = allocator;
 			this->~control_block_with_pointer();
 			alloc_traits::deallocate(alloc, this, sizeof(*this));
 		}

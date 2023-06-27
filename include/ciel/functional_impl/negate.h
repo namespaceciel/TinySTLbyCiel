@@ -18,6 +18,8 @@ namespace ciel {
 		constexpr auto operator()(T&& arg) const -> decltype(-ciel::forward<T>(arg)) {
 			return -ciel::forward<T>(arg);
 		}
+
+        using is_transparent = void;
 	};
 
 }   // namespace ciel

@@ -105,7 +105,11 @@ namespace ciel {
 		for (size_t i = 0; i < tab; ++i) {
 			std::cout << "    ";
 		}
-		std::cout << t;
+        if constexpr (ciel::is_same_v<ciel::remove_cvref_t<T>, bool>) {
+            std::cout << std::boolalpha << t;
+        } else {
+            std::cout << t;
+        }
 	}
 
 	// pair

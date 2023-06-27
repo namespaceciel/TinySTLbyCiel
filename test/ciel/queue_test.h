@@ -45,12 +45,6 @@ void queue_test() {
 		for (size_t loop = 0; loop < 100; ++loop) {
 			std::shuffle(v.begin(), v.end(), g);
 
-//			std::cout << "打乱后的序列为：\n";
-//			for (size_t i : v) {
-//				std::cout << i << ' ';
-//			}
-//			std::cout << '\n';
-
 			ciel::priority_queue<size_t, ciel::vector<size_t>, ciel::greater<size_t>> pq(ciel::greater<size_t>(), ciel::move(v));
 			CHECK(v.empty());
 			CHECK(ciel::is_heap(pq.container().begin(), pq.container().end(), ciel::greater<size_t>()));

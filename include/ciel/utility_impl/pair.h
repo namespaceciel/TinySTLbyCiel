@@ -5,6 +5,7 @@
 #include <ciel/utility_impl/forward.h>
 #include <ciel/utility_impl/move.h>
 #include <ciel/utility_impl/swap.h>
+#include <ciel/utility_impl/integer_sequence.h>
 #include <functional>
 
 namespace ciel {
@@ -53,8 +54,15 @@ namespace ciel {
 // 		template<pair-like P>
 // 		constexpr pair(P&& u);
 
-// 		template<class... Args1, class... Args2>
-// 		constexpr pair(std::piecewise_construct_t, std::tuple<Args1...> first_args, std::tuple<Args2...> second_args);
+		// TODO: 如果 first 或 second 的初始化会绑定引用到临时对象，那么此构造函数会定义为被弃置。(C++23 起)
+ 		template<class... Args1, class... Args2>
+ 		constexpr pair(std::piecewise_construct_t pc, std::tuple<Args1...>&& first_args, std::tuple<Args2...>&& second_args)
+		 	: pair(pc, ciel::move(first_args), ciel::move(second_args), ciel::make_index_sequence<sizeof...(Args1)>(), ciel::make_index_sequence<sizeof...(Args2)>()) {}
+
+		// FIXME: private
+		template<class... Args1, class... Args2, size_t... I1, size_t... I2>
+		constexpr pair(std::piecewise_construct_t, std::tuple<Args1...>&& first_args, std::tuple<Args2...>&& second_args, ciel::index_sequence<I1...>, ciel::index_sequence<I2...>)
+			: first(ciel::forward<Args1>(std::get<I1>(first_args))...), second(ciel::forward<Args2>(std::get<I2>(second_args))...) {}
 
 		constexpr pair(const pair& p) = default;
 

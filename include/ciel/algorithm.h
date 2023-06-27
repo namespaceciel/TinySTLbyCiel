@@ -28,6 +28,8 @@
 // 划分操作
 
 // 排序操作
+#include <ciel/algorithm_impl/is_sorted.h>
+#include <ciel/algorithm_impl/is_sorted_until.h>
 
 // （已排序范围上的）二分搜索操作
 
