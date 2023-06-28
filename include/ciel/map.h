@@ -34,13 +34,11 @@ namespace ciel {
                 return comp(lhs.first, rhs.first);
             }
 
-            template<class K>
-            bool operator()(const K& lhs, const value_type& rhs) const {
+            bool operator()(const key_type& lhs, const value_type& rhs) const {
                 return comp(lhs, rhs.first);
             }
 
-            template<class K>
-            bool operator()(const value_type& lhs, const K& rhs) const {
+            bool operator()(const value_type& lhs, const key_type& rhs) const {
                 return comp(lhs.first, rhs);
             }
 

@@ -119,7 +119,11 @@ namespace ciel {
 		for (size_t i = 0; i < tab; ++i) {
 			std::cout << "    ";
 		}
-		std::cout << "[  " << t.first << "  " << t.second << "  ]";
+		std::cout << "[  ";
+        print(t.first);
+        std::cout << "  ";
+        print(t.second);
+        std::cout << "  ]";
 	}
 
 	// 可 range based for loop 的容器

@@ -18,6 +18,8 @@ namespace ciel {
 
     // 注意：与之前的序列式容器不同，关联式容器在 insert 一个范围的时候，一般不要求做到强异常安全，因为元素插入后就分散开了，很难沿着原路径撤销之前的插入
 
+    // TODO: 不打算写 multi 版的容器了，本来就没啥用，还全是重复代码。不过接口都写了。（主要是懒得写测试= =
+
     struct bst_node_base {
         bst_node_base* left;
 
@@ -430,7 +432,7 @@ namespace ciel {
         // 当 [first, last) 为有序范围时，时间复杂度应由乱序的 N * H 变为 H + N
         template<ciel::legacy_input_iterator InputIt>
         void range_insert_unique(InputIt first, InputIt last) {
-            if (ciel::is_sorted(first, last)) {
+            if (ciel::is_sorted(first, last, comp)) {
                 iterator pos = lower_bound(*first);
                 while (first != last) {
                     while (!is_right_insert_equal_place(pos, *first)) {
@@ -454,7 +456,7 @@ namespace ciel {
 
         template<ciel::legacy_input_iterator InputIt>
         void range_insert_equal(InputIt first, InputIt last) {
-            if (ciel::is_sorted(first, last)) {
+            if (ciel::is_sorted(first, last, comp)) {
                 iterator pos = lower_bound(*first);
                 while (first != last) {
                     while (!is_right_insert_equal_place(pos, *first)) {
