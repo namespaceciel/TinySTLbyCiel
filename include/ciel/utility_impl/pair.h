@@ -6,9 +6,14 @@
 #include <ciel/utility_impl/move.h>
 #include <ciel/utility_impl/swap.h>
 #include <ciel/utility_impl/integer_sequence.h>
+#include <ciel/utility_impl/tuple_element.h>
+#include <ciel/utility_impl/tuple_size.h>
 #include <functional>
 
 namespace ciel {
+
+    template<class...>
+    struct tuple;
 
 	template<class T1, class T2>
 	struct pair {
@@ -57,7 +62,7 @@ namespace ciel {
 		// TODO: 如果 first 或 second 的初始化会绑定引用到临时对象，那么此构造函数会定义为被弃置。(C++23 起)
  		template<class... Args1, class... Args2>
  		constexpr pair(std::piecewise_construct_t pc, std::tuple<Args1...>&& first_args, std::tuple<Args2...>&& second_args)
-		 	: pair(pc, ciel::move(first_args), ciel::move(second_args), ciel::make_index_sequence<sizeof...(Args1)>(), ciel::make_index_sequence<sizeof...(Args2)>()) {}
+		 	: pair(pc, ciel::move(first_args), ciel::move(second_args), ciel::index_sequence_for<Args1...>(), ciel::index_sequence_for<Args2...>()) {}
 
 		// FIXME: private
 		template<class... Args1, class... Args2, size_t... I1, size_t... I2>
@@ -162,13 +167,103 @@ namespace ciel {
 		x.swap(y);
 	}
 
-	template<class T1, class T2, class U1, class U2, template<class> class TQual,
-		template<class> class UQual> requires requires { typename pair<ciel::common_reference_t<TQual<T1>, UQual<U1>>, ciel::common_reference_t<TQual<T2>, UQual<U2>>>; }
+    template<size_t I, class T1, class T2>
+    constexpr tuple_element_t<I, pair<T1,T2>>& get(pair<T1, T2>& p) noexcept {
+        if constexpr (I == 0) {
+            return p.first;
+        } else {
+            return p.second;
+        }
+    }
+
+    template<size_t I, class T1, class T2>
+    constexpr tuple_element_t<I, pair<T1,T2>> const& get(const pair<T1,T2>& p) noexcept {
+        if constexpr (I == 0) {
+            return p.first;
+        } else {
+            return p.second;
+        }
+    }
+
+    template<size_t I, class T1, class T2>
+    constexpr tuple_element_t<I, pair<T1,T2>>&& get(pair<T1,T2>&& p) noexcept {
+        if constexpr (I == 0) {
+            return p.first;
+        } else {
+            return p.second;
+        }
+    }
+
+    template<size_t I, class T1, class T2>
+    constexpr tuple_element_t<I, pair<T1,T2>> const&& get(const pair<T1,T2>&& p) noexcept {
+        if constexpr (I == 0) {
+            return p.first;
+        } else {
+            return p.second;
+        }
+    }
+
+    template<class T, class U>
+    constexpr T& get(pair<T, U>& p) noexcept {
+        return p.first;
+    }
+
+    template<class T, class U>
+    constexpr const T& get(const pair<T, U>& p) noexcept {
+        return p.first;
+    }
+
+    template<class T, class U>
+    constexpr T&& get(pair<T, U>&& p) noexcept {
+        return p.first;
+    }
+
+    template<class T, class U>
+    constexpr const T&& get(const pair<T, U>&& p) noexcept {
+        return p.first;
+    }
+
+    template<class T, class U>
+    constexpr T& get(pair<U, T>& p) noexcept {
+        return p.second;
+    }
+
+    template<class T, class U>
+    constexpr const T& get(const pair<U, T>& p) noexcept {
+        return p.second;
+    }
+
+    template<class T, class U>
+    constexpr T&& get(pair<U, T>&& p) noexcept {
+        return p.second;
+    }
+
+    template<class T, class U>
+    constexpr const T&& get(const pair<U, T>&& p) noexcept {
+        return p.second;
+    }
+
+    template<class T1, class T2>
+    struct tuple_size<pair<T1, T2>> : ciel::integral_constant<size_t, 2> {};
+
+    template<class T1, class T2>
+    struct tuple_element<0, pair<T1, T2>> {
+        using type = T1;
+    };
+
+    template<class T1, class T2>
+    struct tuple_element<1, pair<T1, T2>> {
+        using type = T2;
+    };
+
+	template<class T1, class T2, class U1, class U2, template<class> class TQual, template<class> class UQual>
+        requires requires { typename pair<ciel::common_reference_t<TQual<T1>, UQual<U1>>, ciel::common_reference_t<TQual<T2>, UQual<U2>>>; }
 	struct basic_common_reference<pair<T1, T2>, pair<U1, U2>, TQual, UQual> {
 		using type = pair<ciel::common_reference_t<TQual<T1>, UQual<U1>>, ciel::common_reference_t<TQual<T2>, UQual<U2>>>;
 	};
 
-	template<class T1, class T2, class U1, class U2> requires requires { typename pair<ciel::common_type_t<T1, U1>, ciel::common_type_t<T2, U2>>; }
+	template<class T1, class T2, class U1, class U2>
+	    requires requires { typename pair<ciel::common_type_t<T1, U1>, ciel::common_type_t<T2, U2>>; }
 	struct common_type<pair<T1, T2>, pair<U1, U2>> {
 		using type = pair<ciel::common_type_t<T1, U1>, ciel::common_type_t<T2, U2>>;
 	};

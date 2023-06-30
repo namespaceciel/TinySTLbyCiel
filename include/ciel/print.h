@@ -4,6 +4,7 @@
 #include <iostream>
 #include <ciel/type_traits.h>
 #include <ciel/utility.h>
+#include <ciel/tuple.h>
 
 namespace ciel {
 
@@ -161,6 +162,10 @@ namespace ciel {
 		constexpr void print_tuple_helper(const std::tuple<Types...>& t, ciel::index_sequence<I...>) {
 			((print(std::get<I>(t)), std::cout << "  "), ...);
 		}
+        template<class... Types, size_t... I>
+        constexpr void print_tuple_helper(const ciel::tuple<Types...>& t, ciel::index_sequence<I...>) {
+            ((print(ciel::get<I>(t)), std::cout << "  "), ...);
+        }
 	}
 
 	template<class... Types>
@@ -172,6 +177,15 @@ namespace ciel {
 		print_details::print_tuple_helper(t, ciel::index_sequence_for<Types...>());
 		std::cout << "]";
 	}
+    template<class... Types>
+    constexpr void print(const ciel::tuple<Types...>& t, size_t tab = 0) {
+        for (size_t i = 0; i < tab; ++i) {
+            std::cout << "    ";
+        }
+        std::cout << "[  ";
+        print_details::print_tuple_helper(t, ciel::index_sequence_for<Types...>());
+        std::cout << "]";
+    }
 
 	constexpr void println(const auto& t, size_t tab) {
 		print(t, tab);

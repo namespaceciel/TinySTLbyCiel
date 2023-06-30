@@ -14,6 +14,9 @@ namespace ciel {
 		using type = ciel::add_const_t<typename tuple_element<I, T>::type>;
 	};
 
+    template<size_t I, class T>
+    using tuple_element_t = typename tuple_element<I, T>::type;
+
 }   // namespace ciel
 
 #endif // TINYSTLBYCIEL_INCLUDE_CIEL_UTILITY_IMPL_TUPLE_ELEMENT_H_

@@ -2,6 +2,7 @@
 #define TINYSTLBYCIEL_INCLUDE_CIEL_TYPE_TRAITS_IMPL_IS_IMPLICITLY_DEFAULT_CONSTRUCTIBLE_H_
 
 // Not C++ standard
+// 但是非常常用= =
 
 #include <ciel/type_traits_impl/is_default_constructible.h>
 
