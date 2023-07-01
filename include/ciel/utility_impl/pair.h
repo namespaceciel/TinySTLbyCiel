@@ -8,12 +8,21 @@
 #include <ciel/utility_impl/integer_sequence.h>
 #include <ciel/utility_impl/tuple_element.h>
 #include <ciel/utility_impl/tuple_size.h>
+#include <ciel/utility_impl/piecewise_construct_t.h>
 #include <functional>
 
 namespace ciel {
 
     template<class...>
     struct tuple;
+    template<size_t I, class... Types>
+    constexpr tuple_element_t<I, tuple<Types...>>& get(tuple<Types...>& t) noexcept;
+    template<size_t I, class... Types>
+    constexpr tuple_element_t<I, tuple<Types...>>&& get(tuple<Types...>&& t) noexcept;
+    template<size_t I, class... Types>
+    constexpr tuple_element_t<I, tuple<Types...>> const& get(const tuple<Types...>& t) noexcept;
+    template<size_t I, class... Types>
+    constexpr tuple_element_t<I, tuple<Types...>> const&& get(const tuple<Types...>&& t) noexcept;
 
 	template<class T1, class T2>
 	struct pair {
@@ -61,13 +70,13 @@ namespace ciel {
 
 		// TODO: 如果 first 或 second 的初始化会绑定引用到临时对象，那么此构造函数会定义为被弃置。(C++23 起)
  		template<class... Args1, class... Args2>
- 		constexpr pair(std::piecewise_construct_t pc, std::tuple<Args1...>&& first_args, std::tuple<Args2...>&& second_args)
+ 		constexpr pair(ciel::piecewise_construct_t pc, ciel::tuple<Args1...>&& first_args, ciel::tuple<Args2...>&& second_args)
 		 	: pair(pc, ciel::move(first_args), ciel::move(second_args), ciel::index_sequence_for<Args1...>(), ciel::index_sequence_for<Args2...>()) {}
 
 		// FIXME: private
 		template<class... Args1, class... Args2, size_t... I1, size_t... I2>
-		constexpr pair(std::piecewise_construct_t, std::tuple<Args1...>&& first_args, std::tuple<Args2...>&& second_args, ciel::index_sequence<I1...>, ciel::index_sequence<I2...>)
-			: first(ciel::forward<Args1>(std::get<I1>(first_args))...), second(ciel::forward<Args2>(std::get<I2>(second_args))...) {}
+		constexpr pair(ciel::piecewise_construct_t, ciel::tuple<Args1...>&& first_args, ciel::tuple<Args2...>&& second_args, ciel::index_sequence<I1...>, ciel::index_sequence<I2...>)
+			: first(ciel::forward<Args1>(ciel::get<I1>(first_args))...), second(ciel::forward<Args2>(ciel::get<I2>(second_args))...) {}
 
 		constexpr pair(const pair& p) = default;
 

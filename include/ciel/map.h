@@ -2,6 +2,7 @@
 #define TINYSTLBYCIEL_INCLUDE_CIEL_MAP_H_
 
 #include <ciel/bst.h>
+#include <ciel/tuple.h>
 
 namespace ciel {
 
@@ -279,7 +280,7 @@ namespace ciel {
         ciel::pair<iterator, bool> try_emplace(const key_type& k, Args&& ... args) {
             auto pos = find(k);
             if (pos == end()) {
-                return emplace(std::piecewise_construct, std::forward_as_tuple(k), std::forward_as_tuple(ciel::forward<Args>(args)...));
+                return emplace(ciel::piecewise_construct, ciel::forward_as_tuple(k), ciel::forward_as_tuple(ciel::forward<Args>(args)...));
             } else {
                 return {pos, false};
             }
@@ -289,7 +290,7 @@ namespace ciel {
         ciel::pair<iterator, bool> try_emplace(key_type&& k, Args&& ... args) {
             auto pos = find(k);
             if (pos == end()) {
-                return emplace(std::piecewise_construct, std::forward_as_tuple(ciel::move(k)), std::forward_as_tuple(ciel::forward<Args>(args)...));
+                return emplace(ciel::piecewise_construct, ciel::forward_as_tuple(ciel::move(k)), ciel::forward_as_tuple(ciel::forward<Args>(args)...));
             } else {
                 return {pos, false};
             }
@@ -299,9 +300,9 @@ namespace ciel {
         iterator try_emplace(const_iterator hint, const key_type& k, Args&& ... args) {
             auto pos = find(k);
             if (pos == end()) {
-                return emplace_hint(hint, std::piecewise_construct, std::forward_as_tuple(k), std::forward_as_tuple(ciel::forward<Args>(args)...));
+                return emplace_hint(hint, ciel::piecewise_construct, ciel::forward_as_tuple(k), ciel::forward_as_tuple(ciel::forward<Args>(args)...));
             } else {
-                return {pos, false};
+                return pos;
             }
         }
 
@@ -309,9 +310,9 @@ namespace ciel {
         iterator try_emplace(const_iterator hint, key_type&& k, Args&& ... args) {
             auto pos = find(k);
             if (pos == end()) {
-                return emplace_hint(hint, std::piecewise_construct, std::forward_as_tuple(ciel::move(k)), std::forward_as_tuple(ciel::forward<Args>(args)...));
+                return emplace_hint(hint, ciel::piecewise_construct, ciel::forward_as_tuple(ciel::move(k)), ciel::forward_as_tuple(ciel::forward<Args>(args)...));
             } else {
-                return {pos, false};
+                return pos;
             }
         }
 

@@ -15,4 +15,8 @@
 #include <ciel/utility_impl/tuple_element.h>
 #include <ciel/utility_impl/integer_sequence.h>
 
+// 辅助项
+#include <ciel/utility_impl/piecewise_construct_t.h>
+#include <ciel/utility_impl/piecewise_construct.h>
+
 #endif // TINYSTLBYCIEL_INCLUDE_CIEL_UTILITY_H_

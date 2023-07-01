@@ -11,7 +11,7 @@
 namespace pair_test_details {
 	struct empty_struct {
 		const empty_struct& operator=(const empty_struct&) const { return *this; }
-		const empty_struct& operator=(empty_struct&&) const { return *this; }
+		const empty_struct& operator=(empty_struct&&) const noexcept { return *this; }
 	};
 
 	struct mutable_struct {
@@ -20,7 +20,7 @@ namespace pair_test_details {
 			a = other.a;
 			return *this;
 		}
-		const mutable_struct& operator=(mutable_struct&& other) const {
+		const mutable_struct& operator=(mutable_struct&& other) const noexcept {
 			a = ciel::move(other.a);
 			return *this;
 		}
