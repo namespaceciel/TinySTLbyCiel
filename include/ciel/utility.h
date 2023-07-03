@@ -18,5 +18,6 @@
 // 辅助项
 #include <ciel/utility_impl/piecewise_construct_t.h>
 #include <ciel/utility_impl/piecewise_construct.h>
+#include <ciel/utility_impl/in_place.h>
 
 #endif // TINYSTLBYCIEL_INCLUDE_CIEL_UTILITY_H_

@@ -126,7 +126,7 @@ namespace ciel {
         };  // struct tuple_leaf
 
         template<size_t I, class T>
-            requires (ciel::is_empty_v<T> && !is_final_v<T>)    // 空基类优化版本
+            requires (ciel::is_empty_v<T> && !ciel::is_final_v<T>)    // 空基类优化版本
         struct tuple_leaf<I, T> : T {
             constexpr explicit tuple_leaf() = default;
             constexpr tuple_leaf(const tuple_leaf&) = default;

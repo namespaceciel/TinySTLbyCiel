@@ -54,7 +54,7 @@ namespace ciel {
 
 		shared_weak_count(size_t s = 1, size_t w = 1) : shared_count(s), shared_and_weak_count(w) {}
 
-		virtual ~shared_weak_count() noexcept {}
+		virtual ~shared_weak_count() noexcept = default;
 
 		size_t use_count() const noexcept {
 			return shared_count.load(std::memory_order_relaxed);
@@ -335,7 +335,7 @@ namespace ciel {
 			return get()[idx];
 		}
 
-		size_t use_count() const noexcept {
+		[[nodiscard]] size_t use_count() const noexcept {
 			return count ? count->use_count() : 0;
 		}
 
@@ -469,11 +469,11 @@ namespace ciel {
 			ciel::swap(count, r.count);
 		}
 
-		size_t use_count() const noexcept {
+		[[nodiscard]] size_t use_count() const noexcept {
 			return count ? count->use_count() : 0;
 		}
 
-		bool expired() const noexcept {
+		[[nodiscard]] bool expired() const noexcept {
 			return use_count() == 0;
 		}
 

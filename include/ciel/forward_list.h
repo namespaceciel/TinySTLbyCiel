@@ -71,7 +71,6 @@ namespace ciel {
 			return (static_cast<node_type*>(it))->value;
 		}
 
-		// FIXME: 这里感觉不是很理想，因为想通过迭代器的 ->next 直接拿到 next 指针
 		pointer operator->() const noexcept {
 			return &static_cast<node_type*>(it)->value;
 		}
