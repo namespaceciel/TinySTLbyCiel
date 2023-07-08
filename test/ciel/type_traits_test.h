@@ -474,12 +474,12 @@ void type_traits_test() {
 	static_assert(ciel::is_same_v<ciel::add_pointer_t<const char* const>, const char* const*>);
 
 	// make_signed
-	static_assert(ciel::is_same_v<ciel::make_signed_t<size_t>, long>);
+	static_assert(ciel::is_same_v<ciel::make_signed_t<unsigned long>, long>);   // 由于 size_t 是 implementation-defined，在有些编译器上是 unsigned long long，不方便用来测试
 	static_assert(ciel::is_same_v<ciel::make_signed_t<unsigned char>, signed char>);
 	static_assert(ciel::is_same_v<ciel::make_signed_t<unsigned int>, int>);
 
 	// make_unsigned
-	static_assert(ciel::is_same_v<ciel::make_unsigned_t<long>, size_t>);
+	static_assert(ciel::is_same_v<ciel::make_unsigned_t<long>, unsigned long>);   // 由于 size_t 是 implementation-defined，在有些编译器上是 unsigned long long，不方便用来测试
 	static_assert(ciel::is_same_v<ciel::make_unsigned_t<int>, unsigned int>);
 	static_assert(ciel::is_same_v<ciel::make_unsigned_t<char>, unsigned char>);
 
