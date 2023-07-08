@@ -94,6 +94,7 @@
 #include <ciel/type_traits_impl/remove_all_extents.h>
 
 // 杂项变换
+#include <ciel/type_traits_impl/aligned_storage.h>
 #include <ciel/type_traits_impl/decay.h>
 #include <ciel/type_traits_impl/remove_cvref.h>
 #include <ciel/type_traits_impl/enable_if.h>
