@@ -40,7 +40,7 @@ namespace ciel {
 	public:
 		constexpr unique_ptr() noexcept requires (ciel::is_default_constructible_v<deleter_type> && !ciel::is_pointer_v<deleter_type>): ptr(nullptr), dlt() {}
 
-		constexpr unique_ptr(nullptr_t) noexcept requires (ciel::is_default_constructible_v<deleter_type> && !ciel::is_pointer_v<deleter_type>): ptr(nullptr), dlt() {}
+		constexpr unique_ptr(std::nullptr_t) noexcept requires (ciel::is_default_constructible_v<deleter_type> && !ciel::is_pointer_v<deleter_type>): ptr(nullptr), dlt() {}
 
 		constexpr explicit unique_ptr(pointer p) noexcept requires (ciel::is_default_constructible_v<deleter_type> && !ciel::is_pointer_v<deleter_type>): ptr(p), dlt() {}
 
@@ -95,7 +95,7 @@ namespace ciel {
 			return *this;
 		}
 
-		unique_ptr& operator=(nullptr_t) noexcept {
+		unique_ptr& operator=(std::nullptr_t) noexcept {
 			reset();
 			return *this;
 		}
@@ -162,7 +162,7 @@ namespace ciel {
 	public:
 		constexpr unique_ptr() noexcept requires (ciel::is_default_constructible_v<deleter_type> && !ciel::is_pointer_v<deleter_type>): ptr(), dlt() {}
 
-		constexpr unique_ptr(nullptr_t) noexcept requires (ciel::is_default_constructible_v<deleter_type> && !ciel::is_pointer_v<deleter_type>): ptr(), dlt() {}
+		constexpr unique_ptr(std::nullptr_t) noexcept requires (ciel::is_default_constructible_v<deleter_type> && !ciel::is_pointer_v<deleter_type>): ptr(), dlt() {}
 
 		template<class U>
 		explicit unique_ptr(U p) noexcept requires (ciel::is_default_constructible_v<deleter_type> && !ciel::is_pointer_v<deleter_type>): ptr(p), dlt() {}
@@ -226,7 +226,7 @@ namespace ciel {
 			return *this;
 		}
 
-		unique_ptr& operator=(nullptr_t) noexcept {
+		unique_ptr& operator=(std::nullptr_t) noexcept {
 			reset();
 			return *this;
 		}
@@ -247,7 +247,7 @@ namespace ciel {
 			}
 		}
 
-		void reset(nullptr_t p = nullptr) noexcept {
+		void reset(std::nullptr_t p = nullptr) noexcept {
 			reset(pointer());
 		}
 
@@ -310,53 +310,53 @@ namespace ciel {
 	}
 
 	template<class T, class D>
-	bool operator==(const unique_ptr<T, D>& x, nullptr_t) noexcept {
+	bool operator==(const unique_ptr<T, D>& x, std::nullptr_t) noexcept {
 		return !x;
 	}
 
 	template<class T, class D>
-	bool operator<(const unique_ptr<T, D>& x, nullptr_t) {
+	bool operator<(const unique_ptr<T, D>& x, std::nullptr_t) {
 		return ciel::less<typename unique_ptr<T, D>::pointer>()(x.get(), nullptr);
 	}
 
 	template<class T, class D>
-	bool operator<(nullptr_t, const unique_ptr<T, D>& y) {
+	bool operator<(std::nullptr_t, const unique_ptr<T, D>& y) {
 		return ciel::less<typename unique_ptr<T, D>::pointer>()(nullptr, y.get());
 	}
 
 	template<class T, class D>
-	bool operator<=(const unique_ptr<T, D>& x, nullptr_t) {
+	bool operator<=(const unique_ptr<T, D>& x, std::nullptr_t) {
 		return !(nullptr < x);
 	}
 
 	template<class T, class D>
-	bool operator<=(nullptr_t, const unique_ptr<T, D>& y) {
+	bool operator<=(std::nullptr_t, const unique_ptr<T, D>& y) {
 		return !(y < nullptr);
 	}
 
 	template<class T, class D>
-	bool operator>(const unique_ptr<T, D>& x, nullptr_t) {
+	bool operator>(const unique_ptr<T, D>& x, std::nullptr_t) {
 		return nullptr < x;
 	}
 
 	template<class T, class D>
-	bool operator>(nullptr_t, const unique_ptr<T, D>& y) {
+	bool operator>(std::nullptr_t, const unique_ptr<T, D>& y) {
 		return y < nullptr;
 	}
 
 	template<class T, class D>
-	bool operator>=(const unique_ptr<T, D>& x, nullptr_t) {
+	bool operator>=(const unique_ptr<T, D>& x, std::nullptr_t) {
 		return !(x < nullptr);
 	}
 
 	template<class T, class D>
-	bool operator>=(nullptr_t, const unique_ptr<T, D>& y) {
+	bool operator>=(std::nullptr_t, const unique_ptr<T, D>& y) {
 		return !(nullptr < y);
 	}
 
 	template<class T, class D>
 		requires std::three_way_comparable<typename unique_ptr<T, D>::pointer>
-	std::compare_three_way_result_t<typename unique_ptr<T, D>::pointer> operator<=>(const unique_ptr<T, D>& x, nullptr_t) {
+	std::compare_three_way_result_t<typename unique_ptr<T, D>::pointer> operator<=>(const unique_ptr<T, D>& x, std::nullptr_t) {
 		return std::compare_three_way{}(x.get(), static_cast<typename unique_ptr<T, D>::pointer>(nullptr));
 	}
 

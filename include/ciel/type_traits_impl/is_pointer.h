@@ -5,7 +5,7 @@
 #include <ciel/type_traits_impl/remove_cv.h>
 
 namespace ciel {
-	// nullptr_t 不是指针类型，但是可以隐式转换为任何指针类型
+	// std::nullptr_t 不是指针类型，但是可以隐式转换为任何指针类型
 	namespace is_pointer_details {
 
 		template<class T>

@@ -66,7 +66,7 @@ void type_traits_test() {
 	// is_null_pointer
 	static_assert(ciel::is_null_pointer_v<decltype(nullptr)>);
 	static_assert(!ciel::is_null_pointer_v<decltype(NULL)>);
-	static_assert(ciel::is_null_pointer_v<nullptr_t>);
+	static_assert(ciel::is_null_pointer_v<std::nullptr_t>);
 	static_assert(!ciel::is_null_pointer_v<void*>);
 	static_assert(!ciel::is_null_pointer_v<intptr_t>);
 
@@ -148,8 +148,8 @@ void type_traits_test() {
 	static_assert(ciel::is_pointer_v<Class*>);
 	static_assert(ciel::is_pointer_v<Enum*>);
 	static_assert(ciel::is_pointer_v<Union*>);
-	static_assert(!ciel::is_pointer_v<decltype(nullptr)>);    // nullptr_t 不是指针类型，但是可以隐式转换为任何指针类型
-	static_assert(!ciel::is_pointer_v<nullptr_t>);    // nullptr_t 不是指针类型，但是可以隐式转换为任何指针类型
+	static_assert(!ciel::is_pointer_v<decltype(nullptr)>);    // std::nullptr_t 不是指针类型，但是可以隐式转换为任何指针类型
+	static_assert(!ciel::is_pointer_v<std::nullptr_t>);    // std::nullptr_t 不是指针类型，但是可以隐式转换为任何指针类型
 	static_assert(ciel::is_pointer_v<decltype((void*)nullptr)>);
 
 	// is_lvalue_reference
@@ -180,20 +180,20 @@ void type_traits_test() {
 	// is_fundamental
 	static_assert(ciel::is_fundamental_v<int>);
 	static_assert(!ciel::is_fundamental_v<void*>);
-	static_assert(ciel::is_fundamental_v<nullptr_t>);
+	static_assert(ciel::is_fundamental_v<std::nullptr_t>);
 	static_assert(!ciel::is_fundamental_v<Struct>);
 
 	// is_arithmetic
 	static_assert(ciel::is_arithmetic_v<int>);
 	static_assert(ciel::is_arithmetic_v<float>);
 	static_assert(!ciel::is_arithmetic_v<void>);
-	static_assert(!ciel::is_arithmetic_v<nullptr_t>);
+	static_assert(!ciel::is_arithmetic_v<std::nullptr_t>);
 
 	// is_scalar
 	static_assert(ciel::is_scalar_v<int*>);
 	static_assert(ciel::is_scalar_v<long double>);
 	static_assert(!ciel::is_scalar_v<void>);
-	static_assert(ciel::is_scalar_v<nullptr_t>);
+	static_assert(ciel::is_scalar_v<std::nullptr_t>);
 	static_assert(!ciel::is_scalar_v<Struct>);
 	static_assert(ciel::is_scalar_v<Enum>);
 

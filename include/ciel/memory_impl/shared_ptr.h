@@ -187,7 +187,7 @@ namespace ciel {
 	public:
 		constexpr shared_ptr() noexcept: pointer(nullptr), count(nullptr) {}
 
-		constexpr shared_ptr(nullptr_t) noexcept: pointer(nullptr), count(nullptr) {}
+		constexpr shared_ptr(std::nullptr_t) noexcept: pointer(nullptr), count(nullptr) {}
 
 		template<class Y>
 		explicit shared_ptr(Y* ptr) : pointer(ptr), count(alloc_control_block(ptr, ciel::default_delete<T>(), control_block_with_pointer_allocator<element_type, ciel::default_delete<T>>())) {}
@@ -196,13 +196,13 @@ namespace ciel {
 		shared_ptr(Y* ptr, Deleter d) : pointer(ptr), count(alloc_control_block(ptr, ciel::move(d), control_block_with_pointer_allocator<element_type, Deleter>())) {}
 
 		template<class Deleter>
-		shared_ptr(nullptr_t, Deleter d) : pointer(nullptr), count(nullptr) {}
+		shared_ptr(std::nullptr_t, Deleter d) : pointer(nullptr), count(nullptr) {}
 
 		template<class Y, class Deleter, class Alloc>
 		shared_ptr(Y* ptr, Deleter d, Alloc alloc) : pointer(ptr), count(alloc_control_block(ptr, ciel::move(d), ciel::move(alloc))) {}
 
 		template<class Deleter, class Alloc>
-		shared_ptr(nullptr_t, Deleter d, Alloc alloc) : pointer(nullptr), count(nullptr) {}
+		shared_ptr(std::nullptr_t, Deleter d, Alloc alloc) : pointer(nullptr), count(nullptr) {}
 
 		template<class Y>
 		shared_ptr(const shared_ptr<Y>& r, element_type* ptr) noexcept : pointer(ptr), count(r.count) {
