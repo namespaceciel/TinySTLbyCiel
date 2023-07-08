@@ -13,7 +13,8 @@ namespace ciel {
 			using iterator_concept = ciel::bidirectional_iterator_tag;
 		};
 
-		template<class Iter> requires ciel::random_access_iterator<Iter>
+		template<class Iter>
+		    requires ciel::random_access_iterator<Iter>
 		struct what_iterator_concept<Iter> {
 			using iterator_concept = ciel::random_access_iterator_tag;
 		};
@@ -23,7 +24,8 @@ namespace ciel {
 			using iterator_category = typename ciel::iterator_traits<Iter>::iterator_category;
 		};
 
-		template<class Iter> requires ciel::derived_from<typename ciel::iterator_traits<Iter>::iterator_category, ciel::random_access_iterator_tag>
+		template<class Iter>
+            requires ciel::derived_from<typename ciel::iterator_traits<Iter>::iterator_category, ciel::random_access_iterator_tag>
 		struct what_iterator_category<Iter> {
 			using iterator_category = ciel::random_access_iterator_tag;
 		};

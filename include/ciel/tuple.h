@@ -266,16 +266,16 @@ namespace ciel {
         // 此构造函数当且仅当 is_convertible_v<decltype(get<I>(FWD(other))), TI> 对至少一个 i 是 false 时才是 explicit 的
         // TODO: 如果任何引用元素的初始化会绑定它到临时对象，那么定义此构造函数为被删除
         template<class... UTypes>
-        constexpr explicit(!(ciel::is_convertible_v<UTypes&, Types> && ...)) tuple(tuple<UTypes...>& other) requires enable_ctor_from_UTypes_tuple<decltype(other)>::value : base(ciel::forward<decltype(other)>(other)) {}
+        constexpr explicit(!(ciel::is_convertible_v<UTypes&, Types> && ...)) tuple(tuple<UTypes...>& other) requires (enable_ctor_from_UTypes_tuple<decltype(other)>::value) : base(ciel::forward<decltype(other)>(other)) {}
 
         template<class... UTypes>
-        constexpr explicit(!(ciel::is_convertible_v<const UTypes&, Types> && ...)) tuple(const tuple<UTypes...>& other) requires enable_ctor_from_UTypes_tuple<decltype(other)>::value : base(ciel::forward<decltype(other)>(other)) {}
+        constexpr explicit(!(ciel::is_convertible_v<const UTypes&, Types> && ...)) tuple(const tuple<UTypes...>& other) requires (enable_ctor_from_UTypes_tuple<decltype(other)>::value) : base(ciel::forward<decltype(other)>(other)) {}
 
         template<class... UTypes>
-        constexpr explicit(!(ciel::is_convertible_v<UTypes&&, Types> && ...)) tuple(tuple<UTypes...>&& other) requires enable_ctor_from_UTypes_tuple<decltype(other)>::value : base(ciel::forward<decltype(other)>(other)) {}
+        constexpr explicit(!(ciel::is_convertible_v<UTypes&&, Types> && ...)) tuple(tuple<UTypes...>&& other) requires (enable_ctor_from_UTypes_tuple<decltype(other)>::value) : base(ciel::forward<decltype(other)>(other)) {}
 
         template<class... UTypes>
-        constexpr explicit(!(ciel::is_convertible_v<const UTypes&&, Types> && ...)) tuple(const tuple<UTypes...>&& other) requires enable_ctor_from_UTypes_tuple<decltype(other)>::value : base(ciel::forward<decltype(other)>(other)) {}
+        constexpr explicit(!(ciel::is_convertible_v<const UTypes&&, Types> && ...)) tuple(const tuple<UTypes...>&& other) requires (enable_ctor_from_UTypes_tuple<decltype(other)>::value) : base(ciel::forward<decltype(other)>(other)) {}
 
         // ---------------------------------------------
         // pair 构造函数。以 p 中的对应元素初始化（拥有2个元素的）tuple 的每个元素。

@@ -12,7 +12,8 @@ namespace ciel {
 		template<class I>
 		struct iter_traits : ciel::iterator_traits<I> {};
 
-		template<class I> requires requires { typename ciel::iterator_traits<I>::primary_template; }
+		template<class I>
+		    requires requires { typename ciel::iterator_traits<I>::primary_template; }
 		struct iter_traits<I> : I {};
 
 		// 三种可能
@@ -24,19 +25,22 @@ namespace ciel {
 		struct iter_concept_helper1 : iter_concept_helper2<I> {};
 
 		// 若 iter_traits<I>::iterator_concept 合法并指名类型，则 iter_concept<I> 指代该类型。
-		template<class I> requires requires { typename iter_traits<I>::iterator_concept; }
+		template<class I>
+		    requires requires { typename iter_traits<I>::iterator_concept; }
 		struct iter_concept_helper1<I> {
 			using type = typename iter_traits<I>::iterator_concept;
 		};
 
 		// 否则，若 iter_traits<I>::iterator_category 合法并指名类型，则 iter_concept<I> 指代该类型。
-		template<class I> requires requires { typename iter_traits<I>::iterator_category; }
+		template<class I>
+		    requires requires { typename iter_traits<I>::iterator_category; }
 		struct iter_concept_helper2<I> {
 			using type = typename iter_traits<I>::iterator_category;
 		};
 
 		// 否则，若 iterator_traits<I> 从主模板生成，则 iter_concept<I> 指代 random_access_iterator_tag 。
-		template<class I> requires requires { typename ciel::iterator_traits<I>::primary_template; }
+		template<class I>
+		    requires requires { typename ciel::iterator_traits<I>::primary_template; }
 		struct iter_concept_helper3<I> {
 			using type = ciel::random_access_iterator_tag;
 		};
