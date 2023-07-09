@@ -15,6 +15,7 @@
 #include <ciel/set_test.h>
 #include <ciel/map_test.h>
 #include <ciel/tuple_test.h>
+#include <ciel/any_test.h>
 
 int main() {
     type_traits_test();
@@ -32,4 +33,5 @@ int main() {
     set_test();
     map_test();
     tuple_test();
+    any_test();
 }

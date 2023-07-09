@@ -159,3 +159,9 @@ deque 里的 map（每个小数组的控制中心）主流是用类似 vector �
 ## 8. hashtable（unordered_set 与 unordered_map 底层）
 
 ## 9. any
+
+这里用到了小对象优化 SOO(Small Object Optimization)，原理跟 basic_string 的短字符串优化 SSO(	Small String Optimization) 一样，内部有一个 union，当要存储的对象较小时，用栈区的 buffer 来放置，当对象过大时，会启用一根 void* 指向动态申请的堆内存
+
+具体来说，any 的小对象判断标准是：对象的 size 不大于 buffer（三根指针）的 size，且 buffer 的对齐是对象的对齐的整数倍，且对象的 is_nothrow_move_constructible_v 为 true
+
+为了实现的方便，内部分别为大/小对象定义了一个 handler，包含着所有常用操作。any 内部有一根函数指针指向对应的 handle 函数，便于调用

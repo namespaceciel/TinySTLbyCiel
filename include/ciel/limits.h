@@ -5,6 +5,8 @@
 
 namespace ciel {
 
+    // FIXME: MSVC 的标识符定义与另两家不同，需要去掉前后下划线
+
 	namespace limits_details {
 
 		template<class T, bool = ciel::is_arithmetic_v<T>>
